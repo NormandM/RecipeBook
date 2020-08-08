@@ -9,6 +9,7 @@ import SwiftUI
 
 @available(iOS 14.0, *)
 struct PreparationView: View {
+    @Binding var preparation: String
     @State private var recipePreparation: String = ""
     @State private var recognizedText = ""
     @State private var scaningPreparation = false
@@ -33,6 +34,11 @@ struct PreparationView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
+                    if scaningPreparation {
+                        self.preparation = recognizedText
+                    }else{
+                        self.preparation = recipePreparation
+                    }
                     UIApplication.shared.endEditing()
                 }, label: {
                     Text("Save")
@@ -66,6 +72,6 @@ struct PreparationView: View {
 @available(iOS 14.0, *)
 struct PreparationView_Previews: PreviewProvider {
     static var previews: some View {
-        PreparationView()
+        PreparationView(preparation: .constant(""))
     }
 }

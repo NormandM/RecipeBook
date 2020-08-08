@@ -9,6 +9,7 @@ import SwiftUI
 
 @available(iOS 14.0, *)
 struct IngredientView: View {
+    @Binding var ingredient: String
     @State private var recipeIngredient: String = ""
     @State private var recognizedText = ""
     @State private var scaningIngredient = false
@@ -26,6 +27,7 @@ struct IngredientView: View {
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .font(.title)
+                    
                 }
                 
             }
@@ -33,8 +35,14 @@ struct IngredientView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing){
-                
                 Button(action: {
+                    if scaningIngredient {
+                        self.ingredient = recognizedText
+                    }else{
+                        self.ingredient = recipeIngredient
+                    }
+                    
+                    print("ingrefient2: \(ingredient)")
                     UIApplication.shared.endEditing()
                     
                 }, label: {
@@ -69,6 +77,6 @@ struct IngredientView: View {
 @available(iOS 14.0, *)
 struct IngredientView_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientView()
+        IngredientView(ingredient: .constant(""))
     }
 }

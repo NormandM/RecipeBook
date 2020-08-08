@@ -9,6 +9,9 @@ import SwiftUI
 
 struct AddRecipe: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
+    @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
+    @State private var data: Data?
     @State private var chef = ""
     @State private var ingredient = ""
     @State private var name = ""
@@ -44,13 +47,13 @@ struct AddRecipe: View {
                         }
                     }
                 }
-                NavigationLink(destination: IngredientView()){
+                NavigationLink(destination: IngredientView(ingredient: $ingredient)){
                     Text("Ingredients")
                 }.buttonStyle(PlainButtonStyle())
-                NavigationLink(destination: PreparationView()){
+                NavigationLink(destination: PreparationView(preparation: $preparation)){
                     Text("Preparation")
                 }
-                NavigationLink(destination: PhotoView()){
+                NavigationLink(destination: PhotoView(data: $data)){
                     Text("Photo")
                 }
                 Section {
@@ -63,11 +66,14 @@ struct AddRecipe: View {
                         newRecipe.rating = Int16(self.rating)
                         
                         try? self.moc.save()
+                        print("ingredient:\(ingredient)")
+                        self.presentationMode.wrappedValue.dismiss()
 
                     }
                 }
             }
             .navigationTitle("Add a recipe")
+                
         }
     }
 }

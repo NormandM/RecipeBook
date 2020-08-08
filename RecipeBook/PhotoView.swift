@@ -11,6 +11,7 @@ import UIKit
 @available(iOS 14.0, *)
 struct PhotoView: View {
     @State private var image: Image? = nil
+    @Binding var data: Data?
     @State private var imageUI: UIImage?
     @State private var showCaptureImageView: Bool = false
     @State private var cameraChosen: Bool = false
@@ -34,8 +35,8 @@ struct PhotoView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 
                     Button(action: {
-//
-                    let data = imageUI?.jpegData(compressionQuality: 1.0)
+
+                    data = imageUI?.jpegData(compressionQuality: 1.0)
                     }, label: {
                         Text("Save")
                     })
@@ -72,6 +73,6 @@ struct PhotoView: View {
 @available(iOS 14.0, *)
 struct PhotoView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoView()
+        PhotoView(data: .constant(nil))
     }
 }
