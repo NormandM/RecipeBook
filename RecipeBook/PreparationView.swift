@@ -16,7 +16,6 @@ struct PreparationView: View {
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
     var body: some View {
-        
         VStack {
             ZStack {
                 TextEditor( text: scaningPreparation ? $recognizedText : $recipePreparation)

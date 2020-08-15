@@ -35,8 +35,14 @@ struct PhotoView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 
                     Button(action: {
-
+                        print("Button ok")
+                        if imageUI == nil {
+                            print("No imageUI")
+                        }
                     data = imageUI?.jpegData(compressionQuality: 1.0)
+                        if data == nil {
+                            print("No data")
+                        }
                     }, label: {
                         Text("Save")
                     })
@@ -65,6 +71,7 @@ struct PhotoView: View {
         }
         if (showCaptureImageView) {
             CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)
+ 
             
         }
     }

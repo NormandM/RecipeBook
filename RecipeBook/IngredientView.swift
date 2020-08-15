@@ -38,6 +38,7 @@ struct IngredientView: View {
                 Button(action: {
                     if scaningIngredient {
                         self.ingredient = recognizedText
+                        
                     }else{
                         self.ingredient = recipeIngredient
                     }
@@ -62,7 +63,7 @@ struct IngredientView: View {
             ToolbarItem(placement: .bottomBar){
                 Button(action: {
                 }, label: {
-                    Label("", systemImage: "square.and.pen")
+                    Label("", systemImage: "square.and.pencil")
                 })
                 .padding()
             }

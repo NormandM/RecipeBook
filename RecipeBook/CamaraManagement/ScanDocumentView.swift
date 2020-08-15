@@ -30,6 +30,7 @@ struct ScanDocumentView: UIViewControllerRepresentable {
         var parent: ScanDocumentView
         
         init(recognizedText: Binding<String>, parent: ScanDocumentView) {
+            
             self.recognizedText = recognizedText
             self.parent = parent
         }
@@ -63,6 +64,7 @@ struct ScanDocumentView: UIViewControllerRepresentable {
                     guard let candidate = observation.topCandidates(maximumRecognitionCandidates).first else { continue }
                     
                     entireRecognizedText += "\(candidate.string)\n"
+              //      entireRecognizedText =  entireRecognizedText.replacingOccurrences(of: "\n", with: " ")
                     
                 }
                 print(entireRecognizedText)

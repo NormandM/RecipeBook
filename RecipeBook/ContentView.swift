@@ -10,26 +10,42 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
-    
+    @State private var showRecipeListView = false
     @State private var showingAddScreen = false
     
     var body: some View {
         NavigationView{
-            VStack {
-                Text("Count: \(recipes.count)")
-                    .navigationBarTitle("Recipe Bokk")
-                    .navigationBarItems(trailing:
-                            Button(action: {
-                                self.showingAddScreen.toggle()
-                            }){
-                                Image(systemName: "plus")
-                            })
+            
+            ZStack {
+                NavigationLink(destination: RecipeListView(), isActive: $showRecipeListView) {
+                    Text("")
+                }
+                VStack {
+                    Text("Count: \(recipes.count)")
+                    Button(action: {
+                        self.showRecipeListView = true
+                    }){
+                        Text("Show Recipe List")
+                    }
+                    
 
-            }
+                }
+                .navigationBarTitle("Recipe Book")
+                .navigationBarItems(trailing:
+                        Button(action: {
+                            self.showingAddScreen.toggle()
+                        }){
+                            Image(systemName: "plus")
+                        })
+
+
+                    
+                }
             .sheet(isPresented: $showingAddScreen) {
                 AddRecipe().environment(\.managedObjectContext, self.moc)
                 
             }
+
 
         }
         
