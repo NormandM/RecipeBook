@@ -10,9 +10,13 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var mealTypes: FetchedResults<MealType>
     @State private var showRecipeListView = false
     @State private var showingAddScreen = false
-    
+    @State private var showingMealTypes = false
+    @State private var name = UserDefaults.standard.string(forKey: "name")
+    @State private var showMealTypeList = false
+    @State private var showSheet = false
     var body: some View {
         NavigationView{
             
@@ -27,30 +31,24 @@ struct ContentView: View {
                     }){
                         Text("Show Recipe List")
                     }
-                    
-
+                    Button("Edit Meal Types"){
+                        showingMealTypes = true
+                    }.sheet(isPresented: $showingMealTypes){
+                        MealTypeList().environment(\.managedObjectContext, self.moc)
+                    }
+                    Button ("Add Recipe") {
+                        showingAddScreen = true
+                    }.sheet(isPresented: $showingAddScreen){
+                        AddRecipe().environment(\.managedObjectContext, self.moc)
+                    }
                 }
                 .navigationBarTitle("Recipe Book")
-                .navigationBarItems(trailing:
-                        Button(action: {
-                            self.showingAddScreen.toggle()
-                        }){
-                            Image(systemName: "plus")
-                        })
-
-
-                    
-                }
-            .sheet(isPresented: $showingAddScreen) {
-                AddRecipe().environment(\.managedObjectContext, self.moc)
-                
             }
-
-
         }
-        
-        
     }
+}
+func userAlreadyExist(name: String) -> Bool {
+    return UserDefaults.standard.object(forKey: name) != nil
 }
 
 struct ContentView_Previews: PreviewProvider {

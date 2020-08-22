@@ -10,8 +10,10 @@ import SwiftUI
 struct AddRecipe: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.managedObjectContext) var managedObjectContext
     @ObservedObject var keyboardHandler = KeyboardHandler()
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     @State private var data: Data?
     @State private var chef = ""
     @State private var ingredient = ""
@@ -20,13 +22,11 @@ struct AddRecipe: View {
     @State private var type = ""
     @State private var rating = 3
     @State private var servings = 2
-    let types = ["Breakfast", "Soupes", "Salads", "Poultry", "Fish", "Meat", "Vegetables", "Appetizers", "Sauces", "Pasta", "Casseroles", "Desserts", "Bakery", "Other"]
     var body: some View {
         NavigationView {
             Form {
                 HStack {
                 TextField("Name of recipe", text: $name, onCommit: {
-                    print("finished typing")
                     UIApplication.shared.endEditing()
                 })
                     Button(action: {
@@ -37,7 +37,6 @@ struct AddRecipe: View {
                 }
                 HStack {
                     TextField("Name of Chef", text: $chef, onCommit: {
-                        print("finished typing")
                         UIApplication.shared.endEditing()
                     })
                     Button(action: {
@@ -47,16 +46,22 @@ struct AddRecipe: View {
                     })
                 }
                     Picker("Type of recipe", selection: $type){
-                        ForEach(types, id: \.self){
-                            Text($0)
+                        ForEach(mealTypes){mealType in
+                            Text(mealType.wrappedType)
+                            
+                        
                         }
                     }
+ 
                     RatingView(rating: $rating)
                     Picker("Servings", selection: $servings) {
                         ForEach(1..<12){
                             Text("\($0)")
                         }
+                        
+                        
                     }
+
             
                 NavigationLink(destination: IngredientView(ingredient: $ingredient)){
                     Text("Ingredients")
@@ -67,6 +72,12 @@ struct AddRecipe: View {
                 NavigationLink(destination: PhotoView(data: $data)){
                     Text("Photo")
                         
+                }
+            }
+            .onAppear{
+                print("ok")
+                for mealType in mealTypes {
+                    print(mealType.wrappedType)
                 }
             }
             .navigationTitle("Add a recipe")
@@ -93,6 +104,8 @@ struct AddRecipe: View {
                 
         }
     }
+
+ 
 }
 
 

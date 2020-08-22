@@ -35,7 +35,7 @@ struct PhotoView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 
                     Button(action: {
-                        print("Button ok")
+            
                         if imageUI == nil {
                             print("No imageUI")
                         }

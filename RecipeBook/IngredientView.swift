@@ -42,8 +42,6 @@ struct IngredientView: View {
                     }else{
                         self.ingredient = recipeIngredient
                     }
-                    
-                    print("ingrefient2: \(ingredient)")
                     UIApplication.shared.endEditing()
                     
                 }, label: {

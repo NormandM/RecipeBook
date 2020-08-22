@@ -67,7 +67,6 @@ struct ScanDocumentView: UIViewControllerRepresentable {
               //      entireRecognizedText =  entireRecognizedText.replacingOccurrences(of: "\n", with: " ")
                     
                 }
-                print(entireRecognizedText)
             }
             recognizeTextRequest.recognitionLevel = .accurate
             
