@@ -9,23 +9,39 @@ import SwiftUI
 
 struct RecipeListView: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
+    @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var mealTypes: FetchedResults<MealType>
+    @State private var mealTypeArray = [String]()
     
     
     var body: some View {
         List {
-        ForEach(recipes){ recipe in
-            NavigationLink(destination: RecipeDetail(recipe: recipe)){
-                Text(recipe.wrappedName)
-                    
+            ForEach (mealTypeArray, id:\.self) { section in
+                Section(header: SectionRow(filter: section)) {
+                FilteredrecipeListView(filter: section)
+                }
+            }
+//        ForEach(recipes){ recipe in
+//            NavigationLink(destination: RecipeDetail(recipe: recipe)){
+//                Text(recipe.wrappedName)
+//
+//            }
+//        }
+
+        .onDelete(perform: removeRecipies)
+
+        }
+
+    .navigationBarItems(trailing:  EditButton())
+       .navigationBarTitle("List of Recipies")
+        .onAppear{
+            for mealType in mealTypes{
+                mealTypeArray.append(mealType.wrappedType)
             }
         }
-        .onDelete(perform: removeRecipies)
             
-        }
-        .navigationBarItems(trailing:  EditButton())
-        .navigationBarTitle("List of Recipies")
     }
+    
     func removeRecipies(at offsets: IndexSet) {
         for index in offsets {
             let recipe = recipes[index]

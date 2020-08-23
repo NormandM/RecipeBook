@@ -19,7 +19,7 @@ struct AddRecipe: View {
     @State private var ingredient = ""
     @State private var name = ""
     @State private var preparation = ""
-    @State private var type = ""
+    @State private var typeNumber = 0
     @State private var rating = 3
     @State private var servings = 2
     var body: some View {
@@ -45,11 +45,9 @@ struct AddRecipe: View {
                         Text("Done")
                     })
                 }
-                    Picker("Type of recipe", selection: $type){
-                        ForEach(mealTypes){mealType in
-                            Text(mealType.wrappedType)
-                            
-                        
+                    Picker("Type of recipe", selection: $typeNumber){
+                        ForEach(0 ..< mealTypes.count){mealtypeNo in
+                            Text("\(mealTypes[mealtypeNo].wrappedType)")
                         }
                     }
  
@@ -76,9 +74,6 @@ struct AddRecipe: View {
             }
             .onAppear{
                 print("ok")
-                for mealType in mealTypes {
-                    print(mealType.wrappedType)
-                }
             }
             .navigationTitle("Add a recipe")
             .toolbar {
@@ -87,14 +82,16 @@ struct AddRecipe: View {
                         let newRecipe = Recipe(context: self.moc)
                         newRecipe.chef = self.chef
                         newRecipe.ingredient = self.ingredient
+                        newRecipe.type = mealTypes[typeNumber].type
                         newRecipe.name = self.name
                         newRecipe.preparation = self.preparation
                         newRecipe.rating = Int16(self.rating)
                         newRecipe.photo = data
+                        newRecipe.id = UUID()
                         try? self.moc.save()
                         self.presentationMode.wrappedValue.dismiss()
                         UIApplication.shared.endEditing()
-                        
+                        print("type: \(self.typeNumber)")
                     }, label: {
                         Text("Save")
                     })

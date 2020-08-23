@@ -10,11 +10,11 @@ import SwiftUI
 struct FilteredrecipeListView: View {
     var fetchRequestRecipe: FetchRequest<Recipe>
     init(filter: String){
-        fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "type @", filter))
+        fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "type == %@", filter))
     }
     var body: some View {
         List (fetchRequestRecipe.wrappedValue){recipe in
-            Text(recipe.wrappedType)
+            Text(recipe.wrappedName)
         }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E20DCA424F2AE3200C7926A /* SectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20DCA324F2AE3200C7926A /* SectionRow.swift */; };
 		8E2802DE24EC5A8D008B6057 /* MealType+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2802DC24EC5A8D008B6057 /* MealType+CoreDataClass.swift */; };
 		8E2802DF24EC5A8D008B6057 /* MealType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2802DD24EC5A8D008B6057 /* MealType+CoreDataProperties.swift */; };
 		8E2802E124EC7B70008B6057 /* MealTypeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2802E024EC7B70008B6057 /* MealTypeList.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E20DCA324F2AE3200C7926A /* SectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionRow.swift; sourceTree = "<group>"; };
 		8E2802DC24EC5A8D008B6057 /* MealType+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MealType+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		8E2802DD24EC5A8D008B6057 /* MealType+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MealType+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		8E2802E024EC7B70008B6057 /* MealTypeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealTypeList.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			children = (
 				8EDF0A6624E07F4300F2A490 /* RecipeListView.swift */,
 				8EE1C43324F1A22A00E9E9FA /* FilteredrecipeListView.swift */,
+				8E20DCA324F2AE3200C7926A /* SectionRow.swift */,
 			);
 			path = RecipeList;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				8EDF0A6524DF449300F2A490 /* Recipe+CoreDataProperties.swift in Sources */,
 				8EB442E824D4AAA400AE0D52 /* AddRecipe.swift in Sources */,
 				8EB442F024D4AAFB00AE0D52 /* Extensions.swift in Sources */,
+				8E20DCA424F2AE3200C7926A /* SectionRow.swift in Sources */,
 				8E2802DE24EC5A8D008B6057 /* MealType+CoreDataClass.swift in Sources */,
 				8E2802DF24EC5A8D008B6057 /* MealType+CoreDataProperties.swift in Sources */,
 				8EDF0A6B24E5D42200F2A490 /* RatingView.swift in Sources */,
