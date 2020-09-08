@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct FilteredrecipeListView: View {
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     var fetchRequestRecipe: FetchRequest<Recipe>
     init(filter: String){
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "type == %@", filter))
     }
     var body: some View {
-        List (fetchRequestRecipe.wrappedValue){recipe in
-            Text(recipe.wrappedName)
-        }
+            ForEach(fetchRequestRecipe.wrappedValue){recipe in
+                NavigationLink(destination: RecipeDetail(recipe: recipe, isSheetShown: false)) {
+                    Text(recipe.wrappedName)
+                        .padding(.leading)
+                }
+            }
     }
 }
 

@@ -23,7 +23,6 @@ struct AddRecipe: View {
     @State private var rating = 3
     @State private var servings = 2
     var body: some View {
-        NavigationView {
             Form {
                 HStack {
                 TextField("Name of recipe", text: $name, onCommit: {
@@ -50,17 +49,12 @@ struct AddRecipe: View {
                             Text("\(mealTypes[mealtypeNo].wrappedType)")
                         }
                     }
- 
                     RatingView(rating: $rating)
                     Picker("Servings", selection: $servings) {
                         ForEach(1..<12){
                             Text("\($0)")
                         }
-                        
-                        
                     }
-
-            
                 NavigationLink(destination: IngredientView(ingredient: $ingredient)){
                     Text("Ingredients")
                 }.buttonStyle(PlainButtonStyle())
@@ -69,11 +63,8 @@ struct AddRecipe: View {
                 }
                 NavigationLink(destination: PhotoView(data: $data)){
                     Text("Photo")
-                        
+
                 }
-            }
-            .onAppear{
-                print("ok")
             }
             .navigationTitle("Add a recipe")
             .toolbar {
@@ -91,7 +82,7 @@ struct AddRecipe: View {
                         try? self.moc.save()
                         self.presentationMode.wrappedValue.dismiss()
                         UIApplication.shared.endEditing()
-                        print("type: \(self.typeNumber)")
+                        
                     }, label: {
                         Text("Save")
                     })
@@ -100,7 +91,6 @@ struct AddRecipe: View {
             }
                 
         }
-    }
 
  
 }

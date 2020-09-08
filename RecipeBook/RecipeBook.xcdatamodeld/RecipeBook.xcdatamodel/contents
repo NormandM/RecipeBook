@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17175" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17175" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="MealType" representedClassName="MealType" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Recipe" representedClassName="Recipe" syncable="YES">
+        <attribute name="calcium" optional="YES" attributeType="String"/>
+        <attribute name="calories" optional="YES" attributeType="String"/>
+        <attribute name="carbohydrate" optional="YES" attributeType="String"/>
         <attribute name="chef" optional="YES" attributeType="String"/>
+        <attribute name="cholesterol" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="ingredient" optional="YES" attributeType="String"/>
+        <attribute name="iron" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="nutritionFacts" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="Binary"/>
+        <attribute name="potassium" optional="YES" attributeType="String"/>
         <attribute name="preparation" optional="YES" attributeType="String"/>
+        <attribute name="protein" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="recipeURLAdress" optional="YES" attributeType="String"/>
+        <attribute name="saturatedFat" optional="YES" attributeType="String"/>
         <attribute name="servings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="timeToCook" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="timeToPrepare" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sodium" optional="YES" attributeType="String"/>
+        <attribute name="sugar" optional="YES" attributeType="String"/>
+        <attribute name="timeToCook" optional="YES" attributeType="String"/>
+        <attribute name="timeToPrepare" optional="YES" attributeType="String"/>
+        <attribute name="totalFat" optional="YES" attributeType="String"/>
+        <attribute name="transFat" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="vitaminD" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Recipe" positionX="-54" positionY="-9" width="128" height="238"/>
         <element name="MealType" positionX="-54" positionY="90" width="128" height="73"/>
+        <element name="Recipe" positionX="-54" positionY="-9" width="128" height="418"/>
     </elements>
 </model>

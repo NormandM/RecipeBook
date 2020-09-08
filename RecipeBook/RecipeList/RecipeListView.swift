@@ -11,35 +11,25 @@ struct RecipeListView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var mealTypes: FetchedResults<MealType>
-    @State private var mealTypeArray = [String]()
-    
-    
     var body: some View {
         List {
-            ForEach (mealTypeArray, id:\.self) { section in
-                Section(header: SectionRow(filter: section)) {
-                FilteredrecipeListView(filter: section)
+            ForEach (0 ..< mealTypes.count) { number in
+                Section(header: SectionRow(filter: mealTypes[number].wrappedType)) {
+                    FilteredrecipeListView(filter: mealTypes[number].wrappedType)
+                        .listRowBackground(ColorReference.specialSand)
+                        .edgesIgnoringSafeArea(.all)
                 }
+                .listRowInsets(EdgeInsets(
+                        top: 0,
+                        leading: 0,
+                        bottom: 0,
+                        trailing: 0))
             }
-//        ForEach(recipes){ recipe in
-//            NavigationLink(destination: RecipeDetail(recipe: recipe)){
-//                Text(recipe.wrappedName)
-//
-//            }
-//        }
-
-        .onDelete(perform: removeRecipies)
-
+            .onDelete(perform: removeRecipies)
         }
-
-    .navigationBarItems(trailing:  EditButton())
-       .navigationBarTitle("List of Recipies")
-        .onAppear{
-            for mealType in mealTypes{
-                mealTypeArray.append(mealType.wrappedType)
-            }
-        }
-            
+        .navigationBarItems(trailing:  EditButton())
+        .navigationBarTitle("List of Recipies", displayMode: .inline)
+        .navigationBarColor(UIColorReference.specialGreen)
     }
     
     func removeRecipies(at offsets: IndexSet) {
@@ -57,19 +47,5 @@ struct RecipeListView_Previews: PreviewProvider {
         RecipeListView()
     }
 }
-//List {
-//    ForEach (name) { section in
-//        Section(header: SectionRow(name: section)) {
-//            ForEach(section.items) {item in
-//                NavigationLink(destination: ContentView(item: item, section: section)){
-//                    HStack {
-//                        ItemRowView(item: item)
-//                    }
-//
-//                }
-//            }.listRowBackground(ColorReference.specialGreen)
-//        }
-//
-//    }
-//
-//}
+
+

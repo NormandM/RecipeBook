@@ -16,34 +16,63 @@ struct ContentView: View {
     @State private var showingMealTypes = false
     @State private var name = UserDefaults.standard.string(forKey: "name")
     @State private var showMealTypeList = false
-    @State private var showSheet = false
+    @State private var showtest = false
+
     var body: some View {
         NavigationView{
-            
             ZStack {
+                ColorReference.specialSand
+                    .edgesIgnoringSafeArea(.all)
                 NavigationLink(destination: RecipeListView(), isActive: $showRecipeListView) {
                     Text("")
                 }
+                NavigationLink(destination: AddARecipe(), isActive: $showingAddScreen) {
+                    Text("")
+                }
+                NavigationLink(destination: MealTypeList(), isActive: $showingMealTypes) {
+                    Text("")
+                }
+                
                 VStack {
-                    Text("Count: \(recipes.count)")
+                    Spacer()
                     Button(action: {
                         self.showRecipeListView = true
                     }){
-                        Text("Show Recipe List")
+                        Text("Recipe List")
+                            .font(Font.custom("Zapfino", size: 20))
+                            .fontWeight(.heavy)
                     }
-                    Button("Edit Meal Types"){
-                        showingMealTypes = true
-                    }.sheet(isPresented: $showingMealTypes){
-                        MealTypeList().environment(\.managedObjectContext, self.moc)
-                    }
-                    Button ("Add Recipe") {
+                    Text("(Number of recipes: \(recipes.count))")
+                        .font(.footnote)
+                        .fontWeight(.light)
+                        .italic()
+                    Spacer()
+                    Button(action: {
                         showingAddScreen = true
-                    }.sheet(isPresented: $showingAddScreen){
-                        AddRecipe().environment(\.managedObjectContext, self.moc)
+                    }){
+                        Text("Add a Recipe")
+                            .font(Font.custom("Zapfino", size: 20))
+                            .fontWeight(.heavy)
                     }
+                    Spacer()
+                    Button(action: {
+                        showingMealTypes = true
+                    }){
+                        Text("Meal Categories")
+                            .font(Font.custom("Zapfino", size: 20))
+                            .fontWeight(.heavy)
+                    }
+
+                    Spacer()
+
+
                 }
-                .navigationBarTitle("Recipe Book")
+                .navigationBarTitle(Text("Recipe Book"))
+                .navigationBarColor(UIColorReference.specialGreen)
             }
+            
+            
+            
         }
     }
 }

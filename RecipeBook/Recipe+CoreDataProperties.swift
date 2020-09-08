@@ -25,13 +25,25 @@ extension Recipe {
     @NSManaged public var rating: Int16
     @NSManaged public var servings: Int16
     @NSManaged public var type: String?
-    @NSManaged public var timeToCook: Int16
-    @NSManaged public var timeToPrepare: Int16
-    @NSManaged public var nutritionFacts: String?
+    @NSManaged public var timeToCook: String?
+    @NSManaged public var timeToPrepare: String?
     @NSManaged public var recipeURLAdress: String?
+    @NSManaged public var calcium : String?
+    @NSManaged public var calories : String?
+    @NSManaged public var carbohydrate : String?
+    @NSManaged public var cholesterol : String?
+    @NSManaged public var iron : String?
+    @NSManaged public var potassium : String?
+    @NSManaged public var protein : String?
+    @NSManaged public var saturatedFat : String?
+    @NSManaged public var sodium : String?
+    @NSManaged public var totalFat : String?
+    @NSManaged public var transFat : String?
+    @NSManaged public var vitaminD : String?
+    @NSManaged public var sugar : String?
     
     var wrappedChef: String {
-        chef ?? ""
+        chef ?? "Unknown"
     }
     var wrappedIngredientf: String {
         ingredient ?? ""
@@ -43,17 +55,61 @@ extension Recipe {
         preparation ?? ""
     }
     var wrappedType: String {
-        type ?? ""
+        type ?? "Other"
     }
     var wrappedPhoto: Data {
         photo ?? Data()
     }
-    var wrappedNutritionFacts: String {
-        nutritionFacts ?? ""
-    }
     var wrappedrecipeURLAdress: String {
         recipeURLAdress ?? ""
     }
+    var wrappedTimeToPrepare: String {
+        timeToPrepare ?? ""
+    }
+    var wrappedTimeToCook: String {
+        timeToCook ?? ""
+    }
+    var wrappedCalcium: String {
+        calcium ?? ""
+    }
+    var wrappedCalories: String {
+        calories ?? ""
+    }
+    var wrappedCarbohydrate: String {
+        carbohydrate ?? ""
+    }
+    var wrappedCholesterol: String {
+        cholesterol ?? ""
+    }
+    var wrappedIron: String {
+        iron ?? ""
+    }
+    var wrappedPotassium: String {
+        potassium ?? ""
+    }
+    var wrappedProtein: String {
+        protein ?? ""
+    }
+    var wrappedSaturatedFat: String {
+        saturatedFat ?? ""
+    }
+    var wrappedSodium: String {
+        sodium ?? ""
+    }
+    var wrappedTotalFat: String {
+        totalFat ?? ""
+    }
+    var wrappedTransFat: String {
+        transFat ?? ""
+    }
+    var wrappedVitaminD: String {
+        vitaminD ?? ""
+    }
+    var wrappedSugar: String {
+        sugar ?? ""
+    }
+
+
 
 }
 

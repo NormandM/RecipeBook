@@ -32,6 +32,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        let newAppearance = UINavigationBarAppearance()
+        newAppearance.configureWithOpaqueBackground()
+        newAppearance.backgroundColor = UIColorReference.specialCoral
+        newAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UINavigationBar.appearance().standardAppearance = newAppearance
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
