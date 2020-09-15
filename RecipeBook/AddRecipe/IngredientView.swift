@@ -13,6 +13,7 @@ struct IngredientView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var recipeIngredient: String = ""
     @State private var recognizedText = ""
+    var existingIngredient: String
     @State private var scaningIngredient = false
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
@@ -74,6 +75,14 @@ struct IngredientView: View {
                 .edgesIgnoringSafeArea(.all)
                 
             }
+            .onAppear {
+                if existingIngredient != "" {
+                    scaningIngredient = false
+                    recipeIngredient = existingIngredient
+                }
+                print("existingIngredient: \(existingIngredient)")
+                
+            }
             .navigationBarTitle("Ingredients", displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .navigationBarBackButtonHidden(true)
@@ -91,19 +100,6 @@ struct IngredientView: View {
                   Text("Back")
                 }
             })
-//            .navigationBarItems(trailing:
-//                                    Button(action: {
-//                                        if scaningIngredient {
-//                                            self.ingredient = recognizedText
-//                                        }else{
-//                                            self.ingredient = recipeIngredient
-//                                        }
-//                                        UIApplication.shared.endEditing()
-//                                    }, label: {Text("Save")}).padding()
-//            )
-            
-            
-            
             .sheet(isPresented: $showingScanningView) {
                 ScanDocumentView(recognizedText: self.$recognizedText)
             }
@@ -111,9 +107,9 @@ struct IngredientView: View {
     }
 }
 
-@available(iOS 14.0, *)
-struct IngredientView_Previews: PreviewProvider {
-    static var previews: some View {
-        IngredientView(ingredient: .constant(""))
-    }
-}
+//@available(iOS 14.0, *)
+//struct IngredientView_Previews: PreviewProvider {
+//    static var previews: some View {
+//       IngredientView(ingredient: .constant(""), existingIngredient: "")
+//    }
+//}

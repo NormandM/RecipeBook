@@ -26,7 +26,7 @@ struct ContentView: View {
                 NavigationLink(destination: RecipeListView(), isActive: $showRecipeListView) {
                     Text("")
                 }
-                NavigationLink(destination: AddARecipe(), isActive: $showingAddScreen) {
+                NavigationLink(destination: AddARecipe(filter: ""), isActive: $showingAddScreen) {
                     Text("")
                 }
                 NavigationLink(destination: MealTypeList(), isActive: $showingMealTypes) {

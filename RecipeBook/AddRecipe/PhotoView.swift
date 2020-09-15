@@ -16,6 +16,7 @@ struct PhotoView: View {
     @State private var showCaptureImageView: Bool = false
     @State private var cameraChosen: Bool = false
     @State private var imageIsShowed: Bool = false
+    var existingdata: Data
     var body: some View {
         GeometryReader{ geo in
         VStack {
@@ -27,20 +28,15 @@ struct PhotoView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                  //  .frame(height: geo.size.height * 0.90)
 
                 if image == nil && !showCaptureImageView{
                     Text("Use the Camera\n\n\nOr\n\n\nChoose an existing Photo")
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                       // .frame(height: geo.size.height * 0.90)
-                     //   .border(Color.black, width: 1)
                         .font(.title)
                 }
                 if (showCaptureImageView) {
                     CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)
-                    
-                    
                 }
             }
             HStack {
@@ -84,6 +80,14 @@ struct PhotoView: View {
             .edgesIgnoringSafeArea(.all)
             
         }
+        .onAppear{
+            if existingdata != Data() {
+                showCaptureImageView = false
+                cameraChosen = false
+                guard let uiImage = UIImage(data: existingdata as Data) else { return }
+                image = Image(uiImage: uiImage)
+            }
+        }
         .navigationBarTitle("Photo", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .navigationBarItems(trailing:
@@ -103,9 +107,9 @@ struct PhotoView: View {
     }
 }
 
-@available(iOS 14.0, *)
-struct PhotoView_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoView(data: .constant(nil))
-    }
-}
+//@available(iOS 14.0, *)
+//struct PhotoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PhotoView(data: .constant(nil))
+//    }
+//}
