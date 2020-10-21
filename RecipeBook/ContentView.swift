@@ -23,10 +23,10 @@ struct ContentView: View {
             ZStack {
                 ColorReference.specialSand
                     .edgesIgnoringSafeArea(.all)
-                NavigationLink(destination: RecipeListView(), isActive: $showRecipeListView) {
+                NavigationLink(destination: RecipePageView(), isActive: $showRecipeListView) {
                     Text("")
                 }
-                NavigationLink(destination: AddARecipe(), isActive: $showingAddScreen) {
+                NavigationLink(destination: AddARecipe(filter: ""), isActive: $showingAddScreen) {
                     Text("")
                 }
                 NavigationLink(destination: MealTypeList(), isActive: $showingMealTypes) {

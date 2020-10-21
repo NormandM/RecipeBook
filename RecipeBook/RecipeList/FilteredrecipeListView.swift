@@ -20,6 +20,8 @@ struct FilteredrecipeListView: View {
                         .padding(.leading)
                 }
             }
+            .listRowBackground(Color.green)
+            
     }
 }
 

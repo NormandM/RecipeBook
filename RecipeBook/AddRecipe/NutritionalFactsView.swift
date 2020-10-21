@@ -35,6 +35,20 @@ struct NutritionalFactsView: View {
     @State private var transFatRecipe = ""
     @State private var vitaminDRecipe = ""
     @State private var sugarRecipe = ""
+    
+    var existingcalciumRecipe: String
+    var existingCaloriesRecipe: String
+    var existingCarbohydrateRecipe: String
+    var existingCholesterolRecipe: String
+    var existingIronRecipe: String
+    var existingPotassiumRecipe: String
+    var existingProteinRecipe: String
+    var existingSaturatedFatRecipe: String
+    var existingSodiumRecipe: String
+    var existingTotalFatRecipe: String
+    var existingTransFatRecipe: String
+    var existingVitaminDRecipe: String
+    var existingSugarRecipe: String
     var body: some View {
         Form{
             Section {
@@ -86,6 +100,47 @@ struct NutritionalFactsView: View {
 
             }
         }
+        .onAppear{
+            if existingcalciumRecipe != "" {
+                calciumRecipe = existingcalciumRecipe
+            }
+            if existingCaloriesRecipe != "" {
+                caloriesRecipe = existingCaloriesRecipe
+            }
+            if existingCarbohydrateRecipe != "" {
+                carbohydrateRecipe = existingCarbohydrateRecipe
+            }
+            if existingCholesterolRecipe != "" {
+                cholesterolRecipe = existingCholesterolRecipe
+            }
+            if existingIronRecipe != "" {
+                ironRecipe = existingIronRecipe
+            }
+            if existingPotassiumRecipe != "" {
+                potassiumRecipe = existingPotassiumRecipe
+            }
+            if existingProteinRecipe != "" {
+                proteinRecipe = existingProteinRecipe
+            }
+            if existingSaturatedFatRecipe != "" {
+                saturatedFatRecipe = existingSaturatedFatRecipe
+            }
+            if existingSodiumRecipe != "" {
+                sodiumRecipe = existingSodiumRecipe
+            }
+            if existingTotalFatRecipe != "" {
+                totalFatRecipe = existingTotalFatRecipe
+            }
+            if existingTransFatRecipe != "" {
+                transFatRecipe = existingTransFatRecipe
+            }
+            if existingVitaminDRecipe != "" {
+                vitaminDRecipe = existingVitaminDRecipe
+            }
+            if existingSugarRecipe != "" {
+                sugarRecipe = existingSugarRecipe
+            }
+        }
         .navigationBarTitle("Nutrition Facts", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .navigationBarBackButtonHidden(true)
@@ -114,8 +169,8 @@ struct NutritionalFactsView: View {
     }
 }
 
-struct NutritionalFactsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NutritionalFactsView(calcium: .constant(""), calories: .constant(""), carbohydrate: .constant(""), cholesterol: .constant(""), iron: .constant(""), potassium: .constant(""), protein: .constant(""), saturatedFat: .constant(""), sodium: .constant(""), totalFat: .constant(""), transFat: .constant(""), vitaminD: .constant(""), sugar: .constant(""))
-    }
-}
+//struct NutritionalFactsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NutritionalFactsView(calcium: .constant(""), calories: .constant(""), carbohydrate: .constant(""), cholesterol: .constant(""), iron: .constant(""), potassium: .constant(""), protein: .constant(""), saturatedFat: .constant(""), sodium: .constant(""), totalFat: .constant(""), transFat: .constant(""), vitaminD: .constant(""), sugar: .constant(""))
+//    }
+//}

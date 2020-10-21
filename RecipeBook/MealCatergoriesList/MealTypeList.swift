@@ -16,38 +16,9 @@ struct MealTypeList: View {
     @State private var enterNewMealTypeVisible = false
     @State private var textFieldChanged = false
     @State private var textFieldPlaceHolder = "Enter New Meal Category"
-    init() {
-        UITableView.appearance().backgroundColor = UIColorReference.specialSand
-     
-    
-            // this is not the same as manipulating the proxy directly
-            let appearance = UINavigationBarAppearance()
-            
-            // this overrides everything you have set up earlier.
-            appearance.configureWithTransparentBackground()
-            
-            // this only applies to big titles
-            appearance.largeTitleTextAttributes = [
-                .font : UIFont.systemFont(ofSize: 20),
-                NSAttributedString.Key.foregroundColor : UIColorReference.specialDarkBrown
-            ]
-            // this only applies to small titles
-            appearance.titleTextAttributes = [
-                .font : UIFont(name:"Papyrus", size: 25)!,
-                NSAttributedString.Key.foregroundColor : UIColorReference.specialDarkBrown,
-            ]
-            
-            //In the following two lines you make sure that you apply the style for good
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().standardAppearance = appearance
-            
-            // This property is not present on the UINavigationBarAppearance
-            // object for some reason and you have to leave it til the end
-            UINavigationBar.appearance().tintColor = .systemBlue
-            
-        }
     var body: some View {
                 ZStack {
+
                     if enterNewMealTypeVisible {
                         VStack {
                             Spacer()
@@ -75,7 +46,6 @@ struct MealTypeList: View {
                             ForEach(mealTypes) { mealType in
                                 TextListView(listText: mealType.wrappedType)
                             }
-
                             .onDelete(perform: removeMealTypes)
                         }
                         .navigationBarTitle("Edit List", displayMode: .inline)

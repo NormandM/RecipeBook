@@ -16,6 +16,7 @@ struct PreparationView: View {
     @State private var scaningPreparation = false
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
+    var existingPreparation: String
     var body: some View {
         GeometryReader { geo in
         VStack {
@@ -76,6 +77,13 @@ struct PreparationView: View {
                 .background(ColorReference.specialGray)
                 .edgesIgnoringSafeArea(.all)
         }
+        .onAppear{
+            if existingPreparation != "" {
+                scaningPreparation = false
+                recipePreparation = existingPreparation
+            }
+            
+        }
         .navigationBarTitle("Preparation", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .navigationBarBackButtonHidden(true)
@@ -94,20 +102,6 @@ struct PreparationView: View {
             }
         })
         
-//        .navigationBarItems(trailing:
-//            Button(action: {
-//            if scaningPreparation {
-//                self.preparation = recognizedText
-//            }else{
-//                self.preparation = recipePreparation
-//            }
-//            UIApplication.shared.endEditing()
-//            }
-//            , label: {
-//            Text("Save")
-//            })
-//            .padding()
-//        )
                                 
         .sheet(isPresented: $showingScanningView) {
             ScanDocumentView(recognizedText: self.$recognizedText)
@@ -119,6 +113,6 @@ struct PreparationView: View {
 @available(iOS 14.0, *)
 struct PreparationView_Previews: PreviewProvider {
     static var previews: some View {
-        PreparationView(preparation: .constant(""))
+        PreparationView(preparation: .constant(""), existingPreparation: "")
     }
 }

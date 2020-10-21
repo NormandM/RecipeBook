@@ -30,7 +30,8 @@ struct SectionRow: View {
                     }
                     
                             Spacer()
-                    }.padding(0).background(FillAll(color: ColorReference.specialCoral))
+                    }
+                .padding(0).background(FillAll(color: ColorReference.specialCoral))
                     
                 
             }

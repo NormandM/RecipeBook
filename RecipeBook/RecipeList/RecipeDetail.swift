@@ -14,9 +14,13 @@ struct RecipeDetail: View {
     @State private var isGeneralInformationShown = false
     @State private var isNutrionFactsShown = false
     @GestureState var scale: CGFloat = 1.0
-    
+    @State private var showingAddScreen = false
     var body: some View {
+
         GeometryReader { geo in
+            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName), isActive: $showingAddScreen) {
+                Text("")
+            }
             VStack (alignment: .center) {
                 Text(recipe.wrappedName)
                     .multilineTextAlignment(.center)
@@ -34,7 +38,7 @@ struct RecipeDetail: View {
                             }
                         }
                         .sheet(isPresented: $isGeneralInformationShown){
-                            GeneralInformationView()
+                            GeneralInformationView(filter: recipe.wrappedName)
                         }
                         
                     }
@@ -73,7 +77,7 @@ struct RecipeDetail: View {
                             }
                         }
                         .sheet(isPresented: $isNutrionFactsShown){
-                            NutritionInformationView()
+                            NutritionInformationView(filter: recipe.wrappedName)
                         }
                     }
                     
@@ -101,7 +105,7 @@ struct RecipeDetail: View {
             .padding()
             .navigationBarItems(trailing:
                                     Button(action: {
-                                        
+                                        showingAddScreen = true
                                     }) {
                                         Text("Edit")
                                     })
