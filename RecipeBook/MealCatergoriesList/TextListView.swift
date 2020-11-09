@@ -30,7 +30,7 @@ struct TextListView: View {
 
     }
     func categoryName() -> String{
-        let category = ["Appetizers", "Bakery", "Breakfast", "Desserts", "Fish", "Meat", "Other", "Pasta", "Poultry", "Salads", "Sauces", "Soups"]
+        let category = ["Appetizer", "Bakery", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]
         if category.contains(listText){
             return listText
         }else{

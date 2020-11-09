@@ -10,11 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
-    @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var mealTypes: FetchedResults<MealType>
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     @State private var showRecipeListView = false
     @State private var showingAddScreen = false
     @State private var showingMealTypes = false
-    @State private var name = UserDefaults.standard.string(forKey: "name")
     @State private var showMealTypeList = false
     @State private var showtest = false
 
@@ -26,10 +25,10 @@ struct ContentView: View {
                 NavigationLink(destination: RecipePageView(), isActive: $showRecipeListView) {
                     Text("")
                 }
-                NavigationLink(destination: AddARecipe(filter: ""), isActive: $showingAddScreen) {
+                NavigationLink(destination: AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0), isActive: $showingAddScreen) {
                     Text("")
                 }
-                NavigationLink(destination: MealTypeList(), isActive: $showingMealTypes) {
+                NavigationLink(destination: MealTypeList( mealTypes: mealTypes), isActive: $showingMealTypes) {
                     Text("")
                 }
                 
@@ -69,15 +68,13 @@ struct ContentView: View {
                 }
                 .navigationBarTitle(Text("Recipe Book"))
                 .navigationBarColor(UIColorReference.specialGreen)
+                
             }
-            
-            
-            
         }
     }
 }
 func userAlreadyExist(name: String) -> Bool {
-    return UserDefaults.standard.object(forKey: name) != nil
+    return UserDefaults.standard.object(forKey: "name") != nil
 }
 
 struct ContentView_Previews: PreviewProvider {

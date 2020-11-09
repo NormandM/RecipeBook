@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NutritionalFactsView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.managedObjectContext) var moc
     @Binding var calcium: String
     @Binding var calories: String
     @Binding var carbohydrate: String

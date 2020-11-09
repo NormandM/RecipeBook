@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import CoreData
 struct AddARecipe: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
@@ -14,9 +14,16 @@ struct AddARecipe: View {
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     var fetchRequestRecipe: FetchRequest<Recipe>
-    init(filter: String){
+    @State private var isNewRecipe: Bool
+    @State private var typeNumber: Int
+    @State private var servings = ""
+    @State private var isInitialValue = true
+    init(filter: String, isNewRecipe: Bool, typeNumber: Int){
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "name == %@", filter))
+        self._isNewRecipe = State(initialValue: isNewRecipe)
+        self._typeNumber = State(initialValue: typeNumber)
     }
+    var array : Array<Int> = [0,1,2,3,4,5,6,7,8,9,10,11,12]
     @State private var data: Data?
     @State private var existingData = Data()
     @State private var chef = ""
@@ -25,9 +32,7 @@ struct AddARecipe: View {
     @State private var ingredient = ""
     @State private var name = ""
     @State private var preparation = ""
-    @State private var typeNumber = 0
     @State private var rating = 3
-    @State private var servings = 2
     @State private var calcium = ""
     @State private var calories = ""
     @State private var carbohydrate = ""
@@ -41,18 +46,21 @@ struct AddARecipe: View {
     @State private var transFat = ""
     @State private var vitaminD = ""
     @State private var sugar = ""
+    @State private var id = UUID()
     @State private var recipeSaved = false
     @State private var showAlertSameName = false
     @State private var showAlertNoName = false
     @State private var showAlertRecipeNotSaved = false
+    @State private var recipeUrl = ""
+    @State private var arrayName = [String]()
+    @State private var arrayId = [UUID]()
+    @State private var newRecipe = Recipe()
     var body: some View {
         Form {
-            //  if existingRecipeName == "" {
             Section {
                 TextField("Name of recipe", text: $name, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                
                 TextField("Name of Chef", text: $chef, onCommit: {
                     UIApplication.shared.endEditing()
                 })
@@ -67,69 +75,82 @@ struct AddARecipe: View {
                 Picker("Category: ", selection: $typeNumber){
                     ForEach(0 ..< mealTypes.count){mealtypeNo in
                         HStack {
+                            if mealTypes[mealtypeNo].wrappedType != "" {
                             Text("\(mealTypes[mealtypeNo].wrappedType)")
-                            
                             Image(mealTypes[mealtypeNo].wrappedType)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 50.0, height: 50.0)
+                            }
+
                         }
                         
                     }
                 }
-                RatingView(rating: $rating)
-                Picker("Servings", selection: $servings) {
-                    ForEach(1..<12){
-                        Text("\($0)")
-                    }
-                }
+
+                RatingView(rating: $rating, isInteractif: true)
+                TextField("Servings", text: $servings, onCommit: {
+                    UIApplication.shared.endEditing()
+                })
+                
             }
             Section {
                 NavigationLink(destination: NutritionalFactsView(calcium: $calcium, calories: $calories, carbohydrate: $carbohydrate, cholesterol: $cholesterol, iron: $iron, potassium: $potassium, protein: $protein, saturatedFat: $saturatedFat, sodium: $sodium, totalFat: $totalFat, transFat: $transFat, vitaminD: $vitaminD, sugar: $sugar,existingcalciumRecipe: calcium,existingCaloriesRecipe: calories, existingCarbohydrateRecipe: carbohydrate, existingCholesterolRecipe: cholesterol, existingIronRecipe: iron, existingPotassiumRecipe: potassium, existingProteinRecipe: protein, existingSaturatedFatRecipe: saturatedFat, existingSodiumRecipe: sodium, existingTotalFatRecipe: totalFat, existingTransFatRecipe: transFat, existingVitaminDRecipe: vitaminD, existingSugarRecipe: sugar)){
                     Text("Nutrition Facts")
                 }
+                NavigationLink(destination: IngredientView(ingredient: $ingredient, existingIngredient: ingredient, isInitialValue: $isInitialValue)){
+                    Text("Ingredients")
+                }.buttonStyle(PlainButtonStyle())
+                NavigationLink(destination: PreparationView(preparation: $preparation, existingPreparation: preparation)){
+                    Text("Preparation")
+                }
+                NavigationLink(destination: PhotoView(data: $data, existingdata: data ?? Data())){
+                    Text("Photo")
+                }
             }
-            NavigationLink(destination: IngredientView(ingredient: $ingredient, existingIngredient: ingredient)){
-                Text("Ingredients")
-            }.buttonStyle(PlainButtonStyle())
-            NavigationLink(destination: PreparationView(preparation: $preparation, existingPreparation: preparation)){
-                Text("Preparation")
-            }
-            NavigationLink(destination: PhotoView(data: $data, existingdata: existingData)){
-                Text("Photo")
+            Section {
+                TextField("Recipe URl", text: $recipeUrl, onCommit: {
+                    UIApplication.shared.endEditing()
+                })
             }
         }
 
         .onAppear{
-            var arrayMealTypes = [String]()
-            for meal in mealTypes {
-                arrayMealTypes.append(meal.wrappedType)
-            }
+            print(servings)
+            print(typeNumber)
             for recipe in fetchRequestRecipe.wrappedValue{
+
                 if recipe.wrappedName != "" {
                     name = recipe.wrappedName
                     chef = recipe.wrappedChef
+                    servings = recipe.wrappedServings
                     timeToPrepare = recipe.wrappedTimeToPrepare
                     timeToCook = recipe.wrappedTimeToPrepare
-                    typeNumber = arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0
                     rating = Int(recipe.rating)
-                    servings = Int(recipe.servings)
-                    ingredient = recipe.wrappedIngredientf
-                    preparation = recipe.wrappedPreparation
-                    calcium = recipe.wrappedCalcium
-                    calories = recipe.wrappedCalories
-                    carbohydrate = recipe.wrappedCarbohydrate
-                    cholesterol = recipe.wrappedCholesterol
-                    iron = recipe.wrappedIron
-                    potassium = recipe.wrappedPotassium
-                    protein = recipe.wrappedProtein
-                    saturatedFat = recipe.wrappedSaturatedFat
-                    sodium = recipe.wrappedSodium
-                    totalFat = recipe.wrappedTotalFat
-                    transFat = recipe.wrappedTransFat
-                    vitaminD = recipe.wrappedVitaminD
-                    sugar = recipe.wrappedSugar
-                    existingData = recipe.wrappedPhoto
+                    recipeUrl = recipe.wrappedrecipeURLAdress
+                    if ingredient == "" && isInitialValue {
+                        ingredient = recipe.wrappedIngredientf
+                        print("ingredient: \(ingredient)")
+                    }
+                    if preparation == "" && isInitialValue {preparation = recipe.wrappedPreparation}
+                    if calcium == "" && isInitialValue {calcium = recipe.wrappedCalcium}
+                    if calories == "" && isInitialValue {calories = recipe.wrappedCalories}
+                    if carbohydrate == "" && isInitialValue {carbohydrate = recipe.wrappedCarbohydrate}
+                    if cholesterol == "" && isInitialValue {cholesterol = recipe.wrappedCholesterol}
+                    if iron == "" && isInitialValue {iron = recipe.wrappedIron}
+                    if potassium == "" && isInitialValue {potassium = recipe.wrappedPotassium}
+                    if protein == "" && isInitialValue {protein = recipe.wrappedProtein}
+                    if saturatedFat == "" && isInitialValue {saturatedFat = recipe.wrappedSaturatedFat}
+                    if sodium == "" && isInitialValue {sodium = recipe.wrappedSodium}
+                    if totalFat == "" && isInitialValue {totalFat = recipe.wrappedTotalFat}
+                    if transFat == "" && isInitialValue {transFat = recipe.wrappedTransFat}
+                    if vitaminD == "" && isInitialValue {vitaminD = recipe.wrappedVitaminD}
+                    if sugar == "" && isInitialValue {sugar = recipe.wrappedSugar}
+                    if data == nil && isInitialValue {
+                        data = recipe.wrappedPhoto
+                        print("existingData")
+                    }
+                    id = recipe.wrappedId
                 }
             }
         }
@@ -140,6 +161,8 @@ struct AddARecipe: View {
         .navigationBarItems(leading: Button(action: {
             if !recipeSaved{
                 showAlertRecipeNotSaved = true
+            }else{
+                self.presentationMode.wrappedValue.dismiss()
             }
         }, label: {
             HStack {
@@ -150,10 +173,12 @@ struct AddARecipe: View {
         .alert(isPresented: $showAlertRecipeNotSaved) {
             Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("Save"), action: {
                 saveRecipe()
-            }), secondaryButton: .default(Text("Do not save"), action: {
                 self.presentationMode.wrappedValue.dismiss()
+            }), secondaryButton: .default(Text("Do not save"), action: {
                 UIApplication.shared.endEditing()
+                self.presentationMode.wrappedValue.dismiss()
             }))
+            
         }
         ,trailing:
             Button(action: {
@@ -169,54 +194,82 @@ struct AddARecipe: View {
         .alert(isPresented: $showAlertNoName) {
             Alert(title: Text("Recipe has no name"), message: Text("Please choose a name"), dismissButton: .default(Text("Ok")))
         }
+
     }
     func saveRecipe(){
-        var arrayName = [String]()
+        arrayName = [String]()
+        arrayId = [UUID]()
+        formArray(recipes: recipes)
+        if self.name == ""{
+            showAlertNoName = true
+        }else if arrayId.contains(self.id) && !isNewRecipe{
+            print("exists")
+            if fetchRequestRecipe.wrappedValue.count != 0 {
+                let existingRecipe = fetchRequestRecipe.wrappedValue[0]
+                save(recipe: existingRecipe)
+            }
+
+        }else if isNewRecipe{
+            if !recipeSaved {
+                newRecipe = Recipe(context: self.moc)
+                isNewRecipe = false
+            }
+            
+            formArray(recipes: recipes)
+            if arrayName.contains(self.name){
+               showAlertSameName = true
+            }else{
+                save(recipe: newRecipe)
+            }
+            
+            UIApplication.shared.endEditing()
+        }
+        recipeSaved = true
+    }
+    func save(recipe: Recipe){
+        recipe.chef = self.chef
+        recipe.ingredient = self.ingredient
+        recipe.type = mealTypes[typeNumber].type
+        recipe.name = self.name
+        recipe.timeToPrepare = self.timeToPrepare
+        recipe.timeToCook = self.timeToCook
+        recipe.preparation = self.preparation
+        recipe.rating = Int16(self.rating)
+        recipe.photo = data
+        recipe.calcium = self.calcium
+        recipe.calories = self.calories
+        recipe.carbohydrate = self.carbohydrate
+        recipe.cholesterol = self.cholesterol
+        recipe.iron = self.iron
+        recipe.potassium = self.potassium
+        recipe.protein = self.protein
+        recipe.saturatedFat = self.saturatedFat
+        recipe.sodium = self.sodium
+        recipe.totalFat = self.totalFat
+        recipe.transFat = self.transFat
+        recipe.vitaminD = self.vitaminD
+        recipe.sugar = self.sugar
+        recipe.servings = self.servings
+        recipe.recipeURLAdress = self.recipeUrl
+        recipe.id = self.id
+        do {
+            try self.moc.save()
+        } catch {
+            print("same name")
+        }
+        
+    }
+    func formArray(recipes: FetchedResults<Recipe>) {
         for recipe in recipes {
             arrayName.append(recipe.wrappedName)
-        }
-        if arrayName.contains(self.name) {
-            print("same")
-            showAlertSameName = true
-        }else if self.name == ""{
-            showAlertNoName = true
-        }else{
-        recipeSaved = true
-        let newRecipe = Recipe(context: self.moc)
-        newRecipe.chef = self.chef
-        newRecipe.ingredient = self.ingredient
-        newRecipe.type = mealTypes[typeNumber].type
-        newRecipe.name = self.name
-        newRecipe.timeToPrepare = self.timeToPrepare
-        newRecipe.timeToCook = self.timeToCook
-        newRecipe.preparation = self.preparation
-        newRecipe.rating = Int16(self.rating)
-        newRecipe.photo = data
-        newRecipe.id = UUID()
-        newRecipe.calcium = self.calcium
-        newRecipe.calories = self.calories
-        newRecipe.carbohydrate = self.carbohydrate
-        newRecipe.cholesterol = self.cholesterol
-        newRecipe.iron = self.iron
-        newRecipe.potassium = self.potassium
-        newRecipe.protein = self.protein
-        newRecipe.saturatedFat = self.saturatedFat
-        newRecipe.sodium = self.sodium
-        newRecipe.totalFat = self.totalFat
-        newRecipe.transFat = self.transFat
-        newRecipe.vitaminD = self.vitaminD
-        newRecipe.sugar = self.sugar
-        newRecipe.servings = Int16(self.servings)
-        try? self.moc.save()
-        self.presentationMode.wrappedValue.dismiss()
-        UIApplication.shared.endEditing()
+            arrayId.append(recipe.wrappedId)
         }
     }
-    
 }
 
 struct AddARecipe_Previews: PreviewProvider {
     static var previews: some View {
-        AddARecipe(filter: "")
+        AddARecipe(filter: "", isNewRecipe: false, typeNumber: 0)
     }
 }
+

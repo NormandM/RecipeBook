@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FilteredrecipeListView: View {
+    
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     var fetchRequestRecipe: FetchRequest<Recipe>
     init(filter: String){
@@ -20,8 +21,7 @@ struct FilteredrecipeListView: View {
                         .padding(.leading)
                 }
             }
-            .listRowBackground(Color.green)
-            
+            .listRowBackground(ColorReference.specialSand)
     }
 }
 

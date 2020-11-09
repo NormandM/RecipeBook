@@ -11,9 +11,11 @@ import SwiftUI
 struct IngredientView: View {
     @Binding var ingredient: String
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.managedObjectContext) var moc
     @State private var recipeIngredient: String = ""
     @State private var recognizedText = ""
     var existingIngredient: String
+    @Binding var isInitialValue: Bool
     @State private var scaningIngredient = false
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
@@ -75,14 +77,7 @@ struct IngredientView: View {
                 .edgesIgnoringSafeArea(.all)
                 
             }
-            .onAppear {
-                if existingIngredient != "" {
-                    scaningIngredient = false
-                    recipeIngredient = existingIngredient
-                }
-                print("existingIngredient: \(existingIngredient)")
-                
-            }
+
             .navigationBarTitle("Ingredients", displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .navigationBarBackButtonHidden(true)
@@ -102,7 +97,17 @@ struct IngredientView: View {
             })
             .sheet(isPresented: $showingScanningView) {
                 ScanDocumentView(recognizedText: self.$recognizedText)
+                    .environment(\.managedObjectContext, self.moc)
             }
+            .onAppear {
+                if existingIngredient != "" {
+                    scaningIngredient = false
+                    recipeIngredient = existingIngredient
+                }
+                print("existingIngredient: \(existingIngredient)")
+                
+            }
+            
         }
     }
 }

@@ -11,9 +11,10 @@ import SwiftUI
 struct CaptureImageView {
   
   /// MARK: - Properties
-  @Binding var isShown: Bool
-  @Binding var image: Image?
+    @Binding var isShown: Bool
+    @Binding var image: Image?
     @Binding var imageUI: UIImage?
+    
     var cameraChosen: Bool
   
   func makeCoordinator() -> Coordinator {

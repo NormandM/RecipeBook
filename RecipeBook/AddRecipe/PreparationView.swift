@@ -10,6 +10,7 @@ import SwiftUI
 @available(iOS 14.0, *)
 struct PreparationView: View {
     @Binding var preparation: String
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @State private var recipePreparation: String = ""
     @State private var recognizedText = ""
@@ -19,26 +20,22 @@ struct PreparationView: View {
     var existingPreparation: String
     var body: some View {
         GeometryReader { geo in
-        VStack {
-            Spacer()
-            ZStack {
-                ColorReference.specialSand
-                    .edgesIgnoringSafeArea(.all)
-                TextEditor( text: scaningPreparation ? $recognizedText : $recipePreparation)
-                    .border(Color.black, width: 1)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding()
-                
-                if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == ""{
-                Text("Scan with Camera\n\n\nOr\n\n\nType Preparation directly")
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    .font(.title)
-
+            VStack {
+                Spacer()
+                ZStack {
+                    ColorReference.specialSand
+                        .edgesIgnoringSafeArea(.all)
+                    TextEditor( text: scaningPreparation ? $recognizedText : $recipePreparation)
+                        .border(Color.black, width: 1)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding()
+                    if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == ""{
+                        Text("Scan with Camera\n\n\nOr\n\n\nType Preparation directly")
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                            .font(.title)
+                    }
                 }
-                
-                
-            }
                 HStack {
                     Button(action: {
                         self.showingScanningView = true
@@ -76,38 +73,41 @@ struct PreparationView: View {
                 .frame(width: geo.size.width, height: geo.size.height * 0.1)
                 .background(ColorReference.specialGray)
                 .edgesIgnoringSafeArea(.all)
-        }
-        .onAppear{
-            if existingPreparation != "" {
-                scaningPreparation = false
-                recipePreparation = existingPreparation
+            }
+
+            .navigationBarTitle("Preparation", displayMode: .inline)
+            .navigationBarColor(UIColorReference.specialGreen)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading:
+                                    Button(action: {
+                                        if scaningPreparation {
+                                            self.preparation = recognizedText
+                                        }else{
+                                            self.preparation = recipePreparation
+                                        }
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "chevron.left")
+                                            Text("Back")
+                                        }
+                                    })
+            
+            
+            .sheet(isPresented: $showingScanningView) {
+                ScanDocumentView(recognizedText: self.$recognizedText)
+                    .environment(\.managedObjectContext, self.moc)
+            }
+            .onAppear{
+                if existingPreparation != "" {
+                    scaningPreparation = false
+                    recipePreparation = existingPreparation
+                }
+                
             }
             
         }
-        .navigationBarTitle("Preparation", displayMode: .inline)
-        .navigationBarColor(UIColorReference.specialGreen)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading:
-          Button(action: {
-            if scaningPreparation {
-                self.preparation = recognizedText
-            }else{
-                self.preparation = recipePreparation
-            }
-            self.presentationMode.wrappedValue.dismiss()
-          }) {
-            HStack {
-              Image(systemName: "chevron.left")
-              Text("Back")
-            }
-        })
-        
-                                
-        .sheet(isPresented: $showingScanningView) {
-            ScanDocumentView(recognizedText: self.$recognizedText)
-        }
-        }
-}
+    }
 }
 
 @available(iOS 14.0, *)

@@ -46,7 +46,11 @@ struct ScanDocumentView: UIViewControllerRepresentable {
             var extractedImages = [CGImage]()
             for index in 0..<scan.pageCount {
                 let extractedImage = scan.imageOfPage(at: index)
-                guard let cgImage = extractedImage.cgImage else { continue }
+                guard let cgImage = extractedImage.cgImage else {
+                    print("error1")
+                    continue
+                    
+                }
                 
                 extractedImages.append(cgImage)
             }
@@ -57,11 +61,19 @@ struct ScanDocumentView: UIViewControllerRepresentable {
             let recognizeTextRequest = VNRecognizeTextRequest { (request, error) in
                 guard error == nil else { return }
                 
-                guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
+                guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                    print("error2")
+                    return
+                    
+                }
                 
                 let maximumRecognitionCandidates = 1
                 for observation in observations {
-                    guard let candidate = observation.topCandidates(maximumRecognitionCandidates).first else { continue }
+                    guard let candidate = observation.topCandidates(maximumRecognitionCandidates).first else {
+                        print("error 3")
+                        continue
+                        
+                    }
                     
                     entireRecognizedText += "\(candidate.string)\n"
               //      entireRecognizedText =  entireRecognizedText.replacingOccurrences(of: "\n", with: " ")
@@ -72,8 +84,14 @@ struct ScanDocumentView: UIViewControllerRepresentable {
             
             for image in images {
                 let requestHandler = VNImageRequestHandler(cgImage: image, options: [:])
+
+              //  try? requestHandler.perform([recognizeTextRequest])
+                do {
+                    let _: () = try requestHandler.perform([recognizeTextRequest])
+                }catch{
+                    print("error")
+                }
                 
-                try? requestHandler.perform([recognizeTextRequest])
             }
             
             return entireRecognizedText

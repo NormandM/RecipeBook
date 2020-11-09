@@ -23,7 +23,6 @@ struct NutritionInformationView: View {
                     Text(title)
                         .multilineTextAlignment(.center)
                         .font(.title)
-                        .padding(.bottom)
                         .padding(.leading)
                         .padding(.trailing)
                     List {
@@ -108,12 +107,14 @@ struct NutritionInformationView: View {
                                 }
                             }
                     }
-                    .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5, alignment: .center)
-                    .border(Color.black, width: 1)
+                    .frame(alignment: .center)
+
                 }
                 .navigationBarTitle("Nutritional Facts", displayMode: .inline)
                 .navigationBarColor(UIColorReference.specialGreen)
                 .background(ColorReference.specialSand)
+                .edgesIgnoringSafeArea(.bottom)
+                
             }
         }
     }

@@ -8,88 +8,57 @@
 import SwiftUI
 
 struct RecipeDetail: View {
-    @State private var image: Image?
+    @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
     var recipe = FetchedResults<Recipe>.Element()
+    var type = FetchedResults<MealType>.Element()
     @State var isSheetShown: Bool = false
     @State private var isGeneralInformationShown = false
     @State private var isNutrionFactsShown = false
-    @GestureState var scale: CGFloat = 1.0
+    @State private var showPhotoScreen = false
     @State private var showingAddScreen = false
+    @State private var showAlertDeleteRecipe = false
+    @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
+    @State private var arrayMealTypes = [String]()
+    @State private var recipeViews = ["Main","Information", "Nutrition", "Photos"]
+    @State private var selectorIndex = 0
     var body: some View {
 
         GeometryReader { geo in
-            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName), isActive: $showingAddScreen) {
+            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {
+                Text("")
+            }
+            NavigationLink(destination: NutritionInformationView(filter: recipe.wrappedName), isActive: $isNutrionFactsShown) {
+                Text("")
+            }
+            NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {
+                Text("")
+            }
+            NavigationLink(destination: ThreePhotoView(recipeData: recipe.wrappedPhoto), isActive: $showPhotoScreen) {
                 Text("")
             }
             VStack (alignment: .center) {
                 Text(recipe.wrappedName)
                     .multilineTextAlignment(.center)
                     .font(.headline)
-                HStack {
-                    VStack{
-                        Button(action: {
-                            isGeneralInformationShown = true
-                        }){
-                            VStack  {
-                                Image(systemName: "info.circle")
-                                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                                Text("General")
-                                Text("Information")
-                            }
-                        }
-                        .sheet(isPresented: $isGeneralInformationShown){
-                            GeneralInformationView(filter: recipe.wrappedName)
-                        }
-                        
+                Picker("Numbers", selection: $selectorIndex) {
+                    ForEach(0 ..< recipeViews.count) { index in
+                        Text(self.recipeViews[index]).tag(index)
                     }
-                    if let unwrappedImage = image {
-                        unwrappedImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .border(Color.black, width: 1)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                            .padding(.top)
-                            .scaleEffect(scale)
-                            .gesture(MagnificationGesture()
-                                    .updating($scale, body: { (value, scale, trans) in
-                                        scale = value.magnitude
-                                    })
-                            )
-                            .zIndex(1)
-                    }else{
-                        Image("LEARNFROMTIMELINE")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .border(Color.black, width: 1)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                            .padding(.top)
-
-                    }
-                    VStack{
-                        Button(action: {
-                            isNutrionFactsShown = true
-                        }){
-                            VStack  {
-                                Image(systemName: "info.circle")
-                                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                                Text("Nutrition")
-                                Text("Facts")
-                            }
-                        }
-                        .sheet(isPresented: $isNutrionFactsShown){
-                            NutritionInformationView(filter: recipe.wrappedName)
-                        }
-                    }
-                    
                 }
-
-                
+                .onChange(of: selectorIndex, perform: {_ in
+                    if selectorIndex == 2 {isNutrionFactsShown = true}
+                    if selectorIndex == 1 {isGeneralInformationShown = true}
+                    if selectorIndex == 3 {showPhotoScreen = true}
+                    
+                })
+                .pickerStyle(SegmentedPickerStyle())
                 Text("Ingredients")
                 ScrollView {
                     Text(recipe.wrappedIngredientf)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-//                        .border(Color.black, width: 1)
+
 
                 }
                 .background(ColorReference.specialCoral)
@@ -98,9 +67,22 @@ struct RecipeDetail: View {
                     Text(recipe.wrappedPreparation)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-//                        .border(Color.black, width: 1)
+
                 }
                 .background(ColorReference.specialGray)
+                Button(action: {
+                    showAlertDeleteRecipe = true
+                    
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                        Text("Delete Recipe")
+                            .foregroundColor(.red)
+                    }
+
+                }
+                
             }
             .padding()
             .navigationBarItems(trailing:
@@ -111,16 +93,35 @@ struct RecipeDetail: View {
                                     })
             .padding()
             .background(ColorReference.specialSand)
+            .edgesIgnoringSafeArea(.bottom)
             .navigationBarColor(UIColorReference.specialGreen)
             .navigationBarTitle("Recipe", displayMode: .inline)
             .onAppear{
-                guard let uiImage = UIImage(data: recipe.wrappedPhoto as Data) else { return }
-                image = Image(uiImage: uiImage)
-                
+                for meal in mealTypes {
+                    arrayMealTypes.append(meal.wrappedType)
+                }
+                selectorIndex = 0
+                isGeneralInformationShown = false
+                isNutrionFactsShown = false
+                showPhotoScreen = false
+            }
+            .alert(isPresented: $showAlertDeleteRecipe){
+                Alert(title: Text("Are you sure you want to delete recipe"), message: Text("All recipe information will be lost"), primaryButton: .default(Text("Delete"), action: {
+                    deleteRecipe()
+                }), secondaryButton: .default(Text("Keep Recipe"), action: {
+                        showAlertDeleteRecipe = false
+                }))
+
             }
             
         }
             
+    }
+    func deleteRecipe() {
+        moc.delete(recipe)
+        try? moc.save()
+        print("recipe deleted")
+        self.presentationMode.wrappedValue.dismiss()
     }
 }
 

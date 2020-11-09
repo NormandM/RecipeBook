@@ -23,7 +23,7 @@ extension Recipe {
     @NSManaged public var photo: Data?
     @NSManaged public var preparation: String?
     @NSManaged public var rating: Int16
-    @NSManaged public var servings: Int16
+    @NSManaged public var servings: String?
     @NSManaged public var type: String?
     @NSManaged public var timeToCook: String?
     @NSManaged public var timeToPrepare: String?
@@ -107,6 +107,12 @@ extension Recipe {
     }
     var wrappedSugar: String {
         sugar ?? ""
+    }
+    var wrappedId: UUID {
+        id ?? UUID()
+    }
+    var wrappedServings: String {
+        servings ?? ""
     }
 
 
