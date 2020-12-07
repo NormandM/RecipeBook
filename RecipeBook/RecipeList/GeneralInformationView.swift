@@ -12,6 +12,7 @@ struct GeneralInformationView: View {
     var fetchRequest: FetchRequest<Recipe>
     var title: String
     @State private var recipeType = ""
+    @State private var imageName = ""
     @State private var chef = ""
     @State private var servings = ""
     @State private var rating = 3
@@ -30,7 +31,6 @@ struct GeneralInformationView: View {
     
     var body: some View {
         GeometryReader{ geo in
-            NavigationView{
                 VStack {
                     Text(title)
                         .multilineTextAlignment(.center)
@@ -39,12 +39,12 @@ struct GeneralInformationView: View {
                         .padding(.trailing)
                     List{
                         HStack {
-                            Text("Categorie: ")
+                            Text(NSLocalizedStringFunc(key:"Categorie: "))
                             VStack {
                                 Label {
                                     Text(recipeType)
                                 } icon: {
-                                    Image(recipeType)
+                                    Image(imageName)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: geo.size.height * 0.05, height: geo.size.height * 0.05)
@@ -54,34 +54,34 @@ struct GeneralInformationView: View {
                             }
                         }
                         HStack {
-                            Text("Chef: ")
+                            Text(NSLocalizedStringFunc(key:"Chef: "))
                             Text(chef)
                         }
                         HStack {
                             RatingView(rating: $rating, isInteractif: false)
                         }
                         HStack {
-                            Text("Servings")
+                            Text(NSLocalizedStringFunc(key:"Servings"))
                             Text(servings)
                         }
                         HStack {
-                            Text("Calories per Serving")
+                            Text(NSLocalizedStringFunc(key:"Calories per Serving"))
                             Text(calories)
                         }
                         
                         HStack{
-                            Text("Time to prepare: ")
+                            Text(NSLocalizedStringFunc(key:"Preparation Time: "))
                             Text(timeToPrepare)
                         
                         }
                         HStack{
-                            Text("Time to cook: ")
+                            Text(NSLocalizedStringFunc(key:"Cooking Time: "))
                             Text(timeToCook)
                         }
                         HStack {
-                            Text("Recipe website address: ")
+                            Text(NSLocalizedStringFunc(key:"Recipe website address: "))
                             if recipeURLAdress == "" {
-                                Text("This recipe is not from the web")
+                                Text(NSLocalizedStringFunc(key:"This recipe is not from the web"))
                             }else{
                                 Link(recipeURLAdress, destination: URL(string: recipeURLAdress)!)
                             }
@@ -97,6 +97,7 @@ struct GeneralInformationView: View {
                     print(fetchRequest.wrappedValue)
                     for recipes in fetchRequest.wrappedValue {
                         recipeType = recipes.wrappedType
+                        imageName = recipes.wrappedImageName
                         chef = recipes.wrappedChef
                         rating = Int(recipes.rating)
                         servings = recipes.wrappedServings
@@ -104,17 +105,15 @@ struct GeneralInformationView: View {
                         timeToCook = recipes.wrappedTimeToCook
                         timeToPrepare = recipes.wrappedTimeToPrepare
                         //"recipeURLAdress = recipes.wrappedrecipeURLAdress
-                        print(rating)
                     }
                 }
                 
-                .navigationBarTitle("Recipe Facts", displayMode: .inline)
+                .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe Facts"), displayMode: .inline)
                 .navigationBarColor(UIColorReference.specialGreen)
                 .background(ColorReference.specialSand)
                 .edgesIgnoringSafeArea(.bottom)
                 
             }
-        }
     }
 }
 

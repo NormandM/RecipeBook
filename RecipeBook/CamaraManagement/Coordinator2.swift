@@ -1,28 +1,28 @@
 //
-//  Coordinator.swift
-//  CameraAndGalleryTutorial
+//  Coordinator2.swift
+//  RecipeBook
 //
-//  Created by Duy Bui on 10/26/19.
-//  Copyright © 2019 Duy Bui. All rights reserved.
+//  Created by Normand Martin on 2020-11-16.
 //
 
 import SwiftUI
-
-class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class Coordinator2: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     @Binding var isCoordinatorShown: Bool
-    @Binding  var imageInCoordinator: Image?
+    @Binding var imageInCoordinator: Image?
+    @Binding var imageUI: UIImage?
     
-    init(isShown: Binding<Bool>, image: Binding<Image?>) {
+    init(isShown: Binding<Bool>, image: Binding<Image?>, image2: Binding<UIImage?>) {
         _isCoordinatorShown = isShown
         _imageInCoordinator = image
+        _imageUI = image2
         
     }
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let unwrapImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        unwrapImage.accessibilityFrame = CGRect(x: 0, y: 0, width: 50, height: 50)
+       imageUI = unwrapImage
         imageInCoordinator = Image(uiImage: unwrapImage)
         isCoordinatorShown = false
     }
@@ -30,6 +30,4 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         isCoordinatorShown = false
     }
-
-
 }

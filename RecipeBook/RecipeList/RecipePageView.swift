@@ -28,7 +28,7 @@ struct RecipePageView: View {
                                 
                             } icon: {
                                 if mealTypes[number].wrappedType != ""{
-                                Image(mealTypes[number].wrappedType)
+                                    Image(mealTypes[number].wrappedTypeImage)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: geo.size.height * 0.1, height: geo.size.height * 0.1)
@@ -46,9 +46,7 @@ struct RecipePageView: View {
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
-                .navigationBarTitle("RECIPES", displayMode: .inline)
-                .navigationBarColor(UIColorReference.specialGreen)
-
+                .navigationBarTitle(NSLocalizedStringFunc(key:"RECIPES"), displayMode: .inline)
             }
             .onAppear{
                 hasChanged = true
@@ -58,6 +56,7 @@ struct RecipePageView: View {
         }
         .background(ColorReference.specialCoral)
         .ignoresSafeArea()
+        .navigationBarColor(UIColorReference.specialGreen)
     }
 }
 

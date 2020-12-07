@@ -21,7 +21,7 @@ struct EnterNewMealType: View {
                     .frame(width: geo.size.height/2.4, height: geo.size.height/2.4)
                     .cornerRadius(25)
                
-                    TextField("Enter New Meal Category", text: $newMealType, onCommit: {
+                    TextField(NSLocalizedStringFunc(key:"Enter New Meal Category"), text: $newMealType, onCommit: {
                         UIApplication.shared.endEditing()
                     })
                     .frame(width: geo.size.height/2.0)

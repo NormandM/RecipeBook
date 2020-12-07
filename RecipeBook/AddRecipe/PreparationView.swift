@@ -17,6 +17,7 @@ struct PreparationView: View {
     @State private var scaningPreparation = false
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
+    @State private var preparationTypedIn = false
     var existingPreparation: String
     var body: some View {
         GeometryReader { geo in
@@ -30,7 +31,7 @@ struct PreparationView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding()
                     if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == ""{
-                        Text("Scan with Camera\n\n\nOr\n\n\nType Preparation directly")
+                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Preparation directly"))
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .font(.title)
@@ -42,7 +43,7 @@ struct PreparationView: View {
                         scaningPreparation = true
                     }, label: {
                         Label(title: {
-                            Text("Scan")
+                            Text(NSLocalizedStringFunc(key:"Scan"))
                                 .foregroundColor(.white)
                                 .font(.headline)
                         }
@@ -75,28 +76,29 @@ struct PreparationView: View {
                 .edgesIgnoringSafeArea(.all)
             }
 
-            .navigationBarTitle("Preparation", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedStringFunc(key:"Preparation"), displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                                     Button(action: {
                                         if scaningPreparation {
+                                            preparationTypedIn = false
                                             self.preparation = recognizedText
                                         }else{
                                             self.preparation = recipePreparation
+                                            preparationTypedIn = false
                                         }
                                         self.presentationMode.wrappedValue.dismiss()
                                     }) {
                                         HStack {
                                             Image(systemName: "chevron.left")
-                                            Text("Back")
+                                            Text(NSLocalizedStringFunc(key:"Back"))
                                         }
                                     })
             
             
             .sheet(isPresented: $showingScanningView) {
                 ScanDocumentView(recognizedText: self.$recognizedText)
-                    .environment(\.managedObjectContext, self.moc)
             }
             .onAppear{
                 if existingPreparation != "" {

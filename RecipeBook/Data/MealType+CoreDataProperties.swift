@@ -18,8 +18,12 @@ extension MealType {
 
     @NSManaged public var id: UUID?
     @NSManaged public var type: String?
+    @NSManaged public var typeImage: String?
     var wrappedType: String {
         type ?? ""
+    }
+    var wrappedTypeImage: String {
+        typeImage ?? ""
     }
 
 }

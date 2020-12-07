@@ -56,46 +56,46 @@ struct NutritionalFactsView: View {
             Text("Amount per Serving")
             }
             Section {
-                TextField("Calories", text: $caloriesRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Calories"), text: $caloriesRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Total Fat", text: $totalFatRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Total Fat"), text: $totalFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Trans Fat", text: $transFatRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Trans Fat"), text: $transFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Saturated Fat", text: $saturatedFatRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Saturated Fat"), text: $saturatedFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Cholesterol", text: $cholesterolRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Cholesterol"), text: $cholesterolRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Sodium", text: $sodiumRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Sodium"), text: $sodiumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Carbohydrate", text: $carbohydrateRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Carbohydrate"), text: $carbohydrateRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Sugar", text: $sugarRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Sugar"), text: $sugarRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Protein", text: $proteinRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Protein"), text: $proteinRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
 
             }
             Section {
-                TextField("Vitamin D", text: $vitaminDRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Vitamin D"), text: $vitaminDRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Calcium", text: $calciumRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Calcium"), text: $calciumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Iron", text: $ironRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Iron"), text: $ironRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
-                TextField("Potassium", text: $potassiumRecipe, onCommit: {
+                TextField(NSLocalizedStringFunc(key:"Potassium"), text: $potassiumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
 
@@ -142,7 +142,7 @@ struct NutritionalFactsView: View {
                 sugarRecipe = existingSugarRecipe
             }
         }
-        .navigationBarTitle("Nutrition Facts", displayMode: .inline)
+        .navigationBarTitle(NSLocalizedStringFunc(key:"Nutrition Facts"), displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
@@ -164,7 +164,7 @@ struct NutritionalFactsView: View {
           }) {
             HStack {
               Image(systemName: "chevron.left")
-              Text("Back")
+                Text(NSLocalizedStringFunc(key:"Back"))
             }
         })
     }

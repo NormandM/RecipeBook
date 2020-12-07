@@ -20,7 +20,7 @@ struct RecipeDetail: View {
     @State private var showAlertDeleteRecipe = false
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     @State private var arrayMealTypes = [String]()
-    @State private var recipeViews = ["Main","Information", "Nutrition", "Photos"]
+    @State private var recipeViews = [NSLocalizedStringFunc(key:"Main"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Nutrition"), NSLocalizedStringFunc(key:"Photos")]
     @State private var selectorIndex = 0
     var body: some View {
 
@@ -53,7 +53,7 @@ struct RecipeDetail: View {
                     
                 })
                 .pickerStyle(SegmentedPickerStyle())
-                Text("Ingredients")
+                Text(NSLocalizedStringFunc(key:"Ingredients"))
                 ScrollView {
                     Text(recipe.wrappedIngredientf)
                         .padding()
@@ -61,15 +61,15 @@ struct RecipeDetail: View {
 
 
                 }
-                .background(ColorReference.specialCoral)
-                Text("Preparation")
+                .background(Color.white)
+                Text(NSLocalizedStringFunc(key:"Preparation"))
                 ScrollView {
                     Text(recipe.wrappedPreparation)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
 
                 }
-                .background(ColorReference.specialGray)
+                .background(Color.white)
                 Button(action: {
                     showAlertDeleteRecipe = true
                     
@@ -77,7 +77,7 @@ struct RecipeDetail: View {
                     HStack(spacing: 10) {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
-                        Text("Delete Recipe")
+                        Text(NSLocalizedStringFunc(key:"Delete Recipe"))
                             .foregroundColor(.red)
                     }
 
@@ -89,13 +89,13 @@ struct RecipeDetail: View {
                                     Button(action: {
                                         showingAddScreen = true
                                     }) {
-                                        Text("Edit")
+                                        Text(NSLocalizedStringFunc(key:"Edit"))
                                     })
             .padding()
             .background(ColorReference.specialSand)
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarColor(UIColorReference.specialGreen)
-            .navigationBarTitle("Recipe", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe"), displayMode: .inline)
             .onAppear{
                 for meal in mealTypes {
                     arrayMealTypes.append(meal.wrappedType)
@@ -106,9 +106,9 @@ struct RecipeDetail: View {
                 showPhotoScreen = false
             }
             .alert(isPresented: $showAlertDeleteRecipe){
-                Alert(title: Text("Are you sure you want to delete recipe"), message: Text("All recipe information will be lost"), primaryButton: .default(Text("Delete"), action: {
+                Alert(title: Text(NSLocalizedStringFunc(key:"Are you sure you want to delete recipe")), message: Text(NSLocalizedStringFunc(key:"All recipe information will be lost")), primaryButton: .default(Text(NSLocalizedStringFunc(key:"Delete")), action: {
                     deleteRecipe()
-                }), secondaryButton: .default(Text("Keep Recipe"), action: {
+                }), secondaryButton: .default(Text(NSLocalizedStringFunc(key:"Keep Recipe")), action: {
                         showAlertDeleteRecipe = false
                 }))
 
@@ -120,7 +120,6 @@ struct RecipeDetail: View {
     func deleteRecipe() {
         moc.delete(recipe)
         try? moc.save()
-        print("recipe deleted")
         self.presentationMode.wrappedValue.dismiss()
     }
 }

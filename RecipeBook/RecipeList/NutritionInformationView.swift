@@ -18,7 +18,6 @@ struct NutritionInformationView: View {
     
     var body: some View {
         GeometryReader { geo in
-            NavigationView{
                 VStack{
                     Text(title)
                         .multilineTextAlignment(.center)
@@ -28,80 +27,80 @@ struct NutritionInformationView: View {
                     List {
                         Group {
                             HStack {
-                                Text("Calories: ")
+                                Text(NSLocalizedStringFunc(key:"Calories: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedCalories)
                                 }
                             }
                             HStack{
-                                Text("Total Fat: ")
+                                Text(NSLocalizedStringFunc(key:"Total Fat: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedTotalFat)
                                 }
                             }
                             HStack{
-                                Text("Trans Fat: ")
+                                Text(NSLocalizedStringFunc(key:"Trans Fat: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedTransFat)
                                 }
                             }
                             HStack{
-                                Text("Saturated Fat: ")
+                                Text(NSLocalizedStringFunc(key:"Saturated Fat: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedSaturatedFat)
                                 }
                             }
                             HStack{
-                                Text("Colesterol: ")
+                                Text(NSLocalizedStringFunc(key:"Colesterol: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedCholesterol)
                                 }
                             }
                             HStack{
-                                Text("Sodium: ")
+                                Text(NSLocalizedStringFunc(key:"Sodium: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedSodium)
                                 }
                             }
                             HStack{
-                                Text("Carbohydrate: ")
+                                Text(NSLocalizedStringFunc(key:"Carbohydrate: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedCarbohydrate)
                                 }
                             }
                             HStack{
-                                Text("Sugar: ")
+                                Text(NSLocalizedStringFunc(key:"Sugar: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedSugar)
                                 }
                             }
                             HStack{
-                                Text("Protein: ")
+                                Text(NSLocalizedStringFunc(key:"Protein: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedProtein)
                                 }
                             }
                             HStack{
-                                Text("Vitamin D: ")
+                                Text(NSLocalizedStringFunc(key:"Vitamin D: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedVitaminD)
                                 }
                             }
                         }
                             HStack{
-                                Text("Calcium: ")
+                                Text(NSLocalizedStringFunc(key:"Calcium: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedCalcium)
                                 }
                             }
                             HStack{
-                                Text("Iron: ")
+                                Text(NSLocalizedStringFunc(key:"Iron: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedIron)
                                 }
                             }
                             HStack{
-                                Text("Potassium: ")
+                                Text(NSLocalizedStringFunc(key:"Potassium: "))
                                 ForEach(fetchRequest.wrappedValue){recipe in
                                     Text(recipe.wrappedPotassium)
                                 }
@@ -110,13 +109,16 @@ struct NutritionInformationView: View {
                     .frame(alignment: .center)
 
                 }
-                .navigationBarTitle("Nutritional Facts", displayMode: .inline)
-                .navigationBarColor(UIColorReference.specialGreen)
-                .background(ColorReference.specialSand)
-                .edgesIgnoringSafeArea(.bottom)
+
                 
             }
-        }
+        .navigationBarTitle(NSLocalizedStringFunc(key:"Nutritional Facts"), displayMode: .inline)
+        .navigationBarColor(UIColorReference.specialGreen)
+        .background(ColorReference.specialSand)
+        .edgesIgnoringSafeArea(.bottom)
+
+
+
     }
 }
 

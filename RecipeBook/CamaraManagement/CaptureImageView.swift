@@ -17,8 +17,8 @@ struct CaptureImageView {
     
     var cameraChosen: Bool
   
-  func makeCoordinator() -> Coordinator {
-    return Coordinator(isShown: $isShown, image: $image, image2: $imageUI)
+  func makeCoordinator() -> Coordinator2 {
+    return Coordinator2(isShown: $isShown, image: $image, image2: $imageUI)
   }
 }
 extension CaptureImageView: UIViewControllerRepresentable {

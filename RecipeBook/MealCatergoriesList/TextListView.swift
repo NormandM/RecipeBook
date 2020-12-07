@@ -9,9 +9,10 @@ import SwiftUI
 
 struct TextListView: View {
     var listText: String
-     init(listText: String) {
+    var listImage: String
+     init(listText: String, listImage: String) {
         self.listText = listText
-        
+        self.listImage = listImage
     }
     var body: some View {
         HStack {
@@ -21,7 +22,7 @@ struct TextListView: View {
                 .listRowBackground(ColorReference.specialSand)
                 .edgesIgnoringSafeArea(.all)
             Spacer()
-            Image(categoryName())
+            Image(categoryImage())
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50.0, height: 50.0)
@@ -30,18 +31,27 @@ struct TextListView: View {
 
     }
     func categoryName() -> String{
-        let category = ["Appetizer", "Bakery", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]
+        let category = [NSLocalizedStringFunc(key:"Appetizer"), NSLocalizedStringFunc(key:"Breakfast"), NSLocalizedStringFunc(key:"Dessert"), NSLocalizedStringFunc(key:"Fish"), NSLocalizedStringFunc(key:"Meat"), NSLocalizedStringFunc(key:"Pasta"), NSLocalizedStringFunc(key:"Poultry"), NSLocalizedStringFunc(key:"Salad"), NSLocalizedStringFunc(key:"Sauce"), NSLocalizedStringFunc(key:"Soup"), NSLocalizedStringFunc(key:"Vegetable"), NSLocalizedStringFunc(key:"Other")]
+
         if category.contains(listText){
             return listText
         }else{
-            return "Other"
+            return NSLocalizedStringFunc(key:"Other")
         }
         
+    }
+    func categoryImage() -> String {
+        let categoryImage = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Vegetable", "Other"]
+        if categoryImage.contains(listImage){
+            return listImage
+        }else{
+            return "Other"
+        }
     }
 }
 
 struct TextListView_Previews: PreviewProvider {
     static var previews: some View {
-        TextListView(listText: "")
+        TextListView(listText: "", listImage: "")
     }
 }

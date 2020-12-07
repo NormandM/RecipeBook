@@ -17,7 +17,7 @@ struct URLFlietTextView: View {
             })
 
             return VStack {
-                TextField("Enter URL", text: binding)
+                TextField(NSLocalizedStringFunc(key:"Enter URL"), text: binding)
             }
 
         }

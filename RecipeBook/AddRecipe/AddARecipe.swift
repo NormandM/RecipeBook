@@ -10,7 +10,6 @@ import CoreData
 struct AddARecipe: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     var fetchRequestRecipe: FetchRequest<Recipe>
@@ -77,7 +76,7 @@ struct AddARecipe: View {
                         HStack {
                             if mealTypes[mealtypeNo].wrappedType != "" {
                             Text("\(mealTypes[mealtypeNo].wrappedType)")
-                            Image(mealTypes[mealtypeNo].wrappedType)
+                            Image(mealTypes[mealtypeNo].wrappedTypeImage)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 50.0, height: 50.0)
@@ -109,7 +108,7 @@ struct AddARecipe: View {
                 }
             }
             Section {
-                TextField("Recipe URl", text: $recipeUrl, onCommit: {
+                TextField("Recipe website address", text: $recipeUrl, onCommit: {
                     UIApplication.shared.endEditing()
                 })
             }
@@ -148,7 +147,6 @@ struct AddARecipe: View {
                     if sugar == "" && isInitialValue {sugar = recipe.wrappedSugar}
                     if data == nil && isInitialValue {
                         data = recipe.wrappedPhoto
-                        print("existingData")
                     }
                     id = recipe.wrappedId
                 }
@@ -224,12 +222,13 @@ struct AddARecipe: View {
             
             UIApplication.shared.endEditing()
         }
-        recipeSaved = true
+        
     }
     func save(recipe: Recipe){
         recipe.chef = self.chef
         recipe.ingredient = self.ingredient
         recipe.type = mealTypes[typeNumber].type
+        recipe.imageName = mealTypes[typeNumber].typeImage
         recipe.name = self.name
         recipe.timeToPrepare = self.timeToPrepare
         recipe.timeToCook = self.timeToCook
@@ -257,7 +256,7 @@ struct AddARecipe: View {
         } catch {
             print("same name")
         }
-        
+        recipeSaved = true
     }
     func formArray(recipes: FetchedResults<Recipe>) {
         for recipe in recipes {

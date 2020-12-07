@@ -4,8 +4,10 @@
 //
 //  Created by Normand Martin on 2020-07-29.
 //
-
+import AVFoundation
 import SwiftUI
+import UIKit
+import Foundation
 
 @available(iOS 14.0, *)
 struct IngredientView: View {
@@ -32,7 +34,7 @@ struct IngredientView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding()
                     if keyboardHandler.keyboardHeight == 0 && recipeIngredient == "" && recognizedText == ""{
-                        Text("Scan with Camera\n\n\nOr\n\n\nType Ingredients directly")
+                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Ingredients directly"))
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .font(.title)
@@ -44,7 +46,7 @@ struct IngredientView: View {
                         scaningIngredient = true
                     }, label: {
                         Label(title: {
-                            Text("Scan")
+                            Text(NSLocalizedStringFunc(key:"Scan"))
                                 .foregroundColor(.white)
                                 .font(.headline)
                         }
@@ -60,7 +62,7 @@ struct IngredientView: View {
                         
                     }, label: {
                         Label(title: {
-                            Text("Write")
+                            Text(NSLocalizedStringFunc(key:"Write"))
                                 .foregroundColor(.white)
                                 .font(.headline)
                         }
@@ -78,7 +80,7 @@ struct IngredientView: View {
                 
             }
 
-            .navigationBarTitle("Ingredients", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedStringFunc(key:"Ingredients"), displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
@@ -92,7 +94,7 @@ struct IngredientView: View {
               }) {
                 HStack {
                   Image(systemName: "chevron.left")
-                  Text("Back")
+                    Text(NSLocalizedStringFunc(key:"Back"))
                 }
             })
             .sheet(isPresented: $showingScanningView) {
@@ -104,8 +106,6 @@ struct IngredientView: View {
                     scaningIngredient = false
                     recipeIngredient = existingIngredient
                 }
-                print("existingIngredient: \(existingIngredient)")
-                
             }
             
         }

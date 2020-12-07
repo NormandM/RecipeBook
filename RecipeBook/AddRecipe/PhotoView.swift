@@ -31,13 +31,14 @@ struct PhotoView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 if image == nil && !showCaptureImageView{
-                    Text("Use the Camera\n\n\nOr\n\n\nChoose an existing Photo")
+                    Text(NSLocalizedStringFunc(key:"Use the Camera\n\n\nOr\n\n\nChoose an existing Photo"))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .font(.title)
                 }
                 if (showCaptureImageView) {
-                    CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)
+
+                        CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)
                 }
             }
             HStack {
@@ -46,7 +47,10 @@ struct PhotoView: View {
                         self.cameraChosen = false
                     }, label: {
                         Label(title: {
-                            Text("Select Photo")
+                            Text(NSLocalizedStringFunc(key:"Select Photo"))
+                                .multilineTextAlignment(.center)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
                                 .foregroundColor(.white)
                                 .font(.headline)
                         }
@@ -64,7 +68,10 @@ struct PhotoView: View {
                         self.cameraChosen = true
                     }, label: {
                         Label(title: {
-                            Text("Take Picture")
+                            Text(NSLocalizedStringFunc(key:"Take Picture"))
+                                .multilineTextAlignment(.center)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
                                 .foregroundColor(.white)
                                 .font(.headline)
                         }
@@ -83,7 +90,6 @@ struct PhotoView: View {
         }
         .onAppear{
             if existingdata != Data() {
-                print("existingdata")
                 showCaptureImageView = false
                 cameraChosen = false
                 data = existingdata
@@ -97,11 +103,7 @@ struct PhotoView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
-                                    print("data processed")
-                                    
-                                        print("There is no data")
                                     data = imageUI?.jpegData(compressionQuality: 1.0)
-                                    
                                     if data != Data() {
                                         print("There is data")
                                     }
@@ -109,7 +111,7 @@ struct PhotoView: View {
                                 }) {
                                     HStack {
                                         Image(systemName: "chevron.left")
-                                        Text("Back")
+                                        Text(NSLocalizedStringFunc(key:"Back"))
                                     }
                                 })
         

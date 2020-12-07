@@ -21,6 +21,8 @@ extension Recipe {
     @NSManaged public var ingredient: String?
     @NSManaged public var name: String?
     @NSManaged public var photo: Data?
+    @NSManaged public var pdfPreparation: Data?
+    @NSManaged public var pdfIngredient: Data?
     @NSManaged public var preparation: String?
     @NSManaged public var rating: Int16
     @NSManaged public var servings: String?
@@ -41,9 +43,10 @@ extension Recipe {
     @NSManaged public var transFat : String?
     @NSManaged public var vitaminD : String?
     @NSManaged public var sugar : String?
+    @NSManaged public var imageName: String?
     
     var wrappedChef: String {
-        chef ?? "Unknown"
+        chef ?? ""
     }
     var wrappedIngredientf: String {
         ingredient ?? ""
@@ -51,14 +54,23 @@ extension Recipe {
     var wrappedName: String {
         name ?? ""
     }
+    var wrappedImageName: String {
+        imageName ?? ""
+    }
     var wrappedPreparation: String {
         preparation ?? ""
     }
     var wrappedType: String {
-        type ?? "Other"
+        type ?? NSLocalizedStringFunc(key:"Other")
     }
     var wrappedPhoto: Data {
         photo ?? Data()
+    }
+    var wrappedPdfPreparation: Data{
+        pdfPreparation ?? Data()
+    }
+    var wrappedPdfIngredient: Data{
+        pdfIngredient ?? Data()
     }
     var wrappedrecipeURLAdress: String {
         recipeURLAdress ?? ""

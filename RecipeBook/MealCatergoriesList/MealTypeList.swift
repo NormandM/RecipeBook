@@ -15,7 +15,7 @@ struct MealTypeList: View {
     @State private var newMealType = ""
     @State private var enterNewMealTypeVisible = false
     @State private var textFieldChanged = false
-    @State private var textFieldPlaceHolder = "Enter New Meal Category"
+    @State private var textFieldPlaceHolder = NSLocalizedStringFunc(key:"Enter New Meal Category")
     @State private var arrayMealTypes = [String]()
     @State private var showAlertSameName = false
     var body: some View {
@@ -26,12 +26,12 @@ struct MealTypeList: View {
                     }else{
                         List {
                             ForEach(mealTypes) { mealType in
-                                TextListView(listText: mealType.wrappedType)
+                                TextListView(listText: mealType.wrappedType, listImage: mealType.wrappedTypeImage)
                             }
                             .onDelete(perform: removeMealTypes)
                         }
                         .blur(radius: enterNewMealTypeVisible  ?  75 : 0.0)
-                        .navigationBarTitle("Edit List", displayMode: .inline)
+                        .navigationBarTitle(NSLocalizedStringFunc(key:"Edit List"), displayMode: .inline)
                         .navigationBarColor(UIColorReference.specialGreen)
                         .navigationBarItems(leading: HStack {
                             EditButton()
@@ -39,14 +39,14 @@ struct MealTypeList: View {
                             Spacer()
                             Button(action: {
                             enterNewMealTypeVisible = true
-                            textFieldPlaceHolder = "Enter New Meal Category"
+                                textFieldPlaceHolder = NSLocalizedStringFunc(key:"Enter New Meal Category")
                             textFieldChanged = true
                            
                         }) {
-                            Text("Add")
+                                Text(NSLocalizedStringFunc(key:"Add"))
                             }
                         }, trailing:
-                            Button("Save"){
+                            Button(NSLocalizedStringFunc(key:"Save")){
                                 if textFieldChanged && !checkForSameName() {
                                     UIApplication.shared.endEditing()
                                     enterNewMealTypeVisible = false
@@ -67,60 +67,68 @@ struct MealTypeList: View {
                 
                     .zIndex(-0.5)
                 .onAppear{
-                    for meal in mealTypes {
-                        arrayMealTypes.append(meal.wrappedType)
-                        print(meal.wrappedType)
-                    }
-                    print(arrayMealTypes.count)
-                    if arrayMealTypes.count == 0 {
-                        print("first lauch")
-                        UserDefaults.standard.set(true, forKey: "First Lauch")
-                        let newMealCategory = MealType(context: self.moc)
-                        newMealCategory.id = UUID()
-                        newMealCategory.type = "Appetizer"
-                        let newMealCategory1 = MealType(context: self.moc)
-                        newMealCategory1.id = UUID()
-                        newMealCategory1.type = "Bakery"
-                        let newMealCategory2 = MealType(context: self.moc)
-                        newMealCategory2.id = UUID()
-                        newMealCategory2.type = "Breakfast"
-                        let newMealCategory3 = MealType(context: self.moc)
-                        newMealCategory3.id = UUID()
-                        newMealCategory3.type = "Dessert"
-                        let newMealCategory4 = MealType(context: self.moc)
-                        newMealCategory4.id = UUID()
-                        newMealCategory4.type = "Fish"
-                        let newMealCategory5 = MealType(context: self.moc)
-                        newMealCategory5.id = UUID()
-                        newMealCategory5.type = "Meat"
-                        let newMealCategory6 = MealType(context: self.moc)
-                        newMealCategory6.id = UUID()
-                        newMealCategory6.type = "Other"
-                        let newMealCategory7 = MealType(context: self.moc)
-                        newMealCategory7.id = UUID()
-                        newMealCategory7.type = "Pasta"
-                        let newMealCategory8 = MealType(context: self.moc)
-                        newMealCategory8.id = UUID()
-                        newMealCategory8.type = "Poultry"
-                        let newMealCategory9 = MealType(context: self.moc)
-                        newMealCategory9.id = UUID()
-                        newMealCategory9.type = "Salad"
-                        let newMealCategory10 = MealType(context: self.moc)
-                        newMealCategory10.id = UUID()
-                        newMealCategory10.type = "Sauce"
-                        let newMealCategory11 = MealType(context: self.moc)
-                        newMealCategory11.id = UUID()
-                        newMealCategory11.type = "Soup"
-                        let newMealCategory12 = MealType(context: self.moc)
-                        newMealCategory12.id = UUID()
-                        newMealCategory12.type = "Vegetable"
-                        try? self.moc.save()
-                    }
+//                    for meal in mealTypes {
+//                        arrayMealTypes.append(meal.wrappedType)
+//                        print(meal.wrappedType)
+//                    }
+//                    print(arrayMealTypes.count)
+//                    if arrayMealTypes.count == 0 {
+//                        UserDefaults.standard.set(true, forKey: "First Lauch")
+//                        let newMealCategory = MealType(context: self.moc)
+//                        newMealCategory.id = UUID()
+//                        newMealCategory.type = NSLocalizedStringFunc(key:"Appetizer")
+//                        newMealCategory.typeImage = "Appetizer"
+//                        let newMealCategory2 = MealType(context: self.moc)
+//                        newMealCategory2.id = UUID()
+//                        newMealCategory2.type = NSLocalizedStringFunc(key:"Breakfast")
+//                        newMealCategory2.typeImage = "Breakfast"
+//                        let newMealCategory3 = MealType(context: self.moc)
+//                        newMealCategory3.id = UUID()
+//                        newMealCategory3.type = NSLocalizedStringFunc(key:"Dessert")
+//                        newMealCategory3.typeImage = "Dessert"
+//                        let newMealCategory4 = MealType(context: self.moc)
+//                        newMealCategory4.id = UUID()
+//                        newMealCategory4.type = NSLocalizedStringFunc(key:"Fish")
+//                        newMealCategory4.typeImage = "Fish"
+//                        let newMealCategory5 = MealType(context: self.moc)
+//                        newMealCategory5.id = UUID()
+//                        newMealCategory5.type = NSLocalizedStringFunc(key:"Meat")
+//                        newMealCategory5.typeImage = "Meat"
+//                        let newMealCategory6 = MealType(context: self.moc)
+//                        newMealCategory6.id = UUID()
+//                        newMealCategory6.type = NSLocalizedStringFunc(key:"Other")
+//                        newMealCategory6.typeImage = "Other"
+//                        let newMealCategory7 = MealType(context: self.moc)
+//                        newMealCategory7.id = UUID()
+//                        newMealCategory7.type = NSLocalizedStringFunc(key:"Pasta")
+//                        newMealCategory7.typeImage = "Pasta"
+//                        let newMealCategory8 = MealType(context: self.moc)
+//                        newMealCategory8.id = UUID()
+//                        newMealCategory8.type = NSLocalizedStringFunc(key:"Poultry")
+//                        newMealCategory8.typeImage = "Poultry"
+//                        let newMealCategory9 = MealType(context: self.moc)
+//                        newMealCategory9.id = UUID()
+//                        newMealCategory9.type = NSLocalizedStringFunc(key:"Salad")
+//                        newMealCategory9.typeImage = "Salad"
+//                        let newMealCategory10 = MealType(context: self.moc)
+//                        newMealCategory10.id = UUID()
+//                        newMealCategory10.type = NSLocalizedStringFunc(key:"Sauce")
+//                        newMealCategory10.typeImage = "Sauce"
+//                        let newMealCategory11 = MealType(context: self.moc)
+//                        newMealCategory11.id = UUID()
+//                        newMealCategory11.type = NSLocalizedStringFunc(key:"Soup")
+//                        newMealCategory11.typeImage = "Soup"
+//                        let newMealCategory12 = MealType(context: self.moc)
+//                        newMealCategory12.id = UUID()
+//                        newMealCategory12.type = NSLocalizedStringFunc(key:"Vegetable")
+//                        newMealCategory12.typeImage = "Vegetable"
+//                        try? self.moc.save()
+//                    }
                     
                 }
                 .edgesIgnoringSafeArea(.bottom)
                 .alert(isPresented: $showAlertSameName) {
-                    Alert(title: Text("This category alerady exist"), dismissButton: .default(Text("Ok")))
+                    Alert(title: Text(NSLocalizedStringFunc(key:"This category alerady exist")), dismissButton: .default(Text(NSLocalizedStringFunc(key:"Ok"))))
                 }
     }
     func removeMealTypes(at offsets: IndexSet) {

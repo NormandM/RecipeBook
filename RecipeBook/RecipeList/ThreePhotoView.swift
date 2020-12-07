@@ -28,7 +28,7 @@ struct ThreePhotoView: View {
                     )
                     .zIndex(1)
             }else{
-                Image("LEARNFROMTIMELINE")
+                Image("IconeRecipe")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .border(Color.black, width: 1)
@@ -37,7 +37,7 @@ struct ThreePhotoView: View {
                 
             }
         }
-        .navigationBarTitle("Phtos", displayMode: .inline)
+        .navigationBarTitle(NSLocalizedStringFunc(key:"Photos"), displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .background(ColorReference.specialSand)
         .edgesIgnoringSafeArea(.bottom)
