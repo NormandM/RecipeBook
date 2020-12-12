@@ -25,6 +25,8 @@ struct AddARecipe: View {
     var array : Array<Int> = [0,1,2,3,4,5,6,7,8,9,10,11,12]
     @State private var data: Data?
     @State private var existingData = Data()
+    @State private var preparationPdf = Data()
+    @State private var existingPreparationPdf = Data()
     @State private var chef = ""
     @State private var timeToPrepare = ""
     @State private var timeToCook = ""
@@ -100,7 +102,7 @@ struct AddARecipe: View {
                 NavigationLink(destination: IngredientView(ingredient: $ingredient, existingIngredient: ingredient, isInitialValue: $isInitialValue)){
                     Text("Ingredients")
                 }.buttonStyle(PlainButtonStyle())
-                NavigationLink(destination: PreparationView(preparation: $preparation, existingPreparation: preparation)){
+                NavigationLink(destination: PreparationView(preparation: $preparation, pdfPreparation: $preparationPdf, existingPreparation: preparation, existingPreparationPdf: existingPreparationPdf)){
                     Text("Preparation")
                 }
                 NavigationLink(destination: PhotoView(data: $data, existingdata: data ?? Data())){

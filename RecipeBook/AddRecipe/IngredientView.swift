@@ -21,6 +21,7 @@ struct IngredientView: View {
     @State private var scaningIngredient = false
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
+    @State private var update = ""
     var body: some View {
         GeometryReader{ geo in
             
@@ -98,7 +99,7 @@ struct IngredientView: View {
                 }
             })
             .sheet(isPresented: $showingScanningView) {
-                ScanDocumentView(recognizedText: self.$recognizedText)
+                ScanDocumentView(update: $update)
                     .environment(\.managedObjectContext, self.moc)
             }
             .onAppear {

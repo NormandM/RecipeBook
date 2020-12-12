@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import PDFKit
 
 @available(iOS 14.0, *)
 struct PreparationView: View {
     @Binding var preparation: String
+    @Binding var pdfPreparation: Data
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @State private var recipePreparation: String = ""
@@ -18,7 +20,11 @@ struct PreparationView: View {
     @State private var showingScanningView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var preparationTypedIn = false
+    let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     var existingPreparation: String
+    var existingPreparationPdf: Data
+   // var pdfView = PdfViewUI()
+    @State private var update = ""
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -26,16 +32,34 @@ struct PreparationView: View {
                 ZStack {
                     ColorReference.specialSand
                         .edgesIgnoringSafeArea(.all)
-                    TextEditor( text: scaningPreparation ? $recognizedText : $recipePreparation)
-                        .border(Color.black, width: 1)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding()
-                    if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == ""{
-                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Preparation directly"))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .font(.title)
+//                    Image(uiImage: drawPDFfromURL(url: documentDirectory.appendingPathComponent("Preparation.pdf")) ?? UIImage(imageLiteralResourceName: "LEARNFROMTIMELINE"))
+//                              .resizable()
+//                              .frame(width: 300, height: 300, alignment: .center)
+                    VStack {
+                        Text(update)
+                        PdfViewUI(update: update)
                     }
+                    
+//                    if showingScanningView {
+//                        HStack{
+//                            pdfView
+//                                .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.7, alignment: .center)
+//                                .opacity(scaningPreparation ? 1.0 : 0.0)
+//                        }
+//                    }else{
+//                        TextEditor( text: $recipePreparation)
+//                            .border(Color.black, width: 1)
+//                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                            .padding()
+//
+//                    }
+//
+//                    if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == ""{
+//                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Preparation directly"))
+//                            .multilineTextAlignment(.center)
+//                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+//                            .font(.title)
+//                    }
                 }
                 HStack {
                     Button(action: {
@@ -83,7 +107,9 @@ struct PreparationView: View {
                                     Button(action: {
                                         if scaningPreparation {
                                             preparationTypedIn = false
-                                            self.preparation = recognizedText
+                                            let docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
+                                            pdfPreparation =  PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
+                                            
                                         }else{
                                             self.preparation = recipePreparation
                                             preparationTypedIn = false
@@ -97,24 +123,27 @@ struct PreparationView: View {
                                     })
             
             
-            .sheet(isPresented: $showingScanningView) {
-                ScanDocumentView(recognizedText: self.$recognizedText)
+            .sheet(isPresented: $showingScanningView, onDismiss:{
+                print("wasdismissed")
+            }) {
+                ScanDocumentView(update: $update)
             }
-            .onAppear{
-                if existingPreparation != "" {
-                    scaningPreparation = false
-                    recipePreparation = existingPreparation
-                }
-                
-            }
+
             
+        }
+        .onAppear{
+            print("appear")
+            if existingPreparation != "" {
+                scaningPreparation = false
+                recipePreparation = existingPreparation
+            }
         }
     }
 }
 
-@available(iOS 14.0, *)
-struct PreparationView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreparationView(preparation: .constant(""), existingPreparation: "")
-    }
-}
+//@available(iOS 14.0, *)
+//struct PreparationView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PreparationView(preparation: .constant(""), existingPreparation: "", pdfView: <#PdfViewUI#>)
+//    }
+//}
