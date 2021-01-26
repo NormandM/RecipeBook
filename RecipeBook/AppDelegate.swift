@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "RecipeBook")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -42,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
-   //     container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return container
     }()
 
@@ -61,6 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
+
 

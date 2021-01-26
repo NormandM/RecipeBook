@@ -10,61 +10,54 @@ import SwiftUI
 struct RecipePageView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
-    @FetchRequest(entity: MealType.entity(), sortDescriptors: []) var mealTypes: FetchedResults<MealType>
-    @State private var hasChanged = false
+    var mealTypes: FetchedResults<MealType>
     var body: some View {
         GeometryReader { geo in
             ZStack{
-                TabView {
-                    ForEach (0 ..< mealTypes.count) { number in
-                        VStack {
-                            Label {
-                                Text(mealTypes[number].wrappedType)
-                                    .foregroundColor(.primary)
-                                    .font(.largeTitle)
-                                    .padding()
-                                Text(hasChanged ? "" : "")
-                                
-                                
-                            } icon: {
-                                if mealTypes[number].wrappedType != ""{
-                                    Image(mealTypes[number].wrappedTypeImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: geo.size.height * 0.1, height: geo.size.height * 0.1)
-                                    .padding()
+                GeometryReader { geo in
+                    TabView {
+                        ForEach (0 ..< mealTypes.count) { number in
+                            VStack {
+                                Label {
+                                    Text(NSLocalizedStringFunc(key:mealTypes[number].wrappedType))
+                                        .foregroundColor(.primary)
+                                        .font(.largeTitle)
+                                        .padding()
+                                } icon: {
+                                    if mealTypes[number].wrappedType != ""{
+                                        Image(mealTypes[number].wrappedType)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: geo.size.height * 0.1, height: geo.size.height * 0.1)
+                                            .padding()
+                                    }
                                 }
-                            }
-                            .labelStyle(CustomLabelStyle())
-                            .frame(width: geo.size.width, height: geo.size.height * 0.1)
-                            
-                            List{
-                                FilteredrecipeListView(filter: mealTypes[number].wrappedType)
-                                    .environment(\.managedObjectContext, self.moc)
+                                .labelStyle(CustomLabelStyle())
+                                .frame(width: geo.size.width, height: geo.size.height * 0.1)
+                                List{
+                                    FilteredrecipeListView(filter: mealTypes[number].wrappedType)
+                                        .environment(\.managedObjectContext, self.moc)
+                                }
+                                .edgesIgnoringSafeArea(.all)
                             }
                         }
                     }
+                    .tabViewStyle(PageTabViewStyle())
+                    .navigationBarTitle(NSLocalizedStringFunc(key:"Rrecipes"), displayMode: .inline)
                 }
-                .tabViewStyle(PageTabViewStyle())
-                .navigationBarTitle(NSLocalizedStringFunc(key:"RECIPES"), displayMode: .inline)
-            }
-            .onAppear{
-                hasChanged = true
-                UITableView.appearance().backgroundColor = UIColor.clear
-                UITableViewCell.appearance().backgroundColor = UIColor.clear
+                .onAppear{
+                    UITableView.appearance().backgroundColor = UIColor.clear
+                    UITableViewCell.appearance().backgroundColor = UIColor.clear
+                }
             }
         }
         .background(ColorReference.specialCoral)
-        .ignoresSafeArea()
         .navigationBarColor(UIColorReference.specialGreen)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 
-struct RecipePageView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipePageView()
-    }
-}
+
 struct CustomLabelStyle: LabelStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {

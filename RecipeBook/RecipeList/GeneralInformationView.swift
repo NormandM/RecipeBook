@@ -11,6 +11,7 @@ struct GeneralInformationView: View {
     @Environment(\.managedObjectContext) var moc
     var fetchRequest: FetchRequest<Recipe>
     var title: String
+    @State private var recipeName = ""
     @State private var recipeType = ""
     @State private var imageName = ""
     @State private var chef = ""
@@ -19,6 +20,7 @@ struct GeneralInformationView: View {
     @State private var calories = ""
     @State private var timeToPrepare = ""
     @State private var timeToCook = ""
+    @State private var recipeViews = [NSLocalizedStringFunc(key:"Main"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Ingredients"), NSLocalizedStringFunc(key:"Preparation")]
     var recipeURLAdress: String
     @GestureState var scale: CGFloat = 1.0
     @State private var image: Image?
@@ -27,8 +29,6 @@ struct GeneralInformationView: View {
         self.title = filter
         self.recipeURLAdress = recipeURLAdress
     }
-    
-    
     var body: some View {
         GeometryReader{ geo in
                 VStack {
@@ -38,11 +38,12 @@ struct GeneralInformationView: View {
                         .padding(.leading)
                         .padding(.trailing)
                     List{
+                        Section(header: SectionHeader(text: NSLocalizedStringFunc(key: "Basic Information"))) {
                         HStack {
-                            Text(NSLocalizedStringFunc(key:"Categorie: "))
+                            Text(NSLocalizedStringFunc(key:"Category: "))
                             VStack {
                                 Label {
-                                    Text(recipeType)
+                                    Text(NSLocalizedStringFunc(key:recipeType))
                                 } icon: {
                                     Image(imageName)
                                         .resizable()
@@ -52,6 +53,7 @@ struct GeneralInformationView: View {
                                 }
                                 .labelStyle(CustomLabelStyle())
                             }
+                        }
                         }
                         HStack {
                             Text(NSLocalizedStringFunc(key:"Chef: "))
@@ -64,10 +66,6 @@ struct GeneralInformationView: View {
                             Text(NSLocalizedStringFunc(key:"Servings"))
                             Text(servings)
                         }
-                        HStack {
-                            Text(NSLocalizedStringFunc(key:"Calories per Serving"))
-                            Text(calories)
-                        }
                         
                         HStack{
                             Text(NSLocalizedStringFunc(key:"Preparation Time: "))
@@ -75,17 +73,100 @@ struct GeneralInformationView: View {
                         
                         }
                         HStack{
-                            Text(NSLocalizedStringFunc(key:"Cooking Time: "))
+                            Text(NSLocalizedStringFunc(key:"Cooking time: "))
                             Text(timeToCook)
                         }
                         HStack {
-                            Text(NSLocalizedStringFunc(key:"Recipe website address: "))
+                            Text(NSLocalizedStringFunc(key:"Website: "))
                             if recipeURLAdress == "" {
-                                Text(NSLocalizedStringFunc(key:"This recipe is not from the web"))
+                                Text("")
                             }else{
                                 Link(recipeURLAdress, destination: URL(string: recipeURLAdress)!)
                             }
 
+                        }
+                        Section(header: SectionHeader(text: "Nutrition")) {
+                            Group {
+                                HStack {
+                                    Text(NSLocalizedStringFunc(key:"Calories: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedCalories)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Total Fat: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedTotalFat)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Trans Fat: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedTransFat)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Saturated Fat: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedSaturatedFat)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Cholesterol: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedCholesterol)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Sodium: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedSodium)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Carbohydrate: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedCarbohydrate)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Sugar: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedSugar)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Protein: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedProtein)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Vitamin D: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedVitaminD)
+                                    }
+                                }
+                            }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Calcium: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedCalcium)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Iron: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedIron)
+                                    }
+                                }
+                                HStack{
+                                    Text(NSLocalizedStringFunc(key:"Potassium: "))
+                                    ForEach(fetchRequest.wrappedValue){recipe in
+                                        Text(recipe.wrappedPotassium)
+                                    }
+                                }
+                            
                         }
                         
                     }
@@ -94,8 +175,8 @@ struct GeneralInformationView: View {
                     
                 }
                 .onAppear{
-                    print(fetchRequest.wrappedValue)
                     for recipes in fetchRequest.wrappedValue {
+                        recipeName = recipes.wrappedName
                         recipeType = recipes.wrappedType
                         imageName = recipes.wrappedImageName
                         chef = recipes.wrappedChef
@@ -108,7 +189,7 @@ struct GeneralInformationView: View {
                     }
                 }
                 
-                .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe Facts"), displayMode: .inline)
+                .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe Info"), displayMode: .inline)
                 .navigationBarColor(UIColorReference.specialGreen)
                 .background(ColorReference.specialSand)
                 .edgesIgnoringSafeArea(.bottom)
@@ -117,8 +198,8 @@ struct GeneralInformationView: View {
     }
 }
 
-struct GeneralInformationView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeneralInformationView(filter: "", recipeURLAdress: "")
-    }
-}
+//struct GeneralInformationView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeneralInformationView(filter: "", recipeURLAdress: "")
+//    }
+//}

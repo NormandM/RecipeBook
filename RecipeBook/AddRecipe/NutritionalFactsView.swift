@@ -10,6 +10,7 @@ import SwiftUI
 struct NutritionalFactsView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var savedValue: SavedValue
     @Binding var calcium: String
     @Binding var calories: String
     @Binding var carbohydrate: String
@@ -59,29 +60,56 @@ struct NutritionalFactsView: View {
                 TextField(NSLocalizedStringFunc(key:"Calories"), text: $caloriesRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: caloriesRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Total Fat"), text: $totalFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: totalFatRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
                 TextField(NSLocalizedStringFunc(key:"Trans Fat"), text: $transFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: transFatRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Saturated Fat"), text: $saturatedFatRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: saturatedFatRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
                 TextField(NSLocalizedStringFunc(key:"Cholesterol"), text: $cholesterolRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: cholesterolRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Sodium"), text: $sodiumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: sodiumRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
                 TextField(NSLocalizedStringFunc(key:"Carbohydrate"), text: $carbohydrateRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: carbohydrateRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Sugar"), text: $sugarRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: sugarRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Protein"), text: $proteinRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: proteinRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
 
             }
@@ -89,14 +117,26 @@ struct NutritionalFactsView: View {
                 TextField(NSLocalizedStringFunc(key:"Vitamin D"), text: $vitaminDRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: vitaminDRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Calcium"), text: $calciumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: calciumRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
                 TextField(NSLocalizedStringFunc(key:"Iron"), text: $ironRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: ironRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField(NSLocalizedStringFunc(key:"Potassium"), text: $potassiumRecipe, onCommit: {
                     UIApplication.shared.endEditing()
+                })
+                .onChange(of: potassiumRecipe, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
 
             }
@@ -142,7 +182,7 @@ struct NutritionalFactsView: View {
                 sugarRecipe = existingSugarRecipe
             }
         }
-        .navigationBarTitle(NSLocalizedStringFunc(key:"Nutrition Facts"), displayMode: .inline)
+        .navigationBarTitle(NSLocalizedStringFunc(key:"Nutritional Infos"), displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:

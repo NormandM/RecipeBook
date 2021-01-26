@@ -10,6 +10,7 @@ import CoreData
 struct AddARecipe: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var savedValue: SavedValue
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     var fetchRequestRecipe: FetchRequest<Recipe>
@@ -17,6 +18,7 @@ struct AddARecipe: View {
     @State private var typeNumber: Int
     @State private var servings = ""
     @State private var isInitialValue = true
+    @State private var showAlertRecipeNotSaved = false
     init(filter: String, isNewRecipe: Bool, typeNumber: Int){
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "name == %@", filter))
         self._isNewRecipe = State(initialValue: isNewRecipe)
@@ -26,7 +28,9 @@ struct AddARecipe: View {
     @State private var data: Data?
     @State private var existingData = Data()
     @State private var preparationPdf = Data()
+    @State private var ingredientPdf = Data()
     @State private var existingPreparationPdf = Data()
+    @State private var existingIngredientPdf = Data()
     @State private var chef = ""
     @State private var timeToPrepare = ""
     @State private var timeToCook = ""
@@ -48,79 +52,122 @@ struct AddARecipe: View {
     @State private var vitaminD = ""
     @State private var sugar = ""
     @State private var id = UUID()
-    @State private var recipeSaved = false
     @State private var showAlertSameName = false
     @State private var showAlertNoName = false
-    @State private var showAlertRecipeNotSaved = false
     @State private var recipeUrl = ""
     @State private var arrayName = [String]()
     @State private var arrayId = [UUID]()
-    @State private var newRecipe = Recipe()
+    @State private var currentRecipe: Recipe?
+    @State private var showAlerts = false
+    @State private var activeAlert: ActiveAlert = ActiveAlert.showAlertRecipeNotSaved
     var body: some View {
         Form {
             Section {
                 TextField("Name of recipe", text: $name, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: name, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 TextField("Name of Chef", text: $chef, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: chef, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+
                 TextField("Preparation Time", text: $timeToPrepare, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: timeToPrepare, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+
                 TextField("Cooking Time", text: $timeToCook, onCommit: {
                     UIApplication.shared.endEditing()
                 })
+                .onChange(of: timeToCook, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+
+                TextField("Servings", text: $servings, onCommit: {
+                    UIApplication.shared.endEditing()
+                })
+                .onChange(of: servings, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 
-                
+                Section {
+                    TextField("Recipe website address", text: $recipeUrl, onCommit: {
+                        UIApplication.shared.endEditing()
+                    })
+                    .onChange(of: recipeUrl, perform: { newValue in
+                        savedValue.recipeSaved = false
+                    })
+                    
+                }
                 Picker("Category: ", selection: $typeNumber){
                     ForEach(0 ..< mealTypes.count){mealtypeNo in
                         HStack {
                             if mealTypes[mealtypeNo].wrappedType != "" {
-                            Text("\(mealTypes[mealtypeNo].wrappedType)")
-                            Image(mealTypes[mealtypeNo].wrappedTypeImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50.0, height: 50.0)
+                                Text( NSLocalizedStringFunc(key:"\(mealTypes[mealtypeNo].wrappedType)"))
+                                    .font(.subheadline)
+                                Image(mealTypes[mealtypeNo].wrappedTypeImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50.0, height: 50.0)
                             }
-
+                            
                         }
-                        
+                        .onChange(of: mealtypeNo, perform: { newValue in
+                            savedValue.recipeSaved = false
+                        })
                     }
+                    
                 }
-
                 RatingView(rating: $rating, isInteractif: true)
-                TextField("Servings", text: $servings, onCommit: {
-                    UIApplication.shared.endEditing()
-                })
-                
             }
             Section {
                 NavigationLink(destination: NutritionalFactsView(calcium: $calcium, calories: $calories, carbohydrate: $carbohydrate, cholesterol: $cholesterol, iron: $iron, potassium: $potassium, protein: $protein, saturatedFat: $saturatedFat, sodium: $sodium, totalFat: $totalFat, transFat: $transFat, vitaminD: $vitaminD, sugar: $sugar,existingcalciumRecipe: calcium,existingCaloriesRecipe: calories, existingCarbohydrateRecipe: carbohydrate, existingCholesterolRecipe: cholesterol, existingIronRecipe: iron, existingPotassiumRecipe: potassium, existingProteinRecipe: protein, existingSaturatedFatRecipe: saturatedFat, existingSodiumRecipe: sodium, existingTotalFatRecipe: totalFat, existingTransFatRecipe: transFat, existingVitaminDRecipe: vitaminD, existingSugarRecipe: sugar)){
-                    Text("Nutrition Facts")
+                    Text("Nutritional Infos")
                 }
-                NavigationLink(destination: IngredientView(ingredient: $ingredient, existingIngredient: ingredient, isInitialValue: $isInitialValue)){
+                NavigationLink(destination: IngredientView(ingredient: $ingredient,  pdfIngredient: $ingredientPdf, existingIngredient: ingredient, existingIngredientPdf: ingredientPdf)){
                     Text("Ingredients")
                 }.buttonStyle(PlainButtonStyle())
-                NavigationLink(destination: PreparationView(preparation: $preparation, pdfPreparation: $preparationPdf, existingPreparation: preparation, existingPreparationPdf: existingPreparationPdf)){
+                .onChange(of: ingredientPdf, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+                .onChange(of: ingredient, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+                
+                
+                NavigationLink(destination: PreparationView(preparation: $preparation, pdfPreparation: $preparationPdf, existingPreparation: preparation, existingPreparationPdf: preparationPdf)){
                     Text("Preparation")
                 }
+                .onChange(of: preparation, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
+                .onChange(of: preparationPdf, perform: { newValue in
+                    savedValue.recipeSaved = false
+                })
                 NavigationLink(destination: PhotoView(data: $data, existingdata: data ?? Data())){
                     Text("Photo")
                 }
-            }
-            Section {
-                TextField("Recipe website address", text: $recipeUrl, onCommit: {
-                    UIApplication.shared.endEditing()
+                .onChange(of: data, perform: { newValue in
+                    savedValue.recipeSaved = false
                 })
             }
+            .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         }
+ 
 
         .onAppear{
-            print(servings)
-            print(typeNumber)
+            savedValue.recipeSaved = true
+            savedValue.noChangesMade = true
+     //       recipeSaved = false
+            showAlerts = false
             for recipe in fetchRequestRecipe.wrappedValue{
-
                 if recipe.wrappedName != "" {
                     name = recipe.wrappedName
                     chef = recipe.wrappedChef
@@ -129,11 +176,10 @@ struct AddARecipe: View {
                     timeToCook = recipe.wrappedTimeToPrepare
                     rating = Int(recipe.rating)
                     recipeUrl = recipe.wrappedrecipeURLAdress
-                    if ingredient == "" && isInitialValue {
-                        ingredient = recipe.wrappedIngredientf
-                        print("ingredient: \(ingredient)")
-                    }
+                    if ingredient == "" && isInitialValue {ingredient = recipe.wrappedIngredient}
                     if preparation == "" && isInitialValue {preparation = recipe.wrappedPreparation}
+                    if preparationPdf == Data() && isInitialValue {preparationPdf = recipe.wrappedPdfPreparation}
+                    if ingredientPdf == Data() && isInitialValue {ingredientPdf = recipe.wrappedPdfIngredient}
                     if calcium == "" && isInitialValue {calcium = recipe.wrappedCalcium}
                     if calories == "" && isInitialValue {calories = recipe.wrappedCalories}
                     if carbohydrate == "" && isInitialValue {carbohydrate = recipe.wrappedCarbohydrate}
@@ -147,84 +193,99 @@ struct AddARecipe: View {
                     if transFat == "" && isInitialValue {transFat = recipe.wrappedTransFat}
                     if vitaminD == "" && isInitialValue {vitaminD = recipe.wrappedVitaminD}
                     if sugar == "" && isInitialValue {sugar = recipe.wrappedSugar}
-                    if data == nil && isInitialValue {
-                        data = recipe.wrappedPhoto
-                    }
+                    if data == nil && isInitialValue {data = recipe.wrappedPhoto}
                     id = recipe.wrappedId
+                    
                 }
             }
         }
-
+        
         .navigationBarTitle("Add a Recipe", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: Button(action: {
-            if !recipeSaved{
-                showAlertRecipeNotSaved = true
-            }else{
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        }, label: {
-            HStack {
-                Image(systemName: "chevron.left")
-                Text("Back")
-            }
-        })
-        .alert(isPresented: $showAlertRecipeNotSaved) {
-            Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("Save"), action: {
-                saveRecipe()
-                self.presentationMode.wrappedValue.dismiss()
-            }), secondaryButton: .default(Text("Do not save"), action: {
-                UIApplication.shared.endEditing()
-                self.presentationMode.wrappedValue.dismiss()
-            }))
-            
-        }
-        ,trailing:
-            Button(action: {
-                saveRecipe()
-            }, label: {
-                Text("Save")
-            })
-            .padding()
-            .alert(isPresented: $showAlertSameName) {
-                Alert(title: Text("Recipe Name already exists"), message: Text("Please choose another name"), dismissButton: .default(Text("Ok")))
-            }
+        .navigationBarItems(leading: isIPhonePresent() ?
+                                ButtonView(showAlerts: $showAlerts, activeAlert: $activeAlert, clearDisk: clearDisk, recipes: recipes, areAllChangesSaved: areAllChangesSaved, sameName: sameName, name: self.name)
+                                .padding()
+                                
+                                : nil
+                            ,trailing:
+                                Button(action: {
+                                    saveRecipe()
+                                }, label: {
+                                    
+                                    Image(systemName: "square.and.arrow.down")
+                                        .font(.title)
+                                })
+                                .padding()
+                            
         )
-        .alert(isPresented: $showAlertNoName) {
-            Alert(title: Text("Recipe has no name"), message: Text("Please choose a name"), dismissButton: .default(Text("Ok")))
+        .alert(isPresented: $showAlerts) {
+            switch activeAlert {
+            case .showAlertRecipeSaved:
+                return Alert(title: Text("Recipe was saved"), message: Text(""), dismissButton: Alert.Button.default(
+                    Text("OK"), action: {
+                //        recipeSaved = false
+                        activeAlert = ActiveAlert.showAlertRecipeNotSaved
+                        showAlerts = false
+                    }
+                ))
+            case .showAlertSameName:
+                return Alert(title: Text("Recipe Name already exists"), message: Text("Please choose another name"), dismissButton: .default(Text("Ok"), action: {
+                    activeAlert = ActiveAlert.showAlertRecipeNotSaved
+                    showAlerts = false
+                }))
+            case .showAlertNoName:
+                return Alert(title: Text("Recipe has no name"), message: Text("Please choose a name"), dismissButton: .default(Text("Ok"), action: {
+                    activeAlert = ActiveAlert.showAlertRecipeNotSaved
+                    showAlerts = false
+                }))
+            case .showAlertRecipeNotSaved:
+                return Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("Save"), action: {
+                    activeAlert = ActiveAlert.showAlertRecipeNotSaved
+                    showAlerts = false
+                    saveRecipe()
+                    clearDisk()
+                    self.presentationMode.wrappedValue.dismiss()
+                }), secondaryButton: .default(Text("Do not save"), action: {
+                    UIApplication.shared.endEditing()
+                    savedValue.recipeSaved = true
+                    self.presentationMode.wrappedValue.dismiss()
+                }))
+            }
         }
-
+        
     }
     func saveRecipe(){
         arrayName = [String]()
-        arrayId = [UUID]()
-        formArray(recipes: recipes)
+        print("a")
         if self.name == ""{
-            showAlertNoName = true
-        }else if arrayId.contains(self.id) && !isNewRecipe{
-            print("exists")
+            print("b")
+            showAlerts = true
+            activeAlert = .showAlertNoName
+        }else if !isNewRecipe{
+            print("c")
             if fetchRequestRecipe.wrappedValue.count != 0 {
+                print("d")
                 let existingRecipe = fetchRequestRecipe.wrappedValue[0]
                 save(recipe: existingRecipe)
+            }else{
+                print("e")
+                save(recipe: currentRecipe!)
+            }
+            
+        }else{
+            activeAlert = sameName(recipes: recipes)
+            
+            if !savedValue.recipeSaved && activeAlert != .showAlertSameName{
+                print("g")
+                currentRecipe = Recipe(context: self.moc)
+                isNewRecipe = false
+                save(recipe: currentRecipe!)
+                UIApplication.shared.endEditing()
             }
 
-        }else if isNewRecipe{
-            if !recipeSaved {
-                newRecipe = Recipe(context: self.moc)
-                isNewRecipe = false
-            }
-            
-            formArray(recipes: recipes)
-            if arrayName.contains(self.name){
-               showAlertSameName = true
-            }else{
-                save(recipe: newRecipe)
-            }
-            
-            UIApplication.shared.endEditing()
         }
-        
     }
     func save(recipe: Recipe){
         recipe.chef = self.chef
@@ -237,6 +298,8 @@ struct AddARecipe: View {
         recipe.preparation = self.preparation
         recipe.rating = Int16(self.rating)
         recipe.photo = data
+        recipe.pdfIngredient = ingredientPdf
+        recipe.pdfPreparation = preparationPdf
         recipe.calcium = self.calcium
         recipe.calories = self.calories
         recipe.carbohydrate = self.carbohydrate
@@ -258,19 +321,139 @@ struct AddARecipe: View {
         } catch {
             print("same name")
         }
-        recipeSaved = true
+        savedValue.recipeSaved = true
+        showAlerts = true
+        activeAlert = .showAlertRecipeSaved
+        showAlertRecipeNotSaved = false
     }
     func formArray(recipes: FetchedResults<Recipe>) {
+        arrayId = [UUID]()
+        arrayName = [String]()
+        
         for recipe in recipes {
             arrayName.append(recipe.wrappedName)
             arrayId.append(recipe.wrappedId)
         }
     }
+    func clearDisk() -> Void{
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        var docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
+        try? FileManager.default.removeItem(at: docURL)
+        docURL = documentDirectory.appendingPathComponent("Ingredient.pdf")
+        try? FileManager.default.removeItem(at: docURL)
+        docURL = documentDirectory.appendingPathComponent("ingredients")
+        try? FileManager.default.removeItem(at: docURL)
+        docURL = documentDirectory.appendingPathComponent("preparation")
+        try? FileManager.default.removeItem(at: docURL)
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    func isIPhonePresent() -> Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return true
+        }else{
+            return false
+        }
+    }
+    func areAllChangesSaved(recipes: FetchedResults<Recipe>) -> ActiveAlert{
+        var saved = false
+        for recipe in recipes {
+            if recipe.name == self.name{
+                if
+                recipe.chef == self.chef &&
+                recipe.ingredient == self.ingredient &&
+                recipe.type == mealTypes[typeNumber].type &&
+                recipe.imageName == mealTypes[typeNumber].typeImage &&
+                recipe.name == self.name &&
+                recipe.timeToPrepare == self.timeToPrepare &&
+                recipe.timeToCook == self.timeToCook &&
+                recipe.preparation == self.preparation &&
+                recipe.rating == Int16(self.rating) &&
+                recipe.photo == data &&
+                recipe.pdfIngredient == ingredientPdf &&
+                recipe.pdfPreparation == preparationPdf &&
+                recipe.calcium == self.calcium &&
+                recipe.calories == self.calories &&
+                recipe.carbohydrate == self.carbohydrate &&
+                recipe.cholesterol == self.cholesterol &&
+                recipe.iron == self.iron &&
+                recipe.potassium == self.potassium &&
+                recipe.protein == self.protein &&
+                recipe.saturatedFat == self.saturatedFat &&
+                recipe.sodium == self.sodium &&
+                recipe.totalFat == self.totalFat &&
+                recipe.transFat == self.transFat &&
+                recipe.vitaminD == self.vitaminD &&
+                recipe.sugar == self.sugar &&
+                recipe.servings == self.servings &&
+                recipe.recipeURLAdress == self.recipeUrl{
+                    saved = true
+                    savedValue.recipeSaved = true
+                }
+            }
+        }
+        if saved {
+            showAlerts = false
+            return .showAlertRecipeNotSaved
+        }else{
+            showAlerts = true
+            return .showAlertRecipeNotSaved
+        }
+        
+    }
+    func sameName(recipes: FetchedResults<Recipe>) -> ActiveAlert{
+        formArray(recipes: recipes)
+        print(arrayName)
+        if arrayName.contains(self.name){
+            print("In same name")
+            showAlerts = true
+            return ActiveAlert.showAlertSameName
+        }else{
+            showAlerts = false
+            return ActiveAlert.showAlertNoName
+        }
+    }
+//    func checkNoChangesMade() -> Bool{
+//        if
+//        self.chef == "" &&
+//        self.ingredient == "" &&
+//        mealTypes[typeNumber].type == "Appetizer" &&
+//        mealTypes[typeNumber].typeImage == "Appetizer" &&
+//        self.name == "" &&
+//        self.timeToPrepare == "" &&
+//        self.timeToCook == "" &&
+//        self.preparation == "" &&
+//        Int16(self.rating) == 3 &&
+//        data == nil &&
+//        ingredientPdf == Data() &&
+//        preparationPdf ==  Data() &&
+//        self.calcium == "" &&
+//        self.calories == "" &&
+//        self.carbohydrate == "" &&
+//        self.cholesterol == "" &&
+//        self.iron == "" &&
+//        self.potassium == "" &&
+//        self.protein == "" &&
+//        self.saturatedFat == "" &&
+//        self.sodium == "" &&
+//        self.totalFat == "" &&
+//        self.transFat == "" &&
+//        self.vitaminD == "" &&
+//        self.sugar == "" &&
+//        self.servings == "" &&
+//        self.recipeUrl == ""{
+//            savedValue.recipeSaved = true
+//            return true
+//        }else{
+//            return false
+//        }
+//
+//
+//    }
 }
 
-struct AddARecipe_Previews: PreviewProvider {
-    static var previews: some View {
-        AddARecipe(filter: "", isNewRecipe: false, typeNumber: 0)
-    }
-}
+//struct AddARecipe_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddARecipe(filter: "", isNewRecipe: false, typeNumber: 0, showAlertRecipeNotSaved: false)
+//    }
+//}
 

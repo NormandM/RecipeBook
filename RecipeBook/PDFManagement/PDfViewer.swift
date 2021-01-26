@@ -12,18 +12,20 @@ import PDFKit
 
 struct PdfViewUI: UIViewRepresentable {
     let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    var update: String
+    @State var pdfView = PDFView()
+    var nameOfScan: String
     func makeUIView(context: Context) -> UIView {
-        let pdfView = PDFView()
-        print("pdfView")
-        let docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
+        let docURL = documentDirectory.appendingPathComponent(nameOfScan)
         pdfView.document = PDFDocument(url: docURL)
         pdfView.autoScales = true
        // try? FileManager.default.removeItem(at: docURL)
         return pdfView
     }
     func updateUIView(_ uiView: UIView, context: Context) {
-        
+        let docURL = documentDirectory.appendingPathComponent(nameOfScan)
+        pdfView.document = PDFDocument(url: docURL)
+        pdfView.autoScales = true
     }
+    
     
 }

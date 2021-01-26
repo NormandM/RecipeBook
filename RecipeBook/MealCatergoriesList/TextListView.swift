@@ -31,17 +31,17 @@ struct TextListView: View {
 
     }
     func categoryName() -> String{
-        let category = [NSLocalizedStringFunc(key:"Appetizer"), NSLocalizedStringFunc(key:"Breakfast"), NSLocalizedStringFunc(key:"Dessert"), NSLocalizedStringFunc(key:"Fish"), NSLocalizedStringFunc(key:"Meat"), NSLocalizedStringFunc(key:"Pasta"), NSLocalizedStringFunc(key:"Poultry"), NSLocalizedStringFunc(key:"Salad"), NSLocalizedStringFunc(key:"Sauce"), NSLocalizedStringFunc(key:"Soup"), NSLocalizedStringFunc(key:"Vegetable"), NSLocalizedStringFunc(key:"Other")]
+        let category = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]
 
         if category.contains(listText){
-            return listText
+            return  listText
         }else{
-            return NSLocalizedStringFunc(key:"Other")
+            return "Other"
         }
         
     }
     func categoryImage() -> String {
-        let categoryImage = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Vegetable", "Other"]
+        let categoryImage = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]
         if categoryImage.contains(listImage){
             return listImage
         }else{

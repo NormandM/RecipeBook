@@ -6,83 +6,118 @@
 //
 
 import SwiftUI
+import PDFKit
 
 struct RecipeDetail: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     var recipe = FetchedResults<Recipe>.Element()
-    var type = FetchedResults<MealType>.Element()
+   // var type = FetchedResults<MealType>.Element()
+    @State private var image: Image?
+    @State private var uiImageRecipe = UIImage()
+    @GestureState var scale: CGFloat = 1.0
     @State var isSheetShown: Bool = false
     @State private var isGeneralInformationShown = false
-    @State private var isNutrionFactsShown = false
-    @State private var showPhotoScreen = false
+    @State private var isRecipePreparationShown = false
+    @State private var showIngredients = false
     @State private var showingAddScreen = false
     @State private var showAlertDeleteRecipe = false
+    @State private var showShareMenu = false
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     @State private var arrayMealTypes = [String]()
-    @State private var recipeViews = [NSLocalizedStringFunc(key:"Main"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Nutrition"), NSLocalizedStringFunc(key:"Photos")]
+    @State private var recipeViews = [NSLocalizedStringFunc(key:"Main"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Ingredients"), NSLocalizedStringFunc(key:"Preparation")]
     @State private var selectorIndex = 0
+    @State private var preparationDataIsPresent = false
+    @State private var ingredientDataIsPresent = false
+    @State private var  ingredientData = Data()
+    @State private var  preparationData = Data()
     var body: some View {
 
         GeometryReader { geo in
-            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {
-                Text("")
-            }
-            NavigationLink(destination: NutritionInformationView(filter: recipe.wrappedName), isActive: $isNutrionFactsShown) {
-                Text("")
-            }
-            NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {
-                Text("")
-            }
-            NavigationLink(destination: ThreePhotoView(recipeData: recipe.wrappedPhoto), isActive: $showPhotoScreen) {
-                Text("")
-            }
+            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {EmptyView()}
+            NavigationLink(destination: RecipePreparationView(filter: recipe.wrappedName), isActive: $isRecipePreparationShown){EmptyView()}
+            NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {EmptyView()}
+            NavigationLink(destination: RecipeIngredientsView(filter: recipe.wrappedName), isActive: $showIngredients) {EmptyView()}
             VStack (alignment: .center) {
-                Text(recipe.wrappedName)
-                    .multilineTextAlignment(.center)
-                    .font(.headline)
+
                 Picker("Numbers", selection: $selectorIndex) {
                     ForEach(0 ..< recipeViews.count) { index in
                         Text(self.recipeViews[index]).tag(index)
                     }
                 }
                 .onChange(of: selectorIndex, perform: {_ in
-                    if selectorIndex == 2 {isNutrionFactsShown = true}
+                    if selectorIndex == 2 {showIngredients = true}
                     if selectorIndex == 1 {isGeneralInformationShown = true}
-                    if selectorIndex == 3 {showPhotoScreen = true}
+                    if selectorIndex == 3{isRecipePreparationShown = true}
                     
                 })
                 .pickerStyle(SegmentedPickerStyle())
-                Text(NSLocalizedStringFunc(key:"Ingredients"))
-                ScrollView {
-                    Text(recipe.wrappedIngredientf)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-
-
-                }
-                .background(Color.white)
-                Text(NSLocalizedStringFunc(key:"Preparation"))
-                ScrollView {
-                    Text(recipe.wrappedPreparation)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-
-                }
-                .background(Color.white)
-                Button(action: {
-                    showAlertDeleteRecipe = true
-                    
-                }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
-                        Text(NSLocalizedStringFunc(key:"Delete Recipe"))
-                            .foregroundColor(.red)
-                    }
-
-                }
+                Spacer()
+                Text(recipe.wrappedName)
+                    .multilineTextAlignment(.center)
+                    .font(.largeTitle)
                 
+                if let unwrappedImage = image {
+                    unwrappedImage
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .border(Color.black, width: 1)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        .padding(.top)
+                        .scaleEffect(scale)
+                        .gesture(MagnificationGesture()
+                                    .updating($scale, body: { (value, scale, trans) in
+                                        scale = value.magnitude
+                                    })
+                        )
+                        .zIndex(1)
+                }else{
+                    ZStack {
+                        
+                        Text("There is not picture\nfor this recipe")
+                            .multilineTextAlignment(.center)
+                            .font(.largeTitle)
+                            .zIndex(1.2)
+                    Image("IconeRecipe")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .border(Color.black, width: 1)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        .padding(.top)
+                    }
+                }
+                HStack {
+                    Button(action: {
+                        showShareMenu = true
+                        
+                    }) {
+                        HStack(spacing: 10) {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                            Text(NSLocalizedStringFunc(key:"Share"))
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                        }
+                    }
+                    .padding()
+                    Spacer()
+                    Button(action: {
+                        showAlertDeleteRecipe = true
+                        
+                    }) {
+                        HStack(spacing: 10) {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                                .font(.headline)
+                            Text(NSLocalizedStringFunc(key:"Delete"))
+                                .foregroundColor(.red)
+                                .font(.headline)
+                        }
+
+                    }
+                    .padding()
+                }
             }
             .padding()
             .navigationBarItems(trailing:
@@ -93,17 +128,33 @@ struct RecipeDetail: View {
                                     })
             .padding()
             .background(ColorReference.specialSand)
-            .edgesIgnoringSafeArea(.bottom)
             .navigationBarColor(UIColorReference.specialGreen)
+            .edgesIgnoringSafeArea(.bottom)
+            
             .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe"), displayMode: .inline)
             .onAppear{
+                arrayMealTypes = [String]()
                 for meal in mealTypes {
                     arrayMealTypes.append(meal.wrappedType)
                 }
                 selectorIndex = 0
                 isGeneralInformationShown = false
-                isNutrionFactsShown = false
-                showPhotoScreen = false
+                isRecipePreparationShown = false
+                showIngredients = false
+                let recipeData = recipe.wrappedPhoto
+                if recipeData == Data() {
+                    image = Image("IconeRecipe")
+                    uiImageRecipe = UIImage(imageLiteralResourceName: "IconeRecipe")
+                }else{
+                    guard let uiImage = UIImage(data: recipeData) else { return }
+                    image = Image(uiImage: uiImage)
+                    uiImageRecipe = uiImage
+                }
+
+                ingredientData = recipe.wrappedPdfIngredient
+                preparationData = recipe.wrappedPdfPreparation
+                if ingredientData != Data() {ingredientDataIsPresent = true}
+                if preparationData != Data() {preparationDataIsPresent = true}
             }
             .alert(isPresented: $showAlertDeleteRecipe){
                 Alert(title: Text(NSLocalizedStringFunc(key:"Are you sure you want to delete recipe")), message: Text(NSLocalizedStringFunc(key:"All recipe information will be lost")), primaryButton: .default(Text(NSLocalizedStringFunc(key:"Delete")), action: {
@@ -111,6 +162,10 @@ struct RecipeDetail: View {
                 }), secondaryButton: .default(Text(NSLocalizedStringFunc(key:"Keep Recipe")), action: {
                         showAlertDeleteRecipe = false
                 }))
+
+            }
+            .sheet(isPresented: $showShareMenu){
+                PrintDocument(ingredientData: ingredientData, preparationData: preparationData, imageRecipe: uiImageRecipe, recipeName: recipe.wrappedName, servings: recipe.wrappedServings, preparationtime: recipe.wrappedTimeToPrepare, cookingTime: recipe.wrappedTimeToCook, preparationText: recipe.wrappedPreparation, ingredientText: recipe.wrappedIngredient, ingredientPDfIsPresent: ingredientDataIsPresent, preparationPDFIsPresent: preparationDataIsPresent)
 
             }
             

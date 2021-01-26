@@ -11,11 +11,9 @@ import CoreData
 
 
 extension MealType {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MealType> {
         return NSFetchRequest<MealType>(entityName: "MealType")
     }
-
     @NSManaged public var id: UUID?
     @NSManaged public var type: String?
     @NSManaged public var typeImage: String?
@@ -27,7 +25,6 @@ extension MealType {
     }
 
 }
-
 extension MealType : Identifiable {
 
 }

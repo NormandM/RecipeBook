@@ -48,7 +48,7 @@ extension Recipe {
     var wrappedChef: String {
         chef ?? ""
     }
-    var wrappedIngredientf: String {
+    var wrappedIngredient: String {
         ingredient ?? ""
     }
     var wrappedName: String {
@@ -61,7 +61,7 @@ extension Recipe {
         preparation ?? ""
     }
     var wrappedType: String {
-        type ?? NSLocalizedStringFunc(key:"Other")
+        type ?? "Other"
     }
     var wrappedPhoto: Data {
         photo ?? Data()
