@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var arrayMealTypes = [String]()
     @State private var appIsFirstOpen = true
     @State private var firstOpenOpacity: Double = 1.0
+    @State private var showUnlockBook = false
     var body: some View {
         if appIsFirstOpen {
             NMLogo(appIsFirstOpen: $appIsFirstOpen, firstOpenOpacity: $firstOpenOpacity)
@@ -35,7 +36,7 @@ struct ContentView: View {
                 NavigationLink(destination: RecipePageView(mealTypes: mealTypes), isActive: $showRecipeListView) {EmptyView()}
                 NavigationLink(destination: AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0), isActive: $showingAddScreen) {EmptyView()}
                 NavigationLink(destination: MealTypeList( mealTypes: mealTypes), isActive: $showingMealTypes) {EmptyView()}
-                
+                NavigationLink(destination: UnlockBookView(), isActive: $showUnlockBook) {EmptyView()}
                 VStack {
                     Spacer()
                     Button(action: {
@@ -47,8 +48,7 @@ struct ContentView: View {
                         }
                     }){
                         Text(NSLocalizedStringFunc(key: "Recipe List"))
-                            .font(Font.custom("Zapfino", size: 20))
-                            .fontWeight(.heavy)
+                            .font(.title)
                     }
                     HStack {
                     Text(NSLocalizedStringFunc(key: "Number of recipes:"))
@@ -65,8 +65,7 @@ struct ContentView: View {
                         showingAddScreen = true
                     }){
                         Text(NSLocalizedStringFunc(key:"Add a Recipe"))
-                            .font(Font.custom("Zapfino", size: 20))
-                            .fontWeight(.heavy)
+                            .font(.title)
                     }
                     Spacer()
                     Button(action: {
@@ -77,8 +76,7 @@ struct ContentView: View {
                         }
                     }){
                         Text(NSLocalizedStringFunc(key:"Meal Types"))
-                            .font(Font.custom("Zapfino", size: 20))
-                            .fontWeight(.heavy)
+                            .font(.title)
                     }
                     .alert(isPresented: $showAlertRecipeNotSaved) {
                         Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("OK"), action: {
@@ -94,12 +92,21 @@ struct ContentView: View {
                         }))
                     }
                     Spacer()
+                    Button(action: {
+                        showUnlockBook = true
+                    }){
+                        Text(NSLocalizedStringFunc(key:"Unlock Book"))
+                            .font(.title)
+                    }
+                    Spacer()
                 }
+                .navigationBarTitle(Text(NSLocalizedStringFunc(key:"Recipe Book")))
+                .navigationBarColor(UIColorReference.specialGreen)
+                .edgesIgnoringSafeArea([.bottom])
             }
-            .navigationBarTitle(Text(NSLocalizedStringFunc(key:"Recipe Book")))
-            .navigationBarColor(UIColorReference.specialGreen)
-            .edgesIgnoringSafeArea([.bottom])
+
             .onAppear{
+                IAPManager.shared.getProductsV5()
                 if mealTypes.count == 0 {
                     let newMealCategory = MealType(context: self.moc)
                     newMealCategory.id = UUID()

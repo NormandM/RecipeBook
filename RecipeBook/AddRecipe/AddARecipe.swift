@@ -412,43 +412,7 @@ struct AddARecipe: View {
             return ActiveAlert.showAlertNoName
         }
     }
-//    func checkNoChangesMade() -> Bool{
-//        if
-//        self.chef == "" &&
-//        self.ingredient == "" &&
-//        mealTypes[typeNumber].type == "Appetizer" &&
-//        mealTypes[typeNumber].typeImage == "Appetizer" &&
-//        self.name == "" &&
-//        self.timeToPrepare == "" &&
-//        self.timeToCook == "" &&
-//        self.preparation == "" &&
-//        Int16(self.rating) == 3 &&
-//        data == nil &&
-//        ingredientPdf == Data() &&
-//        preparationPdf ==  Data() &&
-//        self.calcium == "" &&
-//        self.calories == "" &&
-//        self.carbohydrate == "" &&
-//        self.cholesterol == "" &&
-//        self.iron == "" &&
-//        self.potassium == "" &&
-//        self.protein == "" &&
-//        self.saturatedFat == "" &&
-//        self.sodium == "" &&
-//        self.totalFat == "" &&
-//        self.transFat == "" &&
-//        self.vitaminD == "" &&
-//        self.sugar == "" &&
-//        self.servings == "" &&
-//        self.recipeUrl == ""{
-//            savedValue.recipeSaved = true
-//            return true
-//        }else{
-//            return false
-//        }
-//
-//
-//    }
+
 }
 
 //struct AddARecipe_Previews: PreviewProvider {
