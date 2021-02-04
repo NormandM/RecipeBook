@@ -108,5 +108,19 @@
 "Basic Information" = "Basic Information";
 "Camera" = "Camera";
 "Cancel" = "Cancel";
+"Number of recipes:" = "Number of recipes:";
+"Unlock Book" = "Unlock Book";
+"Enter  all your recipes for:" = "Enter  all your recipes for:";
+"There is no internet connection" = "There is no internet connection";
+"To unlock you have to be connected" = "To unlock you have to be connected";
+"Already purchased unlock?" = "Already purchased unlock?";
+"To restore your  purchase you have to be connected" = "To restore your  purchase you have to be connected";
+"Restore" = "Restore";
+"Unlock" = "Unlock";
+"Your purchase was restored!" = "Your purchase was restored!";
+"There is no purchase to restore" = "There is no purchase to restore";
+"Purchase request failed" = "Purchase request failed";
+"Your recipe Book is unlocked" = "Your recipe Book is unlocked";
+"The transaction could not be completed" = "The transaction could not be completed";
 
 

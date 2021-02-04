@@ -32,7 +32,6 @@ struct NMLogo:  View {
                     withAnimation(Animation.linear(duration: 2.0).delay(1.0)) {
                         self.xOffset = 0
                     }
-                    playSound(sound: "Acoustic Trio", type: "wav")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                         withAnimation(Animation.linear(duration: 2.0)){
                             firstOpenOpacity = 0

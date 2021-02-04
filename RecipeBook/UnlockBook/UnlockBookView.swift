@@ -8,76 +8,65 @@
 import SwiftUI
 import StoreKit
 import Combine
-
+import Network
 struct UnlockBookView: View {
-    @State private var isUnlock: Bool = false
+    @State private var isUnlock: Bool = UserDefaults.standard.bool(forKey: "unlocked")
     var iapManager = IAPManager()
-    @State private var isNotConnectedNoReason = false
-    @State private var showingAlertNoConnection = false
     @State private var price = ""
     @State private var showAlertPurchased = false
     @ObservedObject var products = productsDB.shared
     let publisher = IAPManager.shared.purchasePublisher
     @State private var showAlerts = false
-    let iNAPAlerts = INAPAlerts.showNotConnected
+    @State private var alertMessage = ""
+    @State private var alertDetail = ""
+    let monitor = NWPathMonitor()
+    @StateObject var internetMonitor = InternetMonitor()
+    @State private var showAlertNoconnection = false
     var body: some View {
         GeometryReader { geo in
             VStack {
-                Text("Enter  all your recepies  for:")
+                Text("Enter  all your recipes for:")
+                    .font(.headline)
                 Text(self.price)
+                    .font(.headline)
                 Image("IconeRecipe")
                     .resizable()
                     .border(Color.black, width: 1)
                     .frame(width: geo.size.height * 0.2, height: geo.size.height * 0.2, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .padding()
                 Button(action: {
-                    isUnlock = true
-                    if self.isNotConnectedNoReason {
-                        self.showingAlertNoConnection = true
+                    if isInternetConnected() {
+                    isUnlock = UserDefaults.standard.bool(forKey: "unlocked")
+                    _ = IAPManager.shared.purchaseV5(product: self.products.items[0])
                     }else{
-                        _ = IAPManager.shared.purchaseV5(product: self.products.items[0])
+                        showAlerts = true
+                        alertMessage = NSLocalizedStringFunc(key:"There is no internet connection")
+                        alertDetail = NSLocalizedStringFunc(key:"To unlock you have to be connected")
                     }
-                }) {
+                    
+                    
+                }){
                     VStack {
                         Image(isUnlock ? "unlock" : "lock")
                             .resizable()
                             .frame(width: geo.size.height * 0.12, height: geo.size.height * 0.12, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding(.top)
                         Text("Unlock")
-                        
                     }
-                    
                 }
-                .alert(isPresented: self.$showAlerts) {
-                    Alert(title: Text("You are not connected to the internet"), message: Text("You cannot make a purchase"), dismissButton: .default(Text("OK")){
-                        })
-                }
-//                .alert(isPresented: self.$showAlertPurchased) {
-//                    Alert(title: Text("Your recipe book is unlocked"), message: Text(""), dismissButton: .default(Text("OK")){
-//                        })
-//                }
-                
                 .padding(.bottom)
-                Text("Already purchased unlocked?")
-    //                .alert(isPresented: $showAlerts) {
-    //                    switch iNAPAlerts {
-    //                    case .showNotConnected:
-    //                        return Alert(title: Text("You are not connected to the internet"), message: Text("You cannot make a purchase"), dismissButton: .default(Text("OK")){
-    //                            })
-    //                    case .showPurchaseCompleted:
-    //                        return                     Alert(title: Text("Your recipe book is unlocked"), message: Text(""), dismissButton: .default(Text("OK")){
-    //                        })
-    //                    case .payementCanceled:
-    //                        return Alert(title: Text(""))
-    //                    case .showPurchaseRestored:
-    //                        return Alert(title: Text(""))
-    //                    case .showNoPurchaseToResore:
-    //                        return Alert(title: Text(""))
-    //
-    //                    }
-    //                }
+                Text("Already purchased unlock?")
+                    .alert(isPresented: $showAlerts) {
+                        Alert(title: Text(alertMessage), message: Text(alertDetail), dismissButton: .default(Text("OK")){
+                        })
+                    }
                 Button(action: {
+                    if isInternetConnected() {
                     IAPManager.shared.restorePurchasesV5()
+                    }else{
+                        alertMessage = NSLocalizedStringFunc(key:"There is no internet connection")
+                        alertDetail = NSLocalizedStringFunc(key:"To restore your  purchase you have to be connected")
+                    }
                 }) {
                     VStack {
                         Image("RestorePurchase")
@@ -87,35 +76,32 @@ struct UnlockBookView: View {
                     }
                 }
                 .onReceive(publisher, perform: {value in
-                    print("in")
                     showAlerts = true
-                    print(value.0)
+                    alertMessage = value.0
+                    alertDetail = ""
+                    isUnlock = value.1
+                    UserDefaults.standard.set(isUnlock, forKey: "unlocked")
                     
-
                 })
-                
-
-                
             }
-
             .navigationBarTitle("Unlock Book", displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .background(ColorReference.specialSand)
             .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+
             
         }
+        
         .onAppear{
-            self.price = IAPManager.shared.getPriceFormatted(for: self.products.items[0]) ?? ""
-            let reachability = Reachability()
-            let isConnected = reachability.isConnectedToNetwork()
-            IAPManager.shared.getProductsV5()
-            self.isNotConnectedNoReason = false
-            if !isConnected{
-                self.isNotConnectedNoReason = true
-                print("not connected")
+            _ = isInternetConnected()
+            if products.items.count > 0 {
+                self.price = IAPManager.shared.getPriceFormatted(for: self.products.items[0]) ?? ""
             }
-            
         }
+    }
+    func isInternetConnected() -> Bool {
+        internetMonitor.check()
+        return internetMonitor.isConnected
     }
     
 }

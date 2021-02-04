@@ -108,3 +108,18 @@
 "Basic Information" = "Información básica";
 "Camera" = "Cámara";
 "Cancel" = "Cancelar";
+"Number of recipes:" = "Numero de recetas:";
+"Unlock Book" = "Desbloquear";
+"Enter  all your recipes for:" = "Ingrese todas sus recetas para:";
+"There is no internet connection" = "No hay conexión a Internet";
+"To unlock you have to be connected" = "Para desbloquear tienes que estar conectado";
+"Already purchased unlock?" = "¿Ya compraste el desbloqueo?";
+"To restore your  purchase you have to be connected" = "Para restaurar su compra tiene que estar conectado a internet";
+"Restore" = "Restaurar";
+"Unlock" = "Desbloquear";
+"Your purchase was restored!" = "¡Tu compra fue restaurada!";
+"There is no purchase to restore" = "No hay compra para restaurar";
+"Purchase request failed" = "Error en la solicitud de compra";
+"Your recipe Book is unlocked" = "Su libro de recetas está desbloqueado";
+"The transaction could not be completed" = "Impossibile completare la transazione";
+

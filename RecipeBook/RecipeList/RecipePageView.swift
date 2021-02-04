@@ -43,7 +43,7 @@ struct RecipePageView: View {
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
-                    .navigationBarTitle(NSLocalizedStringFunc(key:"Rrecipes"), displayMode: .inline)
+                    .navigationBarTitle(NSLocalizedStringFunc(key:"Recipes"), displayMode: .inline)
                 }
                 .onAppear{
                     UITableView.appearance().backgroundColor = UIColor.clear

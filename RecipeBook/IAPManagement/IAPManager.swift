@@ -45,21 +45,22 @@ class IAPManager: NSObject{
     }
     func restorePurchasesV5() {
         totalRestoredPurchases = 0
+        print()
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         if totalRestoredPurchases != 0 {
-            purchasePublisher.send(("IAP: Purchases successfull restored!",true))
+            purchasePublisher.send((NSLocalizedStringFunc(key:"Your purchase was restored!"),true))
         } else {
-            purchasePublisher.send(("IAP: No purchases to restore!",true))
+            purchasePublisher.send((NSLocalizedStringFunc(key:"There is no purchase to restore"), false))
         }
     }
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         if let error = error as? SKError {
             if error.code != .paymentCancelled {
-                purchasePublisher.send(("IAP Restore Error: " + error.localizedDescription,false))
+                purchasePublisher.send(("Restore Error: " + error.localizedDescription,false))
             } else {
-                purchasePublisher.send(("IAP Error: " + error.localizedDescription,false))
+                purchasePublisher.send(("Error: " + error.localizedDescription,false))
             }
         }
     }
@@ -97,7 +98,7 @@ extension IAPManager: SKProductsRequestDelegate, SKRequestDelegate {
         }
         func request(_ request: SKRequest, didFailWithError error: Error) {
             print("didFailWithError ",error)
-            purchasePublisher.send(("Purchase request failed ",true))
+            purchasePublisher.send((NSLocalizedStringFunc(key:"Purchase request failed"),true))
         }
         
         print("badProducts ",badProducts)
@@ -109,19 +110,27 @@ extension IAPManager: SKPaymentTransactionObserver {
         for transaction:AnyObject in transactions {
             if let trans = transaction as? SKPaymentTransaction {
                 switch trans.transactionState {
+                
+                case .purchasing:
+                    break
                 case .purchased:
-                    purchasePublisher.send(("Your recipe Book is unlocked", true))
+                    purchasePublisher.send((NSLocalizedStringFunc(key:"Your recipe Book is unlocked"), true))
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                 case .failed:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    break
+
+                    self.purchasePublisher.send((NSLocalizedStringFunc(key:"The transaction could not be completed"), false))
+
                 case .restored:
+                    print("restore")
                     totalRestoredPurchases += 1
+                    print(totalRestoredPurchases)
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     break
-                    
-                    
-                default: break
+                case .deferred:
+                    break
+                @unknown default:
+                    break
                 }}}
     }
 }
