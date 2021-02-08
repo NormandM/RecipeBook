@@ -121,4 +121,9 @@
 "Purchase request failed" = "La demande d'achat a échoué";
 "Your recipe Book is unlocked" = "Votre livre de recettes est déverrouillé";
 "The transaction could not be completed" = "La transaction n'a pas pu être terminée";
+"Recipe was saved" = "La recette a été sauvegardée";
+"Do you want to add more recipes?" = "Voulez-vous ajouter d’autres recettes?";
+"Unlock your Recipe Book" = "Déverrouillez votre livre de recettes";
+"Not now" = "Pas maintenant";
+"Preparing file to share" = "Préparation du fichier à partager";
 

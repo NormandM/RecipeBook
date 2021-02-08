@@ -10,7 +10,7 @@ import PDFKit
 import UIKit
 @available(iOS 14.0, *)
 struct PreparationView: View {
-
+    @Environment(\.colorScheme) var colorScheme
     @Binding var preparation: String
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
@@ -57,6 +57,7 @@ struct PreparationView: View {
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .font(.title)
+                            .foregroundColor(colorScheme == .light ? .black : .black)
                         
                     }
                 }
@@ -105,6 +106,7 @@ struct PreparationView: View {
                                         if scaningPreparation {
                                             let docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
                                             pdfPreparation =  PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
+                                            pdfPreparation = PDFSizeReduction.execute(pdfData: pdfPreparation)
                                             
                                         }
                                         if writingPreparation {

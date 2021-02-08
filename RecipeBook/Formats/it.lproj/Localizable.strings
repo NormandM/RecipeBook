@@ -7,7 +7,7 @@
 */
 "Recipe List" =  "Elenco ricette";
 "Number of recipes" =  "Numero di ricette";
-"Add a Recipe" =  "Aggiungi una ricetta";
+"Add a Recipe" =  "Aggiungere una ricetta";
 "Meal Types" =  "Categorie di pasto";
 "Enter New Meal Category" =  "Immettere nueva categoria";
 "Edit List" =  "Modifica elenco";
@@ -122,3 +122,8 @@
 "Purchase request failed" = "Richiesta di acquisto non riuscita";
 "Your recipe Book is unlocked" = "Il tuo ricettario è sbloccato";
 "The transaction could not be completed" = "Impossibile completare la transazione";
+"Recipe was saved" = "La ricetta è stata salvata";
+"Do you want to add more recipes?" = "Vuoi aggiungere altre ricette?";
+"Unlock your Recipe Book" = "Sblocca il tuo libro di ricette";
+"Not now" = "Non adesso";
+"Preparing file to share" = "Preparazione del file da condividere";

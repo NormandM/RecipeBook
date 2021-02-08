@@ -10,6 +10,7 @@ import StoreKit
 import Combine
 import Network
 struct UnlockBookView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var isUnlock: Bool = UserDefaults.standard.bool(forKey: "unlocked")
     var iapManager = IAPManager()
     @State private var price = ""
@@ -27,8 +28,10 @@ struct UnlockBookView: View {
             VStack {
                 Text("Enter  all your recipes for:")
                     .font(.headline)
+                    .foregroundColor(colorScheme == .light ? .black : .black)
                 Text(self.price)
                     .font(.headline)
+                    .foregroundColor(colorScheme == .light ? .black : .black)
                 Image("IconeRecipe")
                     .resizable()
                     .border(Color.black, width: 1)
@@ -56,6 +59,7 @@ struct UnlockBookView: View {
                 }
                 .padding(.bottom)
                 Text("Already purchased unlock?")
+                    .foregroundColor(colorScheme == .light ? .black : .black)
                     .alert(isPresented: $showAlerts) {
                         Alert(title: Text(alertMessage), message: Text(alertDetail), dismissButton: .default(Text("OK")){
                         })
@@ -69,7 +73,7 @@ struct UnlockBookView: View {
                     }
                 }) {
                     VStack {
-                        Image("RestorePurchase")
+                        Image("Restore")
                             .resizable()
                             .frame(width: geo.size.height * 0.10, height: geo.size.height * 0.10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         Text("Restore")
@@ -79,8 +83,11 @@ struct UnlockBookView: View {
                     showAlerts = true
                     alertMessage = value.0
                     alertDetail = ""
-                    isUnlock = value.1
-                    UserDefaults.standard.set(isUnlock, forKey: "unlocked")
+                    if !UserDefaults.standard.bool(forKey: "unlocked"){
+                        isUnlock = value.1
+                        UserDefaults.standard.set(isUnlock, forKey: "unlocked")
+                    }
+
                     
                 })
             }
@@ -93,6 +100,7 @@ struct UnlockBookView: View {
         }
         
         .onAppear{
+            
             _ = isInternetConnected()
             if products.items.count > 0 {
                 self.price = IAPManager.shared.getPriceFormatted(for: self.products.items[0]) ?? ""

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct NMLogo:  View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @State private var xOffset: CGFloat = 300
     @Binding var appIsFirstOpen: Bool
@@ -16,9 +17,10 @@ struct NMLogo:  View {
     var body: some View {
             GeometryReader { geo in
                 ZStack {
+                    
                     VStack{
                         Spacer()
-                        Image("Normand martin Logo")
+                        Image(colorScheme == .light ? "Normand martin Logo" : "Normand martin LogoDarkMode")
                             .resizable()
                             .frame(width: geo.size.height/2.3, height: geo.size.height/2.3)
                         Text("Apps")

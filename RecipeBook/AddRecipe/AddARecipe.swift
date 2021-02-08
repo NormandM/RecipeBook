@@ -7,6 +7,8 @@
 
 import SwiftUI
 import CoreData
+import StoreKit
+
 struct AddARecipe: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
@@ -325,6 +327,9 @@ struct AddARecipe: View {
         showAlerts = true
         activeAlert = .showAlertRecipeSaved
         showAlertRecipeNotSaved = false
+        if recipes.count == 8 || recipes.count == 20 || recipes.count == 30 {
+            if let windowScene = UIApplication.shared.windows.first?.windowScene { SKStoreReviewController.requestReview(in: windowScene) }
+        }
     }
     func formArray(recipes: FetchedResults<Recipe>) {
         arrayId = [UUID]()

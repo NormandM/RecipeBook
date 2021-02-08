@@ -22,7 +22,7 @@ struct PrintDocument: UIViewControllerRepresentable {
     var ingredientText: String
     let ingredientPDfIsPresent: Bool
     let preparationPDFIsPresent: Bool
-
+    @Binding var activityMonitorIsShowing: Bool
 
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
@@ -39,10 +39,13 @@ struct PrintDocument: UIViewControllerRepresentable {
         }catch(let error){
             print("error is \(error.localizedDescription)")
         }
+        let servingInt = NSLocalizedStringFunc(key: "Servings")
+        let preparationTimeInt = NSLocalizedStringFunc(key: "Preparation Time")
+        let cookingTimeInt = NSLocalizedStringFunc(key: "Cooking Time")
         let imageNote = """
-        Serving: \(servings)
-        Preparation Time: \(preparationtime)
-        Cooking Time: \(cookingTime)
+        \(servingInt): \(servings)
+        \(preparationTimeInt): \(preparationtime)
+        \(cookingTimeInt): \(cookingTime)
      """
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 100, height: 100))
             let img = renderer.image { ctx in
@@ -55,8 +58,8 @@ struct PrintDocument: UIViewControllerRepresentable {
             }
         let pdfPreparationImage = PdfToUIImage.drawPDFfromURL(url: preparationURL) ?? UIImage()
         let pdfIngredientUIImage = PdfToUIImage.drawPDFfromURL(url: ingredientURL) ?? UIImage()
-        let pdfCreatorIngredient = PDFCreator(title: "Ingredients", body: ingredientText, image: pdfIngredientUIImage, pDfIsPresent: ingredientPDfIsPresent, rectImage: img)
-        let pdfCreatorPreparation = PDFCreator(title: "Preparation", body: preparationText, image: pdfPreparationImage,  pDfIsPresent: preparationPDFIsPresent, rectImage: img)
+        let pdfCreatorIngredient = PDFCreator(title: NSLocalizedStringFunc(key:"Ingredients"), body: ingredientText, image: pdfIngredientUIImage, pDfIsPresent: ingredientPDfIsPresent, rectImage: img)
+        let pdfCreatorPreparation = PDFCreator(title: NSLocalizedStringFunc(key:"Preparation"), body: preparationText, image: pdfPreparationImage,  pDfIsPresent: preparationPDFIsPresent, rectImage: img)
         let pdfCreatorTRecipeImage = PDFCreator(title: recipeName, body: imageNote, image: imageRecipe, pDfIsPresent: true, rectImage: img)
         
 
@@ -87,6 +90,7 @@ struct PrintDocument: UIViewControllerRepresentable {
         
         if pdfFinalDocument == Data() {
             print("There is no data")
+            
         }
         
         
@@ -96,7 +100,8 @@ struct PrintDocument: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-        
+       print("end 1")
+        activityMonitorIsShowing = false
     }
     
 }

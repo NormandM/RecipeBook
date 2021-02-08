@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import PDFKit
+import UIKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var savedValue: SavedValue
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
@@ -24,6 +27,9 @@ struct ContentView: View {
     @State private var appIsFirstOpen = true
     @State private var firstOpenOpacity: Double = 1.0
     @State private var showUnlockBook = false
+    @State private var bookNotUnlocked = false
+    @State private var isUnlock: Bool = UserDefaults.standard.bool(forKey: "unlocked")
+    let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     var body: some View {
         if appIsFirstOpen {
             NMLogo(appIsFirstOpen: $appIsFirstOpen, firstOpenOpacity: $firstOpenOpacity)
@@ -55,18 +61,33 @@ struct ContentView: View {
                         .font(.footnote)
                         .fontWeight(.light)
                         .italic()
+                        .foregroundColor(colorScheme == .light ? .black : .black)
                     Text("\(recipes.count)")
                         .font(.footnote)
                         .fontWeight(.light)
                         .italic()
+                        .foregroundColor(colorScheme == .light ? .black : .black)
                     }
                     Spacer()
                     Button(action: {
-                        showingAddScreen = true
+                        if recipes.count < 7 || isUnlock {
+                            showingAddScreen = true
+                        }else{
+                            bookNotUnlocked = true
+                        }
+                        
                     }){
                         Text(NSLocalizedStringFunc(key:"Add a Recipe"))
                             .font(.title)
                     }
+                    .alert(isPresented: $bookNotUnlocked) {
+                        Alert(title: Text("Do you want to add more recipes?"), message: Text("Unlock your Recipe Book"), primaryButton: .default(Text("OK"), action: {
+                            showUnlockBook = true
+                        }), secondaryButton: .default(Text("Not now"), action: {
+                            bookNotUnlocked = false
+                        }))
+                    }
+                    
                     Spacer()
                     Button(action: {
                         if savedValue.recipeSaved {
@@ -157,11 +178,44 @@ struct ContentView: View {
                     newMealCategory12.type = "Vegetable"
                     newMealCategory12.typeImage = "Vegetable"
                     try? self.moc.save()
+                    let newRecipe = Recipe(context: self.moc)
+                    newRecipe.id = UUID()
+                    newRecipe.imageName = "ImageGateau"
+                    newRecipe.name = "Gâteau aux fruits"
+//                    var docURL = documentDirectory.appendingPathComponent("IngredientGateau.pdf")
+//                    let pdfIngredientData = PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
+//                    newRecipe.pdfIngredient = pdfIngredientData
+//                    docURL = documentDirectory.appendingPathComponent("PreparationGateau.pdf")
+//                    let pdfPreparationData = PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
+//                    newRecipe.pdfPreparation = pdfPreparationData
+                    let preparationImage = UIImage(named: "PreparationGateau")
+                    let pdfPage = PDFPage(image: preparationImage ?? UIImage())
+                    let pdfDocument = PDFDocument()
+                    pdfDocument.insert(pdfPage ?? PDFPage(), at: 0)
+                    newRecipe.pdfPreparation = pdfDocument.dataRepresentation()
+                    let ingredientImage = UIImage(named: "IngredientGateau")
+                    let pdfPage2 = PDFPage(image: ingredientImage ?? UIImage())
+                    let pdfDocument2 = PDFDocument()
+                    pdfDocument2.insert(pdfPage2 ?? PDFPage(), at: 0)
+                    newRecipe.pdfIngredient = pdfDocument2.dataRepresentation()
+                    let uiImage = UIImage(named: "ImageGateau")
+                    let dataImage = uiImage?.jpeg(.lowest)
+                    newRecipe.photo = dataImage
+                    newRecipe.rating = 5
+                    newRecipe.servings = "12"
+                    newRecipe.timeToCook = "60 minutes"
+                    newRecipe.timeToPrepare = "40 minutes"
+                    newRecipe.type = "Dessert"
+                    newRecipe.imageName = "Dessert"
+                    newRecipe.chef = "Oralia"
+                    try? self.moc.save()
+                    
                 }
                 Duplicates.remove(mealTypes: mealTypes, moc: moc)
                 for number in 0 ..< mealTypes.count {
                     arrayMealTypes.append(mealTypes[number].wrappedType)
                 }
+
 
                 
             }

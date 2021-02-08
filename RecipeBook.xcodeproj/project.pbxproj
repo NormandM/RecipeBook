@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E0D20FF24F84E73003E24AD /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0D20FE24F84E73003E24AD /* NavigationBarModifier.swift */; };
+		8E1058EC25CF3A8E0011A105 /* WaitingToShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1058EB25CF3A8E0011A105 /* WaitingToShare.swift */; };
 		8E1B2125257FE3A20036FFBF /* PDfViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B2124257FE3A20036FFBF /* PDfViewer.swift */; };
 		8E2802DE24EC5A8D008B6057 /* MealType+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2802DC24EC5A8D008B6057 /* MealType+CoreDataClass.swift */; };
 		8E2802DF24EC5A8D008B6057 /* MealType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2802DD24EC5A8D008B6057 /* MealType+CoreDataProperties.swift */; };
@@ -88,6 +89,7 @@
 
 /* Begin PBXFileReference section */
 		8E0D20FE24F84E73003E24AD /* NavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarModifier.swift; sourceTree = "<group>"; };
+		8E1058EB25CF3A8E0011A105 /* WaitingToShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingToShare.swift; sourceTree = "<group>"; };
 		8E1760E82597BF4000D62129 /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		8E1760E92597BF4100D62129 /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8E1B2124257FE3A20036FFBF /* PDfViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDfViewer.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				8E4F1E102506CECD0027E67A /* GeneralInformationView.swift */,
 				8E4F1E122506D0980027E67A /* RecipePreparationView.swift */,
 				8E4A72ED2555F5CD005C2E3E /* RecipeIngredientsView.swift */,
+				8E1058EB25CF3A8E0011A105 /* WaitingToShare.swift */,
 			);
 			path = RecipeList;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				8EC53BC3258FCE6400247B3E /* PDFCreator.swift in Sources */,
 				8EDF0A6424DF449300F2A490 /* Recipe+CoreDataClass.swift in Sources */,
 				8EE219C525B78C8400075986 /* AlertEnum.swift in Sources */,
+				8E1058EC25CF3A8E0011A105 /* WaitingToShare.swift in Sources */,
 				8EB442EC24D4AAED00AE0D52 /* PreparationView.swift in Sources */,
 				8EFB3EC3259E5AB3003F165D /* PdfSizeReduction.swift in Sources */,
 				8EDF0A6924E0903300F2A490 /* RecipeDetail.swift in Sources */,
@@ -798,6 +802,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RecipeBook/RecipeBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_ASSET_PATHS = "\"RecipeBook/Preview Content\"";
 				DEVELOPMENT_TEAM = X6D769Z7F4;
 				ENABLE_PREVIEWS = YES;
@@ -821,6 +826,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RecipeBook/RecipeBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_ASSET_PATHS = "\"RecipeBook/Preview Content\"";
 				DEVELOPMENT_TEAM = X6D769Z7F4;
 				ENABLE_PREVIEWS = YES;

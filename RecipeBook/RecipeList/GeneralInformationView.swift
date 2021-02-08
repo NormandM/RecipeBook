@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GeneralInformationView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     var fetchRequest: FetchRequest<Recipe>
     var title: String
     @State private var recipeName = ""
@@ -35,7 +36,7 @@ struct GeneralInformationView: View {
                     Text(title)
                         .multilineTextAlignment(.center)
                         .font(.title)
-                        .padding(.leading)
+                        .foregroundColor(colorScheme == .light ? .black : .black)                        .padding(.leading)
                         .padding(.trailing)
                     List{
                         Section(header: SectionHeader(text: NSLocalizedStringFunc(key: "Basic Information"))) {

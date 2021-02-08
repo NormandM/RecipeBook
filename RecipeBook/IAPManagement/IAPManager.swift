@@ -118,7 +118,6 @@ extension IAPManager: SKPaymentTransactionObserver {
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                 case .failed:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-
                     self.purchasePublisher.send((NSLocalizedStringFunc(key:"The transaction could not be completed"), false))
 
                 case .restored:

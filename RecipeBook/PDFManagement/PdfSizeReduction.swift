@@ -18,7 +18,7 @@ struct PDFSizeReduction {
     }catch(let error){
         print("error is \(error.localizedDescription)")
     }
-    guard let uIImage = PdfToUIImage.drawPDFfromURL(url: pdfDataUrl), let newData = uIImage.jpeg(.low), let newUIImage = UIImage(data: newData), let newPDfPage = PDFPage(image: newUIImage) else {
+        guard let uIImage = PdfToUIImage.drawPDFfromURL(url: pdfDataUrl), let newData = uIImage.jpeg(.lowest), let newUIImage = UIImage(data: newData), let newPDfPage = PDFPage(image: newUIImage) else {
         return Data()
     }
     let newPDF = PDFDocument()

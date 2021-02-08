@@ -10,6 +10,7 @@ import PDFKit
 
 struct RecipeIngredientsView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     var fetchRequest: FetchRequest<Recipe>
     var title: String
     var savedPdfView: SavedPdfViewUI
@@ -29,6 +30,7 @@ struct RecipeIngredientsView: View {
                 Text(title)
                     .multilineTextAlignment(.center)
                     .font(.title)
+                    .foregroundColor(colorScheme == .light ? .black : .black)
                     .padding(.leading)
                     .padding(.trailing)
                 if isPDFPresent {
@@ -40,6 +42,7 @@ struct RecipeIngredientsView: View {
                 if ingredientsText != "" {
                 ScrollView {
                     Text(ingredientsText)
+                        .foregroundColor(colorScheme == .light ? .black : .black)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 }
                 .border(Color.black, width: 1)

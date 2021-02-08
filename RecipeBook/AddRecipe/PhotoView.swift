@@ -10,6 +10,7 @@ import UIKit
 
 @available(iOS 14.0, *)
 struct PhotoView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var image: Image? = nil
     @Environment(\.presentationMode) var presentationMode
     @Binding var data: Data?
@@ -35,6 +36,7 @@ struct PhotoView: View {
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .font(.title)
+                            .foregroundColor(colorScheme == .light ? .black : .black)
                     }
                     if (showCaptureImageView) {
                         CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)

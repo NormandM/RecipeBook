@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FilteredrecipeListView: View {
+    @Environment(\.colorScheme) var colorScheme
     var fetchRequestRecipe: FetchRequest<Recipe>
     init(filter: String){
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "type == %@", filter))
@@ -15,8 +16,9 @@ struct FilteredrecipeListView: View {
     var body: some View {
         
             ForEach(fetchRequestRecipe.wrappedValue){recipe in
-                NavigationLink(destination: RecipeDetail(recipe: recipe, isSheetShown: false)) {
+                NavigationLink(destination: RecipeDetail(recipe: recipe)) {
                     Text(recipe.wrappedName)
+                        .foregroundColor(colorScheme == .light ? .black : .black)
                         .padding(.leading)
                 }
             }

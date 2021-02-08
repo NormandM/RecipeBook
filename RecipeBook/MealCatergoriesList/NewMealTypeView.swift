@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct NewMealTypeView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var newMealType: String
-    @State private var enterNewMealTypeVisible: Bool = false
     @State private var opaci = 0.0
     @State private var scaleforTrait: CGFloat = 0.0
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -20,11 +20,11 @@ struct NewMealTypeView: View {
 
                     TextField(NSLocalizedStringFunc(key:"Enter New Meal Category"), text: $newMealType, onCommit: {
                         UIApplication.shared.endEditing()
+                        
                     })
                     .padding()
-                    
                     .frame(width: geo.size.height/scaleView(), alignment: .center)
-                    .background(ColorReference.specialSand)
+                    .background(colorScheme == .light ? ColorReference.specialSand : ColorReference.specialDarkBrown)
                     .cornerRadius(25)
                     .padding()
                     

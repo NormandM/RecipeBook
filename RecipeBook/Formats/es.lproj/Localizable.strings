@@ -121,4 +121,9 @@
 "There is no purchase to restore" = "No hay compra para restaurar";
 "Purchase request failed" = "Error en la solicitud de compra";
 "Your recipe Book is unlocked" = "Su libro de recetas está desbloqueado";
-"The transaction could not be completed" = "Impossibile completare la transazione";
+"The transaction could not be completed" = "La transacción no pudo completarse";
+"Recipe was saved" = "Se ha guardado la receta";
+"Do you want to add more recipes?" = "¿Quiere agregar mas recetas?";
+"Unlock your Recipe Book" = "Desbloquee su libro de recetas";
+"Not now" = "Ahora no";
+"Preparing file to share" = "Preparando archivo para compartir";

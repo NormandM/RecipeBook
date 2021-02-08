@@ -21,7 +21,7 @@ struct RecipePageView: View {
                                 Label {
                                     Text(NSLocalizedStringFunc(key:mealTypes[number].wrappedType))
                                         .foregroundColor(.primary)
-                                        .font(.largeTitle)
+                                        .font(.title)
                                         .padding()
                                 } icon: {
                                     if mealTypes[number].wrappedType != ""{

@@ -123,8 +123,6 @@ class PDFCreator: NSObject {
         }
         textRect = CGRect(x: imageX, y: textTop + 10, width: scaledWidth,
                               height: bodyTextHeight)
-     //   bodyTextBottom = textRect.origin.y + textRect.size.height
-
         attributedText.draw(in: textRect)
     }
     

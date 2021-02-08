@@ -11,6 +11,7 @@ import PDFKit
 @available(iOS 14.0, *)
 struct IngredientView: View {
     @Binding var ingredient: String
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     @State private var recipeIngredient: String = ""
@@ -50,6 +51,7 @@ struct IngredientView: View {
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .font(.title)
+                            .foregroundColor(colorScheme == .light ? .black : .black)
                     }
                 }
                 .toolbar {
@@ -58,8 +60,7 @@ struct IngredientView: View {
                                 self.showingScanningView = true
                                 scaningIngredient = true
                             }, label: {
-//                                Label("Scan", systemImage: "camera.fill")
-//                                    .labelStyle(TitleOnlyLabelStyle())
+
                                 HStack {
                                     Text("Scan")
                                     Image(systemName: "camera.fill")
@@ -76,8 +77,6 @@ struct IngredientView: View {
                                 recipeIngredient = ""
                                 writingIngredient = true
                             }, label: {
-//                                Label("Write", systemImage: "square.and.pencil")
-//                                    .labelStyle(TitleOnlyLabelStyle())
                                 HStack {
                                     Text("Write")
                                     Image(systemName: "square.and.pencil")
@@ -95,6 +94,7 @@ struct IngredientView: View {
                                         if scaningIngredient {
                                             let docURL = documentDirectory.appendingPathComponent("Ingredient.pdf")
                                             pdfIngredient =  PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
+                                            pdfIngredient = PDFSizeReduction.execute(pdfData: pdfIngredient)
                                         }
                                         if writingIngredient {
                                             self.ingredient = recipeIngredient
