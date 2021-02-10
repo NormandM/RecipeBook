@@ -13,7 +13,6 @@ import Combine
 
 class IAPManager: NSObject{
     let purchasePublisher = PassthroughSubject<(String, Bool), Never>()
-    var coins = UserDefaults.standard.integer(forKey: "coins")
     var totalRestoredPurchases = 0
     static let shared = IAPManager()
     override init() {
@@ -45,7 +44,6 @@ class IAPManager: NSObject{
     }
     func restorePurchasesV5() {
         totalRestoredPurchases = 0
-        print()
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
@@ -115,6 +113,7 @@ extension IAPManager: SKPaymentTransactionObserver {
                     break
                 case .purchased:
                     purchasePublisher.send((NSLocalizedStringFunc(key:"Your recipe Book is unlocked"), true))
+                    
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                 case .failed:
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -124,6 +123,7 @@ extension IAPManager: SKPaymentTransactionObserver {
                     print("restore")
                     totalRestoredPurchases += 1
                     print(totalRestoredPurchases)
+                    UserDefaults.standard.setValue(true, forKey: "unlocked")
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     break
                 case .deferred:

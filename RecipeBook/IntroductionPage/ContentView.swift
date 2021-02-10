@@ -42,7 +42,7 @@ struct ContentView: View {
                 NavigationLink(destination: RecipePageView(mealTypes: mealTypes), isActive: $showRecipeListView) {EmptyView()}
                 NavigationLink(destination: AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0), isActive: $showingAddScreen) {EmptyView()}
                 NavigationLink(destination: MealTypeList( mealTypes: mealTypes), isActive: $showingMealTypes) {EmptyView()}
-                NavigationLink(destination: UnlockBookView(), isActive: $showUnlockBook) {EmptyView()}
+                NavigationLink(destination: UnlockBookView(isUnlock: $isUnlock), isActive: $showUnlockBook) {EmptyView()}
                 VStack {
                     Spacer()
                     Button(action: {
@@ -55,6 +55,7 @@ struct ContentView: View {
                     }){
                         Text(NSLocalizedStringFunc(key: "Recipe List"))
                             .font(.title)
+                            .foregroundColor(Color.black)
                     }
                     HStack {
                     Text(NSLocalizedStringFunc(key: "Number of recipes:"))
@@ -70,6 +71,7 @@ struct ContentView: View {
                     }
                     Spacer()
                     Button(action: {
+                        print(isUnlock)
                         if recipes.count < 7 || isUnlock {
                             showingAddScreen = true
                         }else{
@@ -79,6 +81,7 @@ struct ContentView: View {
                     }){
                         Text(NSLocalizedStringFunc(key:"Add a Recipe"))
                             .font(.title)
+                            .foregroundColor(Color.black)
                     }
                     .alert(isPresented: $bookNotUnlocked) {
                         Alert(title: Text("Do you want to add more recipes?"), message: Text("Unlock your Recipe Book"), primaryButton: .default(Text("OK"), action: {
@@ -98,6 +101,7 @@ struct ContentView: View {
                     }){
                         Text(NSLocalizedStringFunc(key:"Meal Types"))
                             .font(.title)
+                            .foregroundColor(Color.black)
                     }
                     .alert(isPresented: $showAlertRecipeNotSaved) {
                         Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("OK"), action: {
@@ -118,6 +122,7 @@ struct ContentView: View {
                     }){
                         Text(NSLocalizedStringFunc(key:"Unlock Book"))
                             .font(.title)
+                            .foregroundColor(.black)
                     }
                     Spacer()
                 }
@@ -127,7 +132,13 @@ struct ContentView: View {
             }
 
             .onAppear{
+                print("appeared")
                 IAPManager.shared.getProductsV5()
+                if !UserDefaults.standard.bool(forKey: "unlocked"){
+                    IAPManager.shared.restorePurchasesV5()
+                }
+                
+                print(mealTypes.count)
                 if mealTypes.count == 0 {
                     let newMealCategory = MealType(context: self.moc)
                     newMealCategory.id = UUID()
@@ -178,16 +189,19 @@ struct ContentView: View {
                     newMealCategory12.type = "Vegetable"
                     newMealCategory12.typeImage = "Vegetable"
                     try? self.moc.save()
+                    
+                    
+                }
+            
+                Duplicates.remove(mealTypes: mealTypes, moc: moc)
+                for number in 0 ..< mealTypes.count {
+                    arrayMealTypes.append(mealTypes[number].wrappedType)
+                }
+                if recipes.count == 0 {
                     let newRecipe = Recipe(context: self.moc)
                     newRecipe.id = UUID()
                     newRecipe.imageName = "ImageGateau"
                     newRecipe.name = "Gâteau aux fruits"
-//                    var docURL = documentDirectory.appendingPathComponent("IngredientGateau.pdf")
-//                    let pdfIngredientData = PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
-//                    newRecipe.pdfIngredient = pdfIngredientData
-//                    docURL = documentDirectory.appendingPathComponent("PreparationGateau.pdf")
-//                    let pdfPreparationData = PDFDocument(url: docURL)?.dataRepresentation() ?? Data()
-//                    newRecipe.pdfPreparation = pdfPreparationData
                     let preparationImage = UIImage(named: "PreparationGateau")
                     let pdfPage = PDFPage(image: preparationImage ?? UIImage())
                     let pdfDocument = PDFDocument()
@@ -209,11 +223,6 @@ struct ContentView: View {
                     newRecipe.imageName = "Dessert"
                     newRecipe.chef = "Oralia"
                     try? self.moc.save()
-                    
-                }
-                Duplicates.remove(mealTypes: mealTypes, moc: moc)
-                for number in 0 ..< mealTypes.count {
-                    arrayMealTypes.append(mealTypes[number].wrappedType)
                 }
 
 

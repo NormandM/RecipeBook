@@ -11,7 +11,7 @@ import Combine
 import Network
 struct UnlockBookView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var isUnlock: Bool = UserDefaults.standard.bool(forKey: "unlocked")
+    @Binding var isUnlock: Bool
     var iapManager = IAPManager()
     @State private var price = ""
     @State private var showAlertPurchased = false
@@ -105,6 +105,7 @@ struct UnlockBookView: View {
             if products.items.count > 0 {
                 self.price = IAPManager.shared.getPriceFormatted(for: self.products.items[0]) ?? ""
             }
+            isUnlock = UserDefaults.standard.bool(forKey: "unlocked")
         }
     }
     func isInternetConnected() -> Bool {
@@ -114,8 +115,8 @@ struct UnlockBookView: View {
     
 }
 
-struct UnlockBookView_Previews: PreviewProvider {
-    static var previews: some View {
-        UnlockBookView()
-    }
-}
+//struct UnlockBookView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UnlockBookView()
+//    }
+//}

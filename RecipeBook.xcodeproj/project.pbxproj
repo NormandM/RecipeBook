@@ -27,7 +27,6 @@
 		8E702EB025C2001400440C85 /* UnlockBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E702EAF25C2001400440C85 /* UnlockBookView.swift */; };
 		8E702EB625C336D700440C85 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E702EB525C336D700440C85 /* IAPManager.swift */; };
 		8E702EBB25C33BD600440C85 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E702EBA25C33BD600440C85 /* StoreKit.framework */; };
-		8E702EC625C34A8800440C85 /* ConnectionReachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E702EC525C34A8800440C85 /* ConnectionReachable.swift */; };
 		8E7348AA2563274100997484 /* Coordinator2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7348A92563274100997484 /* Coordinator2.swift */; };
 		8E7349032565ADF700997484 /* ScanDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7349022565ADF600997484 /* ScanDocumentView.swift */; };
 		8E8010BA25C9E64300F9F232 /* InternetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8010B925C9E64300F9F232 /* InternetMonitor.swift */; };
@@ -112,7 +111,6 @@
 		8E702EAF25C2001400440C85 /* UnlockBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockBookView.swift; sourceTree = "<group>"; };
 		8E702EB525C336D700440C85 /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		8E702EBA25C33BD600440C85 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		8E702EC525C34A8800440C85 /* ConnectionReachable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionReachable.swift; sourceTree = "<group>"; };
 		8E7348A92563274100997484 /* Coordinator2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator2.swift; sourceTree = "<group>"; };
 		8E7349022565ADF600997484 /* ScanDocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanDocumentView.swift; sourceTree = "<group>"; };
 		8E8010A025C750C900F9F232 /* StoreKitTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitTest.storekit; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				8E702EB525C336D700440C85 /* IAPManager.swift */,
-				8E702EC525C34A8800440C85 /* ConnectionReachable.swift */,
 				8E8010B925C9E64300F9F232 /* InternetMonitor.swift */,
 			);
 			path = IAPManagement;
@@ -559,7 +556,6 @@
 				8EFB3EDD25A114DB003F165D /* NewMealTypeView.swift in Sources */,
 				8E2A4CE824F5B32300950FB0 /* TextListView.swift in Sources */,
 				8EC53BC8258FD06500247B3E /* PdfToUIImage.swift in Sources */,
-				8E702EC625C34A8800440C85 /* ConnectionReachable.swift in Sources */,
 				8E702EB625C336D700440C85 /* IAPManager.swift in Sources */,
 				8E2FEC8F253CB50C00E4B608 /* RecipePageView.swift in Sources */,
 				8E83D6402569BB31005ADBFB /* FuncForLocalisation.swift in Sources */,
