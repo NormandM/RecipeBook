@@ -20,26 +20,20 @@ struct NewMealTypeView: View {
 
                     TextField(NSLocalizedStringFunc(key:"Enter New Meal Category"), text: $newMealType, onCommit: {
                         UIApplication.shared.endEditing()
-                        
                     })
                     .padding()
                     .frame(width: geo.size.height/scaleView(), alignment: .center)
                     .background(colorScheme == .light ? ColorReference.specialSand : ColorReference.specialDarkBrown)
                     .cornerRadius(25)
                     .padding()
-                    
-                    
-                    
                     Image("IconeRecipe")
                         .resizable()
                         .frame(width: geo.size.height/scaleView(), height: geo.size.height/scaleView())
                         .cornerRadius(25)
                 }
-                
             }
             .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
             .navigationBarColor(UIColorReference.specialGreen)
-            
         }
     }
     func scaleView() -> CGFloat {

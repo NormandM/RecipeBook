@@ -100,7 +100,6 @@ struct PrintDocument: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-       print("end 1")
         activityMonitorIsShowing = false
     }
     

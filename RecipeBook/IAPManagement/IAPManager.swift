@@ -120,9 +120,7 @@ extension IAPManager: SKPaymentTransactionObserver {
                     self.purchasePublisher.send((NSLocalizedStringFunc(key:"The transaction could not be completed"), false))
 
                 case .restored:
-                    print("restore")
                     totalRestoredPurchases += 1
-                    print(totalRestoredPurchases)
                     UserDefaults.standard.setValue(true, forKey: "unlocked")
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     break

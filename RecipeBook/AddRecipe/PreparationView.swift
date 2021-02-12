@@ -25,7 +25,7 @@ struct PreparationView: View {
     var existingPreparation: String
     var existingPreparationPdf: Data
     @State var pdfView: PdfViewUI!
-
+    
     
     var body: some View {
         
@@ -38,7 +38,7 @@ struct PreparationView: View {
                     VStack {
                         if scaningPreparation || existingPreparationPdf != Data() {
                             pdfView
-
+                                
                                 .border(Color.black, width: 1)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .padding()
@@ -62,43 +62,36 @@ struct PreparationView: View {
                     }
                 }
                 .toolbar {
-                        ToolbarItem(placement: .bottomBar) {
-                            Button(action: {
-                                self.showingScanningView = true
-                                scaningPreparation = true
-                            }, label: {
-//                                Label("Scan", systemImage: "camera.fill")
-//                                    .labelStyle(TitleOnlyLabelStyle())
-                                HStack {
-                                    Text("Scan")
-                                    Image(systemName: "camera.fill")
-                                }
-                                    
-                                })
-                        }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            self.showingScanningView = true
+                            scaningPreparation = true
+                        }, label: {
+                            HStack {
+                                Text("Scan")
+                                Image(systemName: "camera.fill")
+                            }
+                            
+                        })
+                    }
                     
-                        ToolbarItem(placement: .bottomBar) {
-                            Spacer()
-                        }
-                        ToolbarItem(placement: .bottomBar) {
-                            Button(action: {
-                                recipePreparation = ""
-                                writingPreparation = true
-                            }, label: {
-//                                Label("Write", systemImage: "square.and.pencil")
-//                                    .labelStyle(TitleOnlyLabelStyle())
-                                HStack {
-                                    Text("Write")
-                                    Image(systemName: "square.and.pencil")
-                                }
-                                    
-                                })
-                        }
-                        
+                    ToolbarItem(placement: .bottomBar) {
+                        Spacer()
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            recipePreparation = ""
+                            writingPreparation = true
+                        }, label: {
+                            HStack {
+                                Text("Write")
+                                Image(systemName: "square.and.pencil")
+                            }
+                            
+                        })
+                    }
                 }
-                
             }
-            
             .navigationBarTitle(NSLocalizedStringFunc(key:"Preparation"), displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
@@ -129,7 +122,6 @@ struct PreparationView: View {
         .background(ColorReference.specialSand)
         .edgesIgnoringSafeArea([.leading, .trailing])
         .onAppear{
-
             if existingPreparation != "" {
                 writingPreparation = true
                 recipePreparation = existingPreparation
@@ -140,9 +132,9 @@ struct PreparationView: View {
                 let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                 let docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
                 do{
-                  try data.write(to: docURL)
+                    try data.write(to: docURL)
                 }catch(let error){
-                   print("error is \(error.localizedDescription)")
+                    print("error is \(error.localizedDescription)")
                 }
                 pdfView = PdfViewUI(nameOfScan: "Preparation.pdf")
             }

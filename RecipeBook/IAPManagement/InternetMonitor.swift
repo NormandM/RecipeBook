@@ -15,10 +15,8 @@ class InternetMonitor: ObservableObject {
         monitor.pathUpdateHandler = { path in
             DispatchQueue.main.async {
                 if path.status == .satisfied {
-                    print("We're connected!")
                     self.isConnected = true
                 } else {
-                    print("Not connected")
                     self.isConnected = false
                 }
             }

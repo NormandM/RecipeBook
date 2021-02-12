@@ -23,6 +23,5 @@ func drawPDFfromURL(url: URL) -> UIImage? {
 
         ctx.cgContext.drawPDFPage(page)
     }
-
     return img
 }

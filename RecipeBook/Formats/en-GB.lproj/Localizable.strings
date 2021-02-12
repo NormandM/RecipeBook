@@ -110,7 +110,7 @@
 "Cancel" = "Cancel";
 "Number of recipes:" = "Number of recipes:";
 "Unlock Book" = "Unlock Book";
-"Enter  all your recipes for:" = "Enter  all your recipes for:";
+"Enter all your recipes for: %@" = "Enter all your recipes for: %@";
 "There is no internet connection" = "There is no internet connection";
 "To unlock you have to be connected" = "To unlock you have to be connected";
 "Already purchased unlock?" = "Already purchased unlock?";
@@ -127,3 +127,6 @@
 "Unlock your Recipe Book" = "Unlock your Recipe Book";
 "Not now" = "Not now";
 "Preparing file to share" = "Preparing file to share";
+"This category can not be deleted" = "This category can not be deleted";
+"Restore your purchase" = "Restore your purchase";
+"Your Book is unlocked!" = "Your Book is unlocked!";

@@ -111,7 +111,6 @@ struct IngredientView: View {
             }){
                 ScanDocumentView(nameOfScan: "Ingredient.pdf")
             }
-            
             .navigationBarColor(UIColorReference.specialGreen)
             .background(ColorReference.specialSand)
             .edgesIgnoringSafeArea([.leading, .trailing])

@@ -23,9 +23,7 @@ struct FilteredrecipeListView: View {
                 }
             }
             .listRowBackground(ColorReference.specialSand)
-            
     }
-    
 }
 
 //struct FilteredrecipeListView_Previews: PreviewProvider {

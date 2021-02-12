@@ -26,17 +26,17 @@ struct UnlockBookView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                Text("Enter  all your recipes for:")
-                    .font(.headline)
-                    .foregroundColor(colorScheme == .light ? .black : .black)
-                Text(self.price)
-                    .font(.headline)
-                    .foregroundColor(colorScheme == .light ? .black : .black)
+                HStack {
+                    Text(isUnlock ? "Your Book is unlocked!" : "Enter all your recipes for: \(self.price)")
+                        .font(.title)
+                        .foregroundColor(colorScheme == .light ? .black : .black)
+                        .multilineTextAlignment(.center)
+                }
                 Image("IconeRecipe")
                     .resizable()
+                    .scaledToFit()
                     .border(Color.black, width: 1)
                     .frame(width: geo.size.height * 0.2, height: geo.size.height * 0.2, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .padding()
                 Button(action: {
                     if isInternetConnected() {
                     isUnlock = UserDefaults.standard.bool(forKey: "unlocked")
@@ -46,8 +46,6 @@ struct UnlockBookView: View {
                         alertMessage = NSLocalizedStringFunc(key:"There is no internet connection")
                         alertDetail = NSLocalizedStringFunc(key:"To unlock you have to be connected")
                     }
-                    
-                    
                 }){
                     VStack {
                         Image(isUnlock ? "unlock" : "lock")
@@ -55,15 +53,10 @@ struct UnlockBookView: View {
                             .frame(width: geo.size.height * 0.12, height: geo.size.height * 0.12, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .padding(.top)
                         Text("Unlock")
+                            .foregroundColor(ColorReference.specialGray)
                     }
                 }
                 .padding(.bottom)
-                Text("Already purchased unlock?")
-                    .foregroundColor(colorScheme == .light ? .black : .black)
-                    .alert(isPresented: $showAlerts) {
-                        Alert(title: Text(alertMessage), message: Text(alertDetail), dismissButton: .default(Text("OK")){
-                        })
-                    }
                 Button(action: {
                     if isInternetConnected() {
                     IAPManager.shared.restorePurchasesV5()
@@ -76,8 +69,13 @@ struct UnlockBookView: View {
                         Image("Restore")
                             .resizable()
                             .frame(width: geo.size.height * 0.10, height: geo.size.height * 0.10, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        Text("Restore")
+                        Text("Restore your purchase")
+                            .foregroundColor(ColorReference.specialGray)
                     }
+                }
+                .alert(isPresented: $showAlerts) {
+                    Alert(title: Text(alertMessage), message: Text(alertDetail), dismissButton: .default(Text("OK")){
+                    })
                 }
                 .onReceive(publisher, perform: {value in
                     showAlerts = true
@@ -87,20 +85,14 @@ struct UnlockBookView: View {
                         isUnlock = value.1
                         UserDefaults.standard.set(isUnlock, forKey: "unlocked")
                     }
-
-                    
                 })
             }
             .navigationBarTitle("Unlock Book", displayMode: .inline)
             .navigationBarColor(UIColorReference.specialGreen)
             .background(ColorReference.specialSand)
             .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
-
-            
         }
-        
         .onAppear{
-            
             _ = isInternetConnected()
             if products.items.count > 0 {
                 self.price = IAPManager.shared.getPriceFormatted(for: self.products.items[0]) ?? ""

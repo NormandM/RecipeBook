@@ -162,8 +162,9 @@ struct AddARecipe: View {
             }
             .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         }
- 
-
+        .onDisappear{
+            clearDisk()
+        }
         .onAppear{
             savedValue.recipeSaved = true
             savedValue.noChangesMade = true
@@ -201,7 +202,6 @@ struct AddARecipe: View {
                 }
             }
         }
-        
         .navigationBarTitle("Add a Recipe", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
@@ -220,7 +220,6 @@ struct AddARecipe: View {
                                         .font(.title)
                                 })
                                 .padding()
-                            
         )
         .alert(isPresented: $showAlerts) {
             switch activeAlert {
@@ -260,19 +259,14 @@ struct AddARecipe: View {
     }
     func saveRecipe(){
         arrayName = [String]()
-        print("a")
         if self.name == ""{
-            print("b")
             showAlerts = true
             activeAlert = .showAlertNoName
         }else if !isNewRecipe{
-            print("c")
             if fetchRequestRecipe.wrappedValue.count != 0 {
-                print("d")
                 let existingRecipe = fetchRequestRecipe.wrappedValue[0]
                 save(recipe: existingRecipe)
             }else{
-                print("e")
                 save(recipe: currentRecipe!)
             }
             
@@ -280,13 +274,11 @@ struct AddARecipe: View {
             activeAlert = sameName(recipes: recipes)
             
             if !savedValue.recipeSaved && activeAlert != .showAlertSameName{
-                print("g")
                 currentRecipe = Recipe(context: self.moc)
                 isNewRecipe = false
                 save(recipe: currentRecipe!)
                 UIApplication.shared.endEditing()
             }
-
         }
     }
     func save(recipe: Recipe){
@@ -407,9 +399,7 @@ struct AddARecipe: View {
     }
     func sameName(recipes: FetchedResults<Recipe>) -> ActiveAlert{
         formArray(recipes: recipes)
-        print(arrayName)
         if arrayName.contains(self.name){
-            print("In same name")
             showAlerts = true
             return ActiveAlert.showAlertSameName
         }else{

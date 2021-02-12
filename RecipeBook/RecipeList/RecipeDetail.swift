@@ -40,13 +40,13 @@ struct RecipeDetail: View {
         self.recipe = recipe
     }
     var body: some View {
-        
         GeometryReader { geo in
             NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {EmptyView()}
             NavigationLink(destination: RecipePreparationView(filter: recipe.wrappedName), isActive: $isRecipePreparationShown){EmptyView()}
             NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {EmptyView()}
             NavigationLink(destination: RecipeIngredientsView(filter: recipe.wrappedName), isActive: $showIngredients) {EmptyView()}
             ZStack {
+                ColorReference.specialSand
                 VStack (alignment: .center) {
                     Picker("Numbers", selection: $selectorIndex) {
                         ForEach(0 ..< recipeViews.count) { index in
@@ -67,8 +67,6 @@ struct RecipeDetail: View {
                         .multilineTextAlignment(.center)
                         .font(.largeTitle)
                         .foregroundColor(colorScheme == .light ? .black : .black)
-                        
-                    
                     if let unwrappedImage = image {
                         unwrappedImage
                             .resizable()
@@ -102,7 +100,6 @@ struct RecipeDetail: View {
                         Button(action: {
                             showShareMenu = true
                             activityMonitorIsShowing = true
-                            print("Start preparing")
                             
                         }) {
                             HStack(spacing: 10) {
@@ -128,11 +125,9 @@ struct RecipeDetail: View {
                                     .foregroundColor(.red)
                                     .font(.headline)
                             }
-                            
                         }
                         .padding()
                     }
-
                 }
             }
             .padding()
@@ -144,8 +139,6 @@ struct RecipeDetail: View {
                                     })
             .padding()
             .background(ColorReference.specialSand)
-            .navigationBarColor(UIColorReference.specialGreen)
-            .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe"), displayMode: .inline)
             .onAppear{
                 arrayMealTypes = [String]()
@@ -188,8 +181,8 @@ struct RecipeDetail: View {
                     .position(x: geo.size.width/2, y: geo.size.height/2)
             }
         }
- 
-        
+        .navigationBarColor(UIColorReference.specialGreen)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
     func deleteRecipe() {
         moc.delete(recipe)

@@ -207,6 +207,7 @@ struct NutritionalFactsView: View {
                 Text(NSLocalizedStringFunc(key:"Back"))
             }
         })
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 

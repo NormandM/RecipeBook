@@ -18,7 +18,6 @@ struct PdfViewUI: UIViewRepresentable {
         let docURL = documentDirectory.appendingPathComponent(nameOfScan)
         pdfView.document = PDFDocument(url: docURL)
         pdfView.autoScales = true
-       // try? FileManager.default.removeItem(at: docURL)
         return pdfView
     }
     func updateUIView(_ uiView: UIView, context: Context) {

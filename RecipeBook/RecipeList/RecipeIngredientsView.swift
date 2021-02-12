@@ -57,13 +57,11 @@ struct RecipeIngredientsView: View {
                 }
                 if IngredientsPdfPresent == Data() {isPDFPresent = false}
             }
-            
-            
         }
         .navigationBarTitle(NSLocalizedStringFunc(key:"Ingredients"), displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .background(ColorReference.specialSand)
-        .edgesIgnoringSafeArea(.bottom)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 

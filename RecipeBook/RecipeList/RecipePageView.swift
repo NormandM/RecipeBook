@@ -37,9 +37,11 @@ struct RecipePageView: View {
                                 List{
                                     FilteredrecipeListView(filter: mealTypes[number].wrappedType)
                                         .environment(\.managedObjectContext, self.moc)
+                                        
                                 }
                                 .edgesIgnoringSafeArea(.all)
                             }
+                            .edgesIgnoringSafeArea(.all)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())

@@ -26,9 +26,7 @@ struct TextListView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50.0, height: 50.0)
-            
         }
-
     }
     func categoryName() -> String{
         let category = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]
@@ -38,7 +36,6 @@ struct TextListView: View {
         }else{
             return "Other"
         }
-        
     }
     func categoryImage() -> String {
         let categoryImage = ["Appetizer", "Breakfast", "Dessert", "Fish", "Meat", "Pasta", "Poultry", "Salad", "Sauce", "Soup", "Vegetable", "Other"]

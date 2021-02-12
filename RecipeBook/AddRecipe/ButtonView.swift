@@ -31,25 +31,17 @@ struct ButtonView: View {
             }else{
                 activeAlert = sameName(recipes)
                 if activeAlert == .showAlertSameName {
-                    print("2")
                     showAlerts = true
                     showAlertSameName = true
                 }
-                print("name: \(name)")
                 if name == "" {
-                    print("3")
                     activeAlert = .showAlertNoName
                     showAlertNoName = true
                     showAlerts = true
                 }
-                print("showAlertNoName: \(showAlertNoName)")
-                print("showAlertSameName: \(showAlertSameName)")
-                print("showAlerts: \(showAlerts)")
                 if !(showAlertNoName  || showAlertNoName){
-                    print("4")
                     activeAlert = areAllChangesSaved(recipes)
                     if activeAlert != ActiveAlert.showAlertRecipeNotSaved{
-                        print("5")
                         clearDisk()
                         recipeSaved = false
                         showAlerts = false
@@ -58,18 +50,13 @@ struct ButtonView: View {
                 }
             }
             
-            print(activeAlert)
         }, label: {
             HStack {
                 Image(systemName: "chevron.left")
                     .font(.title)
             }
         })
-        
     }
-
-    
-    
 }
 
 //struct ButtonView_Previews: PreviewProvider {

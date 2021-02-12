@@ -59,7 +59,7 @@ struct RecipePreparationView: View {
         .navigationBarTitle(NSLocalizedStringFunc(key:"Preparation"), displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .background(ColorReference.specialSand)
-        .edgesIgnoringSafeArea(.bottom)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 

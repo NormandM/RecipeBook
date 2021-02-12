@@ -11,13 +11,18 @@ struct MealTypeList: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     var mealTypes: FetchedResults<MealType>
+    var recipes: FetchedResults<Recipe>
     @State private var newMealType = ""
     @State private var enterNewMealTypeVisible = false
     @State private var textFieldChanged = false
     @State private var textFieldPlaceHolder = NSLocalizedStringFunc(key:"Enter New Meal Category")
     @State private var arrayMealTypes = [String]()
     @State private var showAlertSameName = false
-    
+    @State private var showAlertDelete = false
+    @State private var arrayRecipes = [Recipe]()
+    @State private var isOtherDeleting = false
+    @State private var alertMessage = ""
+    @State private var alertMessage2 = ""
     var body: some View {
         ZStack {
             GeometryReader { geo in
@@ -32,7 +37,6 @@ struct MealTypeList: View {
                 .onDelete(perform: removeMealTypes)
             }
             .blur(radius: enterNewMealTypeVisible  ?  50 : 0.0)
-          //  .navigationBarBackButtonHidden(true)
             .navigationBarTitle(NSLocalizedStringFunc(key:"Meal Types"), displayMode: .large)
             .navigationBarItems(leading: HStack {
                 Button(action: { presentationMode.wrappedValue.dismiss() }) {
@@ -50,7 +54,6 @@ struct MealTypeList: View {
                         .font(.headline)
                         .padding()
                 }
-                
             }, trailing:
                 HStack {
                     if enterNewMealTypeVisible {
@@ -65,6 +68,8 @@ struct MealTypeList: View {
                                 textFieldChanged = false
                             }else{
                                 showAlertSameName = true
+                                alertMessage = "This category alerady exist"
+                                alertMessage2 = ""
                             }
                             
                         }) {
@@ -85,21 +90,41 @@ struct MealTypeList: View {
         .navigationBarColor(UIColorReference.specialGreen)
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         .alert(isPresented: $showAlertSameName) {
-            Alert(title: Text(NSLocalizedStringFunc(key:"This category alerady exist")), dismissButton: .default(Text(NSLocalizedStringFunc(key:"Ok"))))
+            Alert(title: Text(NSLocalizedStringFunc(key:alertMessage)), message: Text(NSLocalizedStringFunc(key:alertMessage2)), dismissButton: .default(Text(NSLocalizedStringFunc(key:"Ok"))))
         }
-
         .onAppear{
+            for mealtype in mealTypes {
+                arrayMealTypes.append(mealtype.wrappedType)
+            }
+            for recipe in recipes {
+                arrayRecipes.append(recipe)
+            }
             Duplicates.remove(mealTypes: mealTypes, moc: moc)
         }
-
-
-
+        .onDisappear{
+            for recipe in arrayRecipes {
+                if !arrayMealTypes.contains(recipe.wrappedType){
+                    recipe.type = "Other"
+                    try? self.moc.save()
+                }
+            }
+        }
     }
     func removeMealTypes(at offsets: IndexSet) {
         for index in offsets {
             let mealType = mealTypes[index]
-            moc.delete(mealType)
+            if mealType.wrappedType == "Other" {
+                showAlertSameName = true
+                alertMessage = "This category can not be deleted"
+                alertMessage2 = ""
+            }else{
+                arrayMealTypes.remove(at: index)
+                moc.delete(mealType)
+            }
+
+           
         }
+        
         try? moc.save()
     }
     func checkForSameName() -> Bool{
@@ -116,7 +141,6 @@ struct MealTypeList: View {
         textFieldPlaceHolder = NSLocalizedStringFunc(key:"Enter New Meal Category")
         textFieldChanged = true
     }
-
 }
 
 

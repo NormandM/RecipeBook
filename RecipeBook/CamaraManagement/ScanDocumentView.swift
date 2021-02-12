@@ -72,7 +72,6 @@ struct ScanDocumentView: UIViewControllerRepresentable {
             }
             return extractedImages
         }
-        
     }
 }
 extension UIImage {

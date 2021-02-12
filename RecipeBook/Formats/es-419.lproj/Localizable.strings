@@ -110,7 +110,7 @@
 "Cancel" = "Cancelar";
 "Number of recipes:" = "Numero de recetas:";
 "Unlock Book" = "Desbloquear";
-"Enter  all your recipes for:" = "Ingrese todas sus recetas para:";
+"Enter all your recipes for: %@" = "Ingrese todas sus recetas para: %@";
 "There is no internet connection" = "No hay conexión a Internet";
 "To unlock you have to be connected" = "Para desbloquear tienes que estar conectado";
 "Already purchased unlock?" = "¿Ya compraste el desbloqueo?";
@@ -127,4 +127,7 @@
 "Unlock your Recipe Book" = "Desbloquee su libro de recetas";
 "Not now" = "Ahora no";
 "Preparing file to share" = "Preparando archivo para compartir";
+"This category can not be deleted" = "Esta categoría no se puede eliminar";
+"Restore your purchase" = "Restaura tu compra";
+"Your Book is unlocked!" = "¡Tu libro está desbloqueado!";
 

@@ -18,7 +18,6 @@ struct Duplicates {
         for mealType in mealTypes{
             moc.delete(mealType)
         }
-        
         try? moc.save()
         for mealType in filteredArray {
             let newMealCategory = MealType(context: moc)
