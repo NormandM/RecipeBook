@@ -25,7 +25,7 @@ struct RecipeDetail: View {
     @State private var showShareMenu = false
     @FetchRequest(entity: MealType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MealType.type, ascending: true)]) var mealTypes: FetchedResults<MealType>
     @State private var arrayMealTypes = [String]()
-    @State private var recipeViews = [NSLocalizedStringFunc(key:"Main"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Ingredients"), NSLocalizedStringFunc(key:"Preparation")]
+    @State private var recipeViews = [NSLocalizedStringFunc(key:"Title"), NSLocalizedStringFunc(key:"Information"), NSLocalizedStringFunc(key:"Ingredients"), NSLocalizedStringFunc(key:"Preparation")]
     @State private var selectorIndex = 0
     @State private var preparationDataIsPresent = false
     @State private var ingredientDataIsPresent = false
@@ -47,7 +47,7 @@ struct RecipeDetail: View {
             NavigationLink(destination: RecipeIngredientsView(filter: recipe.wrappedName), isActive: $showIngredients) {EmptyView()}
             ZStack {
                 ColorReference.specialSand
-                VStack (alignment: .center) {
+                VStack () {
                     Picker("Numbers", selection: $selectorIndex) {
                         ForEach(0 ..< recipeViews.count) { index in
                             Text(self.recipeViews[index]).tag(index)
@@ -63,27 +63,27 @@ struct RecipeDetail: View {
                     })
                     .pickerStyle(SegmentedPickerStyle())
                     Spacer()
-                    Text(recipe.wrappedName)
+                    Text(NSLocalizedStringFunc(key:recipe.wrappedName))
                         .multilineTextAlignment(.center)
                         .font(.largeTitle)
                         .foregroundColor(colorScheme == .light ? .black : .black)
+                    Spacer()
                     if let unwrappedImage = image {
                         unwrappedImage
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .border(Color.black, width: 1)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                            .padding(.top)
                             .scaleEffect(scale)
+                            .frame(height: geo.size.height * 0.4)
                             .gesture(MagnificationGesture()
                                         .updating($scale, body: { (value, scale, trans) in
                                             scale = value.magnitude
                                         })
                             )
                             .zIndex(1)
+
                     }else{
                         ZStack {
-                            
                             Text("There is not picture\nfor this recipe")
                                 .multilineTextAlignment(.center)
                                 .font(.largeTitle)
@@ -92,54 +92,74 @@ struct RecipeDetail: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .border(Color.black, width: 1)
-                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                                .padding(.top)
+                                .frame(height: geo.size.height * 0.6)
                         }
+                        .background(Color.red)
                     }
-                    HStack {
-                        Button(action: {
-                            showShareMenu = true
-                            activityMonitorIsShowing = true
-                            
-                        }) {
-                            HStack(spacing: 10) {
-                                Image(systemName: "square.and.arrow.up")
-                                    .foregroundColor(.blue)
-                                    .font(.headline)
-                                Text(NSLocalizedStringFunc(key:"Share"))
-                                    .foregroundColor(.blue)
-                                    .font(.headline)
-                            }
-                        }
-                        .padding()
-                        Spacer()
-                        Button(action: {
-                            showAlertDeleteRecipe = true
-                            
-                        }) {
-                            HStack(spacing: 10) {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
-                                    .font(.headline)
-                                Text(NSLocalizedStringFunc(key:"Delete"))
-                                    .foregroundColor(.red)
-                                    .font(.headline)
-                            }
-                        }
-                        .padding()
-                    }
+                    Spacer()
+                    Spacer()
+
                 }
+                
             }
-            .padding()
-            .navigationBarItems(trailing:
-                                    Button(action: {
-                                        showingAddScreen = true
-                                    }) {
-                                        Text(NSLocalizedStringFunc(key:"Edit"))
-                                    })
             .padding()
             .background(ColorReference.specialSand)
             .navigationBarTitle(NSLocalizedStringFunc(key:"Recipe"), displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        showShareMenu = true
+                        activityMonitorIsShowing = true
+                        
+                    }) {
+                        VStack {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                            Text(NSLocalizedStringFunc(key:"Share"))
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                        }
+                    }
+                    
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    Spacer()
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        showingAddScreen = true
+                        
+                    }) {
+                        VStack {
+                            Image(systemName: "pencil")
+                                .foregroundColor(ColorReference.specialGray)
+                                .font(.headline)
+                            Text(NSLocalizedStringFunc(key:"Edit"))
+                                .foregroundColor(ColorReference.specialGray)
+                                .font(.headline)
+                        }
+                    }
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    Spacer()
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        showAlertDeleteRecipe = true
+                        
+                    }) {
+                        VStack {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                                .font(.headline)
+                            Text(NSLocalizedStringFunc(key:"Delete"))
+                                .foregroundColor(.red)
+                                .font(.headline)
+                        }
+                    }
+                }
+            }
             .onAppear{
                 arrayMealTypes = [String]()
                 for meal in mealTypes {
@@ -158,7 +178,7 @@ struct RecipeDetail: View {
                     image = Image(uiImage: uiImage)
                     uiImageRecipe = uiImage
                 }
-                
+
                 ingredientData = recipe.wrappedPdfIngredient
                 preparationData = recipe.wrappedPdfPreparation
                 if ingredientData != Data() {ingredientDataIsPresent = true}
@@ -170,11 +190,11 @@ struct RecipeDetail: View {
                 }), secondaryButton: .default(Text(NSLocalizedStringFunc(key:"Keep Recipe")), action: {
                     showAlertDeleteRecipe = false
                 }))
-                
+
             }
             .sheet(isPresented: $showShareMenu){
                 PrintDocument(ingredientData: ingredientData, preparationData: preparationData, imageRecipe: uiImageRecipe, recipeName: recipe.wrappedName, servings: recipe.wrappedServings, preparationtime: recipe.wrappedTimeToPrepare, cookingTime: recipe.wrappedTimeToCook, preparationText: recipe.wrappedPreparation, ingredientText: recipe.wrappedIngredient, ingredientPDfIsPresent: ingredientDataIsPresent, preparationPDFIsPresent: preparationDataIsPresent, activityMonitorIsShowing: $activityMonitorIsShowing)
-                
+
             }
             if activityMonitorIsShowing{
                 WaitingToShare()
@@ -191,9 +211,9 @@ struct RecipeDetail: View {
     }
 }
 
-//struct RecipeDetail_Previews: PreviewProvider {
-//    var recipe = FetchedResults<Recipe>.Element()
-//    static var previews: some View {
-//        RecipeDetail(isSheetShown: false)
-//    }
-//}
+struct RecipeDetail_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        RecipeDetail(recipe: Recipe())
+    }
+}

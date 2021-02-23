@@ -51,11 +51,13 @@ struct NutritionalFactsView: View {
     var existingTransFatRecipe: String
     var existingVitaminDRecipe: String
     var existingSugarRecipe: String
+   
     var body: some View {
+        VStack {
+        Text("Amount per Serving")
+                .font(.title)
+            .padding(.top)
         Form{
-            Section {
-            Text("Amount per Serving")
-            }
             Section {
                 TextField(NSLocalizedStringFunc(key:"Calories"), text: $caloriesRecipe, onCommit: {
                     UIApplication.shared.endEditing()
@@ -99,6 +101,11 @@ struct NutritionalFactsView: View {
                 .onChange(of: carbohydrateRecipe, perform: { newValue in
                     savedValue.recipeSaved = false
                 })
+            }
+
+
+          
+            Section {
                 TextField(NSLocalizedStringFunc(key:"Sugar"), text: $sugarRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
@@ -111,9 +118,6 @@ struct NutritionalFactsView: View {
                 .onChange(of: proteinRecipe, perform: { newValue in
                     savedValue.recipeSaved = false
                 })
-
-            }
-            Section {
                 TextField(NSLocalizedStringFunc(key:"Vitamin D"), text: $vitaminDRecipe, onCommit: {
                     UIApplication.shared.endEditing()
                 })
@@ -207,6 +211,35 @@ struct NutritionalFactsView: View {
                 Text(NSLocalizedStringFunc(key:"Back"))
             }
         })
+        
+
+    }
+        .navigationBarTitle(NSLocalizedStringFunc(key:"Nutritional Infos"), displayMode: .inline)
+        .navigationBarColor(UIColorReference.specialGreen)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+          Button(action: {
+            self.calcium = calciumRecipe
+            self.calories = caloriesRecipe
+            self.carbohydrate = carbohydrateRecipe
+            self.cholesterol = cholesterolRecipe
+            self.iron = ironRecipe
+            self.potassium = potassiumRecipe
+            self.protein = proteinRecipe
+            self.saturatedFat = saturatedFatRecipe
+            self.sodium = sodiumRecipe
+            self.totalFat = totalFatRecipe
+            self.transFat = transFatRecipe
+            self.vitaminD = vitaminDRecipe
+            self.sugar = sugarRecipe
+            self.presentationMode.wrappedValue.dismiss()
+          }) {
+            HStack {
+              Image(systemName: "chevron.left")
+                Text(NSLocalizedStringFunc(key:"Back"))
+            }
+        })
+        .background(ColorReference.specialSand)
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }

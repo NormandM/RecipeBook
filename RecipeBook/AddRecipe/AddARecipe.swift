@@ -25,6 +25,7 @@ struct AddARecipe: View {
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "name == %@", filter))
         self._isNewRecipe = State(initialValue: isNewRecipe)
         self._typeNumber = State(initialValue: typeNumber)
+        UITableView.appearance().backgroundColor = .clear
     }
     var array : Array<Int> = [0,1,2,3,4,5,6,7,8,9,10,11,12]
     @State private var data: Data?
@@ -125,6 +126,7 @@ struct AddARecipe: View {
                             savedValue.recipeSaved = false
                         })
                     }
+
                     
                 }
                 RatingView(rating: $rating, isInteractif: true)
@@ -160,15 +162,14 @@ struct AddARecipe: View {
                     savedValue.recipeSaved = false
                 })
             }
+            
             .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         }
-        .onDisappear{
-            clearDisk()
-        }
+        .background(ColorReference.specialSand)
+
         .onAppear{
             savedValue.recipeSaved = true
             savedValue.noChangesMade = true
-     //       recipeSaved = false
             showAlerts = false
             for recipe in fetchRequestRecipe.wrappedValue{
                 if recipe.wrappedName != "" {
@@ -202,14 +203,13 @@ struct AddARecipe: View {
                 }
             }
         }
-        .navigationBarTitle("Add a Recipe", displayMode: .inline)
+        .navigationBarTitle("Add a Recipe ", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: isIPhonePresent() ?
-                                ButtonView(showAlerts: $showAlerts, activeAlert: $activeAlert, clearDisk: clearDisk, recipes: recipes, areAllChangesSaved: areAllChangesSaved, sameName: sameName, name: self.name)
+                                ButtonView(showAlerts: $showAlerts, activeAlert: $activeAlert, clearDisk: clearDisk, closePage: closePage, recipes: recipes, areAllChangesSaved: areAllChangesSaved, sameName: sameName, name: self.$name)
                                 .padding()
-                                
                                 : nil
                             ,trailing:
                                 Button(action: {
@@ -226,7 +226,6 @@ struct AddARecipe: View {
             case .showAlertRecipeSaved:
                 return Alert(title: Text("Recipe was saved"), message: Text(""), dismissButton: Alert.Button.default(
                     Text("OK"), action: {
-                //        recipeSaved = false
                         activeAlert = ActiveAlert.showAlertRecipeNotSaved
                         showAlerts = false
                     }
@@ -333,6 +332,7 @@ struct AddARecipe: View {
         }
     }
     func clearDisk() -> Void{
+        print("isIPhonePresent: \(isIPhonePresent())")
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         var docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
         try? FileManager.default.removeItem(at: docURL)
@@ -342,15 +342,15 @@ struct AddARecipe: View {
         try? FileManager.default.removeItem(at: docURL)
         docURL = documentDirectory.appendingPathComponent("preparation")
         try? FileManager.default.removeItem(at: docURL)
-        self.presentationMode.wrappedValue.dismiss()
+        
     }
-    func isIPhonePresent() -> Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return true
-        }else{
-            return false
-        }
-    }
+//    func isIPhonePresent() -> Bool {
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            return true
+//        }else{
+//            return false
+//        }
+//    }
     func areAllChangesSaved(recipes: FetchedResults<Recipe>) -> ActiveAlert{
         var saved = false
         for recipe in recipes {
@@ -407,12 +407,20 @@ struct AddARecipe: View {
             return ActiveAlert.showAlertNoName
         }
     }
+    func closePage() {
+        if savedValue.recipeSaved {
+            self.presentationMode.wrappedValue.dismiss()
+        }
+        
+    }
 
 }
 
-//struct AddARecipe_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddARecipe(filter: "", isNewRecipe: false, typeNumber: 0, showAlertRecipeNotSaved: false)
-//    }
-//}
+struct AddARecipe_Previews: PreviewProvider {
+    @EnvironmentObject var savedValue: SavedValue
+    static var previews: some View {
+        AddARecipe(filter: "", isNewRecipe: false, typeNumber: 0)
+            
+    }
+}
 

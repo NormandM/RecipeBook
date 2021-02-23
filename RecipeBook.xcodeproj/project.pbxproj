@@ -51,6 +51,7 @@
 		8EB442F024D4AAFB00AE0D52 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB442EF24D4AAFB00AE0D52 /* Extensions.swift */; };
 		8EB442F524D4AB0400AE0D52 /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB442F224D4AB0400AE0D52 /* CaptureImageView.swift */; };
 		8EB442F924D4AB0D00AE0D52 /* KeyBoardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB442F824D4AB0D00AE0D52 /* KeyBoardHandler.swift */; };
+		8EB5F75C25E58C5400366737 /* iPhonePresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5F75B25E58C5400366737 /* iPhonePresent.swift */; };
 		8EBAEC8E25797AAD0088EE6C /* DrawFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBAEC8D25797AAD0088EE6C /* DrawFromUrl.swift */; };
 		8EC53B39258BB41A00247B3E /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC53B38258BB41A00247B3E /* SectionHeader.swift */; };
 		8EC53BB6258E61B100247B3E /* Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC53BB5258E61B100247B3E /* Printing.swift */; };
@@ -144,6 +145,7 @@
 		8EB442EF24D4AAFB00AE0D52 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8EB442F224D4AB0400AE0D52 /* CaptureImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
 		8EB442F824D4AB0D00AE0D52 /* KeyBoardHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyBoardHandler.swift; sourceTree = "<group>"; };
+		8EB5F75B25E58C5400366737 /* iPhonePresent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhonePresent.swift; sourceTree = "<group>"; };
 		8EBAEC8D25797AAD0088EE6C /* DrawFromUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawFromUrl.swift; sourceTree = "<group>"; };
 		8EC53B38258BB41A00247B3E /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		8EC53BB5258E61B100247B3E /* Printing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Printing.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				8E83D637256861A3005ADBFB /* Localizable.strings */,
 				8E83D63F2569BB31005ADBFB /* FuncForLocalisation.swift */,
 				8EC53B38258BB41A00247B3E /* SectionHeader.swift */,
+				8EB5F75B25E58C5400366737 /* iPhonePresent.swift */,
 			);
 			path = Formats;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				8E4A72E1255480E6005C2E3E /* URLFlietTextView.swift in Sources */,
 				8E9CD8C325895AAA0096EB68 /* SavedPdfView.swift in Sources */,
 				8E2802E124EC7B70008B6057 /* MealTypeList.swift in Sources */,
+				8EB5F75C25E58C5400366737 /* iPhonePresent.swift in Sources */,
 				8EBAEC8E25797AAD0088EE6C /* DrawFromUrl.swift in Sources */,
 				8EB442EE24D4AAF300AE0D52 /* PhotoView.swift in Sources */,
 				8E8010BA25C9E64300F9F232 /* InternetMonitor.swift in Sources */,

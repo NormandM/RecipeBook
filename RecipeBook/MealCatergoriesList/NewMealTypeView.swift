@@ -23,7 +23,7 @@ struct NewMealTypeView: View {
                     })
                     .padding()
                     .frame(width: geo.size.height/scaleView(), alignment: .center)
-                    .background(colorScheme == .light ? ColorReference.specialSand : ColorReference.specialDarkBrown)
+                    .background(colorScheme == .light ? Color.white : ColorReference.specialDarkBrown)
                     .cornerRadius(25)
                     .padding()
                     Image("IconeRecipe")

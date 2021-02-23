@@ -8,7 +8,8 @@
 "Recipe List" =  "Elenco ricette";
 "Number of recipes" =  "Numero di ricette";
 "Add a Recipe" =  "Aggiungere una ricetta";
-"Meal Types" =  "Categorie di pasto";
+"Add a Recipe " = "Aggiungere";
+"Meal Types" =  "Categorie";
 "Enter New Meal Category" =  "Immettere nueva categoria";
 "Edit List" =  "Modifica elenco";
 "Recipe Book" =  "Libro di ricette";
@@ -86,8 +87,8 @@
 "Select Photo" =  "Seleziona la foto";
 "Take Picture" =  "Scattare una foto";
 "Scan with Camera\n\n\nOr\n\n\nWrite Preparation directly" =  "Scansione con fotocamera\n\n\nO\n\n\nScrivere direttamente";
-"Scan" =  "Scan";
-"Write" =  "Write";
+"Scan" =  "Scansione";
+"Write" =  "Scrivere";
 "Scan with Camera\n\n\nOr\n\n\nWrite Ingredients directly" =  "Scansione con fotocamera\n\n\nO\n\n\nScrivere direttamente";
 "Amount per Serving" =  "Quantitativo per porzione";
 "Calories" =  "Calorie";
@@ -130,3 +131,5 @@
 "This category can not be deleted" = "Questa categoria non può essere eliminata";
 "Restore your purchase" = "Ripristina il tuo acquisto";
 "Your Book is unlocked!" = "Il tuo libro è sbloccato!";
+"Title" =  "Titolo";
+"Fruit Cake" = "Torta di frutta";

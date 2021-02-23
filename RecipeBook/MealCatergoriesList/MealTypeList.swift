@@ -35,9 +35,11 @@ struct MealTypeList: View {
                     TextListView(listText: NSLocalizedStringFunc(key:mealType.wrappedType), listImage: mealType.wrappedTypeImage)
                 }
                 .onDelete(perform: removeMealTypes)
+                .listRowBackground(ColorReference.specialSand)
             }
+            .background(ColorReference.specialSand)
             .blur(radius: enterNewMealTypeVisible  ?  50 : 0.0)
-            .navigationBarTitle(NSLocalizedStringFunc(key:"Meal Types"), displayMode: .large)
+            .navigationBarTitle(NSLocalizedStringFunc(key:"Meal Types"), displayMode: .inline)
             .navigationBarItems(leading: HStack {
                 Button(action: { presentationMode.wrappedValue.dismiss() }) {
 

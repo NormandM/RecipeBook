@@ -8,7 +8,8 @@
 "Recipe List" = "Liste des recettes";
 "Number of recipes" = "Nombre de recettes";
 "Add a Recipe" = "Ajouter une recette";
-"Meal Types" = "Catégories de repas";
+"Add a Recipe " = "Ajouter une recette";
+"Meal Types" = "Catégories";
 "Enter New Meal Category" = "Ajouter une catégorie";
 "Edit List" = "Modifier la liste";
 "Recipe Book" = "Livre de recettes";
@@ -129,4 +130,6 @@
 "This category can not be deleted" = "Cette catégorie ne peut pas être supprimée";
 "Restore your purchase" = "Restaurez votre achat";
 "Your Book is unlocked!" = "Votre livre est déverrouillé!";
+"Title" =  "Titre";
+"Fruit Cake" = "Gâteau aux fruits";
 

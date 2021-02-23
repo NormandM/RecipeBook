@@ -81,6 +81,7 @@ struct GeneralInformationView: View {
                             Text("")
                         }else{
                             Link(recipeURLAdress, destination: URL(string: recipeURLAdress)!)
+                                .foregroundColor(.blue)
                         }
                     }
                     Section(header: SectionHeader(text: "Nutrition")) {

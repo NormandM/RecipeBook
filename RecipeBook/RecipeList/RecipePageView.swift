@@ -39,9 +39,8 @@ struct RecipePageView: View {
                                         .environment(\.managedObjectContext, self.moc)
                                         
                                 }
-                                .edgesIgnoringSafeArea(.all)
                             }
-                            .edgesIgnoringSafeArea(.all)
+                            
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())

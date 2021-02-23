@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TextListView: View {
+    @Environment(\.colorScheme) var colorScheme
     var listText: String
     var listImage: String
      init(listText: String, listImage: String) {
@@ -21,6 +22,7 @@ struct TextListView: View {
                 .fontWeight(.light)
                 .listRowBackground(ColorReference.specialSand)
                 .edgesIgnoringSafeArea(.all)
+                .foregroundColor(colorScheme == .light ? Color.black : ColorReference.specialDarkBrown)
             Spacer()
             Image(categoryImage())
                 .resizable()

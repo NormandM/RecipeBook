@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct ButtonView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var savedValue: SavedValue
     @State private  var recipeSaved = false
     @State  var showAlertRecipeNotSaved = false
@@ -17,29 +18,39 @@ struct ButtonView: View {
     @Binding var showAlerts: Bool
     @Binding var activeAlert: ActiveAlert
     @State  var clearDisk: () -> Void
+    @State var closePage: () -> ()
     var recipes: FetchedResults<Recipe>
     var areAllChangesSaved: (FetchedResults<Recipe>) -> ActiveAlert
     var sameName: (FetchedResults<Recipe>) -> ActiveAlert
-    var name: String
+    @Binding var name: String
     var body: some View {
         Button(action: {
+            print("button")
+            print(savedValue.recipeSaved)
+            print("name: \(name)")
             if savedValue.recipeSaved {
                 clearDisk()
                 recipeSaved = false
                 showAlerts = false
                 savedValue.recipeSaved = true
             }else{
+                print("showAlertNoName: \(showAlertNoName)")
+                print("showAlertSameName: \(showAlertSameName)")
                 activeAlert = sameName(recipes)
                 if activeAlert == .showAlertSameName {
                     showAlerts = true
                     showAlertSameName = true
+                }else{
+                    showAlertSameName = false
                 }
                 if name == "" {
                     activeAlert = .showAlertNoName
                     showAlertNoName = true
                     showAlerts = true
+                }else{
+                    showAlertNoName = false
                 }
-                if !(showAlertNoName  || showAlertNoName){
+                if !(showAlertNoName  || showAlertSameName){
                     activeAlert = areAllChangesSaved(recipes)
                     if activeAlert != ActiveAlert.showAlertRecipeNotSaved{
                         clearDisk()
@@ -49,6 +60,7 @@ struct ButtonView: View {
                     }
                 }
             }
+            closePage()
             
         }, label: {
             HStack {

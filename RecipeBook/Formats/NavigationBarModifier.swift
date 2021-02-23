@@ -23,10 +23,15 @@ struct NavigationBarModifier: ViewModifier {
             NSAttributedString.Key.foregroundColor : UIColor.white
         ]
         // this only applies to small titles
-        coloredAppearance.titleTextAttributes = [
-            .font : UIFont(name:"Papyrus", size: 27)!,
-            NSAttributedString.Key.foregroundColor : UIColor.white,
-        ]
+        if isIPhonePresent(){
+
+        }else{
+            coloredAppearance.titleTextAttributes = [
+                .font : UIFont(name:"Papyrus", size: 40)!,
+                NSAttributedString.Key.foregroundColor : UIColor.white,]
+            
+        }
+
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().compactAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance

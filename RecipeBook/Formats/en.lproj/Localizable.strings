@@ -8,6 +8,7 @@
 "Recipe List" =  "Recipe List";
 "Number of recipes" =  "Number of recipes";
 "Add a Recipe" =  "Add a Recipe";
+"Add a Recipe " = "Add a Recipe";
 "Meal Types" =  "Meal Categories";
 "Enter New Meal Category" =  "Enter New Meal Category";
 "Edit List" =  "Edit List";
@@ -130,6 +131,8 @@
 "This category can not be deleted" = "This category can not be deleted";
 "Restore your purchase" = "Restore your purchase";
 "Your Book is unlocked!" = "Your Book is unlocked!";
+"Title" =  "Title";
+"Fruit Cake" = "Fruit Cake";
 
 
 

@@ -56,6 +56,7 @@ struct ContentView: View {
                             Text(NSLocalizedStringFunc(key: "Recipe List"))
                                 .font(.title)
                                 .foregroundColor(ColorReference.specialGray)
+                                .multilineTextAlignment(.center)
                         }
                         HStack {
                             Text(NSLocalizedStringFunc(key: "Number of recipes:"))
@@ -81,6 +82,7 @@ struct ContentView: View {
                             Text(NSLocalizedStringFunc(key:"Add a Recipe"))
                                 .font(.title)
                                 .foregroundColor(ColorReference.specialGray)
+                                .multilineTextAlignment(.center)
                         }
                         .alert(isPresented: $bookNotUnlocked) {
                             Alert(title: Text("Do you want to add more recipes?"), message: Text("Unlock your Recipe Book"), primaryButton: .default(Text("OK"), action: {
@@ -101,6 +103,7 @@ struct ContentView: View {
                             Text(NSLocalizedStringFunc(key:"Meal Types"))
                                 .font(.title)
                                 .foregroundColor(ColorReference.specialGray)
+                                .multilineTextAlignment(.center)
                         }
                         .alert(isPresented: $showAlertRecipeNotSaved) {
                             Alert(title: Text("Recipe was not saved"), message: Text("Do you want to save before leaving the page?"), primaryButton: .default(Text("OK"), action: {
@@ -122,12 +125,13 @@ struct ContentView: View {
                             Text(NSLocalizedStringFunc(key:"Unlock Book"))
                                 .font(.title)
                                 .foregroundColor(ColorReference.specialGray)
+                                .multilineTextAlignment(.center)
                         }
                         Spacer()
                     }
                     .navigationBarTitle(Text(NSLocalizedStringFunc(key:"Recipe Book")))
                     .navigationBarColor(UIColorReference.specialGreen)
-                    .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+                    .edgesIgnoringSafeArea([.bottom])
                 }
                 .onAppear{
                     IAPManager.shared.getProductsV5()
@@ -193,8 +197,8 @@ struct ContentView: View {
                     if recipes.count == 0 {
                         let newRecipe = Recipe(context: self.moc)
                         newRecipe.id = UUID()
-                        newRecipe.imageName = "ImageGateau"
-                        newRecipe.name = "Gâteau aux fruits"
+                        newRecipe.imageName = "BestCakePhoto"
+                        newRecipe.name = NSLocalizedStringFunc(key:"Fruit Cake")
                         let preparationImage = UIImage(named: "PreparationGateau")
                         let pdfPage = PDFPage(image: preparationImage ?? UIImage())
                         let pdfDocument = PDFDocument()
@@ -205,7 +209,7 @@ struct ContentView: View {
                         let pdfDocument2 = PDFDocument()
                         pdfDocument2.insert(pdfPage2 ?? PDFPage(), at: 0)
                         newRecipe.pdfIngredient = pdfDocument2.dataRepresentation()
-                        let uiImage = UIImage(named: "ImageGateau")
+                        let uiImage = UIImage(named: "BestCakePhoto")
                         let dataImage = uiImage?.jpeg(.lowest)
                         newRecipe.photo = dataImage
                         newRecipe.rating = 5

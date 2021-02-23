@@ -17,7 +17,7 @@ struct FilteredrecipeListView: View {
         
             ForEach(fetchRequestRecipe.wrappedValue){recipe in
                 NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                    Text(recipe.wrappedName)
+                    Text(NSLocalizedStringFunc(key:recipe.wrappedName))
                         .foregroundColor(colorScheme == .light ? .black : .black)
                         .padding(.leading)
                 }
