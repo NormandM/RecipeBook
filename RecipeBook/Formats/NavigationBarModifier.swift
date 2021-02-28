@@ -24,7 +24,10 @@ struct NavigationBarModifier: ViewModifier {
         ]
         // this only applies to small titles
         if isIPhonePresent(){
-
+            coloredAppearance.titleTextAttributes = [
+                .font : UIFont(name:"Papyrus", size: 30)!,
+                NSAttributedString.Key.foregroundColor : UIColor.white,]
+            
         }else{
             coloredAppearance.titleTextAttributes = [
                 .font : UIFont(name:"Papyrus", size: 40)!,

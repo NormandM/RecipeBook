@@ -25,17 +25,12 @@ struct ButtonView: View {
     @Binding var name: String
     var body: some View {
         Button(action: {
-            print("button")
-            print(savedValue.recipeSaved)
-            print("name: \(name)")
             if savedValue.recipeSaved {
                 clearDisk()
                 recipeSaved = false
                 showAlerts = false
                 savedValue.recipeSaved = true
             }else{
-                print("showAlertNoName: \(showAlertNoName)")
-                print("showAlertSameName: \(showAlertSameName)")
                 activeAlert = sameName(recipes)
                 if activeAlert == .showAlertSameName {
                     showAlerts = true

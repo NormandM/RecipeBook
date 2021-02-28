@@ -40,7 +40,6 @@ struct RecipePageView: View {
                                         
                                 }
                             }
-                            
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
@@ -49,6 +48,16 @@ struct RecipePageView: View {
                 .onAppear{
                     UITableView.appearance().backgroundColor = UIColor.clear
                     UITableViewCell.appearance().backgroundColor = UIColor.clear
+                    var recipeNames = [String]()
+                    for recipe in recipes {
+                        if recipeNames.contains(recipe.wrappedName){
+                            moc.delete(recipe)
+                            try? moc.save()
+                        }else{
+                            recipeNames.append(recipe.wrappedName)
+                        }
+
+                    }
                 }
             }
         }

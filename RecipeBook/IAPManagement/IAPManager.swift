@@ -35,11 +35,9 @@ class IAPManager: NSObject{
         return formatter.string(from: product.price)
     }
     func startObserving() {
-        print("observe")
         SKPaymentQueue.default().add(self)
     }
     func stopObserving() {
-        print("stop observing")
         SKPaymentQueue.default().remove(self)
     }
     func restorePurchasesV5() {

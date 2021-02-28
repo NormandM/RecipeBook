@@ -332,7 +332,6 @@ struct AddARecipe: View {
         }
     }
     func clearDisk() -> Void{
-        print("isIPhonePresent: \(isIPhonePresent())")
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         var docURL = documentDirectory.appendingPathComponent("Preparation.pdf")
         try? FileManager.default.removeItem(at: docURL)
@@ -344,13 +343,6 @@ struct AddARecipe: View {
         try? FileManager.default.removeItem(at: docURL)
         
     }
-//    func isIPhonePresent() -> Bool {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return true
-//        }else{
-//            return false
-//        }
-//    }
     func areAllChangesSaved(recipes: FetchedResults<Recipe>) -> ActiveAlert{
         var saved = false
         for recipe in recipes {
