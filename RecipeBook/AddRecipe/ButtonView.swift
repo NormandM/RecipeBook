@@ -30,15 +30,18 @@ struct ButtonView: View {
                 recipeSaved = false
                 showAlerts = false
                 savedValue.recipeSaved = true
+                print("saved")
             }else{
                 activeAlert = sameName(recipes)
                 if activeAlert == .showAlertSameName {
+                    print("SameName")
                     showAlerts = true
                     showAlertSameName = true
                 }else{
                     showAlertSameName = false
                 }
                 if name == "" {
+                    print("NoName")
                     activeAlert = .showAlertNoName
                     showAlertNoName = true
                     showAlerts = true

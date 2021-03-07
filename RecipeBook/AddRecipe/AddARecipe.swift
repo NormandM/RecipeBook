@@ -70,34 +70,55 @@ struct AddARecipe: View {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: name, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    print("name: \(name)")
+                    if name != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 TextField("Name of Chef", text: $chef, onCommit: {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: chef, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if chef != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
 
                 TextField("Preparation Time", text: $timeToPrepare, onCommit: {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: timeToPrepare, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if timeToPrepare != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
 
                 TextField("Cooking Time", text: $timeToCook, onCommit: {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: timeToCook, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if timeToCook != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
 
                 TextField("Servings", text: $servings, onCommit: {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: servings, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if servings != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 
                 Section {
@@ -105,7 +126,11 @@ struct AddARecipe: View {
                         UIApplication.shared.endEditing()
                     })
                     .onChange(of: recipeUrl, perform: { newValue in
-                        savedValue.recipeSaved = false
+                        if recipeUrl != "" {
+                            savedValue.recipeSaved = false
+                        }else{
+                            savedValue.recipeSaved = true
+                        }
                     })
                     
                 }
@@ -122,9 +147,9 @@ struct AddARecipe: View {
                             }
                             
                         }
-                        .onChange(of: mealtypeNo, perform: { newValue in
-                            savedValue.recipeSaved = false
-                        })
+//                        .onChange(of: mealtypeNo, perform: { newValue in
+//                            savedValue.recipeSaved = false
+//                        })
                     }
 
                     
@@ -139,10 +164,18 @@ struct AddARecipe: View {
                     Text("Ingredients")
                 }.buttonStyle(PlainButtonStyle())
                 .onChange(of: ingredientPdf, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if ingredientPdf != Data() {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 .onChange(of: ingredient, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if ingredient != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 
                 
@@ -150,10 +183,18 @@ struct AddARecipe: View {
                     Text("Preparation")
                 }
                 .onChange(of: preparation, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if ingredient != "" {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 .onChange(of: preparationPdf, perform: { newValue in
-                    savedValue.recipeSaved = false
+                    if preparationPdf != Data() {
+                        savedValue.recipeSaved = false
+                    }else{
+                        savedValue.recipeSaved = true
+                    }
                 })
                 NavigationLink(destination: PhotoView(data: $data, existingdata: data ?? Data())){
                     Text("Photo")
