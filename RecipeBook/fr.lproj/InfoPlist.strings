@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  RecipeBook
+
+  Created by Normand Martin on 2021-03-07.
+  
+*/
+CFBundleDisplayName = "Mon livre de cuisine";
+NSCameraUsageDescription = "L'appareil photo est utilisé par «Mon livre de cuisine» pour scanner efficacement vos recettes et les documenter pour votre usage exclusif.";

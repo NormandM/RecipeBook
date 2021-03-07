@@ -70,7 +70,6 @@ struct AddARecipe: View {
                     UIApplication.shared.endEditing()
                 })
                 .onChange(of: name, perform: { newValue in
-                    print("name: \(name)")
                     if name != "" {
                         savedValue.recipeSaved = false
                     }else{

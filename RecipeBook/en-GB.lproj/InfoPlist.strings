@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  RecipeBook
+
+  Created by Normand Martin on 2021-03-07.
+  
+*/
+CFBundleDisplayName = "Recipe Book";
+NSCameraUsageDescription = "The camera is used by «Recipe Book» to scan your recipes efficiently and document them for your exclusive usage.";
+

@@ -134,4 +134,7 @@
 "Fruit Cake" = "Gâteau aux fruits";
 "IngredientEnglish" = "IngredientFrancais";
 "PreparationEng"  = "PreparationFr";
+"The camera is used by «Recipe Book» to scan your recipes efficiently and document your recipes for your exclusive usage." = "L'appareil photo est utilisé par «Mon livre de cuisine» pour scanner efficacement vos recettes et documenter vos recettes pour votre usage exclusif.";
+"Recipe Book" = "Mon livre de cuisine";
+
 
