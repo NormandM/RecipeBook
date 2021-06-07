@@ -51,7 +51,9 @@ struct ScanDocumentView: UIViewControllerRepresentable {
                 }
                 let pdfPage = PDFPage(image: lowResUIImage)
                 pdfDocument.insert(pdfPage!, at: i)
+                print(i)
             }
+            print(pdfDocument)
             let data = pdfDocument.dataRepresentation()
             let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let docURL = documentDirectory.appendingPathComponent(nameOfScan)

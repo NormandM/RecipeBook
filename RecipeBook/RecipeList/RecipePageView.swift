@@ -56,7 +56,6 @@ struct RecipePageView: View {
                         }else{
                             recipeNames.append(recipe.wrappedName)
                         }
-
                     }
                 }
             }

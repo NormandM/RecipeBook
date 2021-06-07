@@ -22,7 +22,8 @@ struct FilteredrecipeListView: View {
                         .padding(.leading)
                 }
             }
-            .listRowBackground(ColorReference.specialSand)
+            Text("")
+                .listRowBackground(ColorReference.specialCoral)
     }
 }
 
