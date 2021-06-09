@@ -134,7 +134,7 @@ struct AddARecipe: View {
                     
                 }
                 Picker("Category: ", selection: $typeNumber){
-                    ForEach(0 ..< mealTypes.count){mealtypeNo in
+                    ForEach(0 ..< mealTypes.count, id: \.self){mealtypeNo in
                         HStack {
                             if mealTypes[mealtypeNo].wrappedType != "" {
                                 Text( NSLocalizedStringFunc(key:"\(mealTypes[mealtypeNo].wrappedType)"))

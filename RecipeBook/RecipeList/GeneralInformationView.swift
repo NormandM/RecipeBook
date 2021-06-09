@@ -88,80 +88,80 @@ struct GeneralInformationView: View {
                         Group {
                             HStack {
                                 Text(NSLocalizedStringFunc(key:"Calories: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedCalories)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Total Fat: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedTotalFat)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Trans Fat: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedTransFat)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Saturated Fat: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedSaturatedFat)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Cholesterol: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedCholesterol)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Sodium: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedSodium)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Carbohydrate: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedCarbohydrate)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Sugar: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedSugar)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Protein: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedProtein)
                                 }
                             }
                             HStack{
                                 Text(NSLocalizedStringFunc(key:"Vitamin D: "))
-                                ForEach(fetchRequest.wrappedValue){recipe in
+                                ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                     Text(recipe.wrappedVitaminD)
                                 }
                             }
                         }
                         HStack{
                             Text(NSLocalizedStringFunc(key:"Calcium: "))
-                            ForEach(fetchRequest.wrappedValue){recipe in
+                            ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                 Text(recipe.wrappedCalcium)
                             }
                         }
                         HStack{
                             Text(NSLocalizedStringFunc(key:"Iron: "))
-                            ForEach(fetchRequest.wrappedValue){recipe in
+                            ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                 Text(recipe.wrappedIron)
                             }
                         }
                         HStack{
                             Text(NSLocalizedStringFunc(key:"Potassium: "))
-                            ForEach(fetchRequest.wrappedValue){recipe in
+                            ForEach(fetchRequest.wrappedValue, id: \.self){recipe in
                                 Text(recipe.wrappedPotassium)
                             }
                         }

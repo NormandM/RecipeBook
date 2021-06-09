@@ -16,7 +16,7 @@ struct RecipePageView: View {
             ZStack{
                 GeometryReader { geo in
                     TabView {
-                        ForEach (0 ..< mealTypes.count) { number in
+                        ForEach (0 ..< mealTypes.count, id: \.self) { number in
                             VStack {
                                 Label {
                                     Text(NSLocalizedStringFunc(key:mealTypes[number].wrappedType))

@@ -13,9 +13,9 @@ struct FilteredrecipeListView: View {
     init(filter: String){
         fetchRequestRecipe = FetchRequest<Recipe>(entity: Recipe.entity(), sortDescriptors: [],predicate: NSPredicate(format: "type == %@", filter))
     }
+    
     var body: some View {
-        
-            ForEach(fetchRequestRecipe.wrappedValue){recipe in
+            ForEach(fetchRequestRecipe.wrappedValue, id: \.self){recipe in
                 NavigationLink(destination: RecipeDetail(recipe: recipe)) {
                     Text(NSLocalizedStringFunc(key:recipe.wrappedName))
                         .foregroundColor(colorScheme == .light ? .black : .black)

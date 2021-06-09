@@ -41,24 +41,29 @@ struct RecipeDetail: View {
     }
     var body: some View {
         GeometryReader { geo in
-            NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {EmptyView()}
-            NavigationLink(destination: RecipePreparationView(filter: recipe.wrappedName), isActive: $isRecipePreparationShown){EmptyView()}
-            NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {EmptyView()}
-            NavigationLink(destination: RecipeIngredientsView(filter: recipe.wrappedName), isActive: $showIngredients) {EmptyView()}
+            if showingAddScreen{
+                NavigationLink(destination: AddARecipe(filter: recipe.wrappedName, isNewRecipe: false, typeNumber: arrayMealTypes.firstIndex(of: recipe.wrappedType) ?? 0), isActive: $showingAddScreen) {EmptyView()}
+            }else if isRecipePreparationShown {
+                NavigationLink(destination: RecipePreparationView(filter: recipe.wrappedName), isActive: $isRecipePreparationShown){EmptyView()}
+            }else if isGeneralInformationShown {
+                NavigationLink(destination: GeneralInformationView(filter: recipe.wrappedName, recipeURLAdress: recipe.wrappedrecipeURLAdress), isActive: $isGeneralInformationShown) {EmptyView()}
+            }else if showIngredients{
+                NavigationLink(destination: RecipeIngredientsView(filter: recipe.wrappedName), isActive: $showIngredients) {EmptyView()}
+            }
             ZStack {
                 ColorReference.specialSand
                 VStack () {
                     Picker("Numbers", selection: $selectorIndex) {
-                        ForEach(0 ..< recipeViews.count) { index in
+                        ForEach(0 ..< recipeViews.count, id: \.self) { index in
                             Text(self.recipeViews[index]).tag(index)
                                 .font(.subheadline)
                                 .foregroundColor(colorScheme == .light ? .black : .black)
                         }
                     }
                     .onChange(of: selectorIndex, perform: {_ in
-                        if selectorIndex == 2 {showIngredients = true}
-                        if selectorIndex == 1 {isGeneralInformationShown = true}
-                        if selectorIndex == 3{isRecipePreparationShown = true}
+                        if selectorIndex == 2 {showIngredients = true; isRecipePreparationShown = false; isGeneralInformationShown = false; showingAddScreen = false}
+                        if selectorIndex == 1 {isGeneralInformationShown = true;  isRecipePreparationShown = false;showIngredients = false; showingAddScreen = false}
+                        if selectorIndex == 3{isRecipePreparationShown = true;  isGeneralInformationShown = false; showIngredients = false; showingAddScreen = false}
                         
                     })
                     .pickerStyle(SegmentedPickerStyle())
@@ -129,6 +134,9 @@ struct RecipeDetail: View {
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: {
                         showingAddScreen = true
+                        isRecipePreparationShown = false
+                        isGeneralInformationShown = false
+                        showIngredients = false
                         
                     }) {
                         VStack {

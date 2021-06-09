@@ -36,18 +36,30 @@ struct ContentView: View {
                 .opacity(firstOpenOpacity)
         }else{
             NavigationView{
+
                 ZStack {
                     ColorReference.specialSand
                         .edgesIgnoringSafeArea(.all)
-                    NavigationLink(destination: RecipePageView(mealTypes: mealTypes), isActive: $showRecipeListView) {EmptyView()}
-                    NavigationLink(destination: AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0), isActive: $showingAddScreen) {EmptyView()}
-                    NavigationLink(destination: MealTypeList( mealTypes: mealTypes, recipes: recipes), isActive: $showingMealTypes) {EmptyView()}
-                    NavigationLink(destination: UnlockBookView(isUnlock: $isUnlock), isActive: $showUnlockBook) {EmptyView()}
+                    if showRecipeListView {
+                        NavigationLink(destination: RecipePageView(mealTypes: mealTypes), isActive: $showRecipeListView) {EmptyView()}
+                    }else if showingAddScreen {
+                        NavigationLink(destination: AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0), isActive: $showingAddScreen) {EmptyView()}
+                    }else if showingMealTypes {
+                        NavigationLink(destination: MealTypeList( mealTypes: mealTypes, recipes: recipes), isActive: $showingMealTypes) {EmptyView()}
+                    }else if showUnlockBook {
+                        NavigationLink(destination: UnlockBookView(isUnlock: $isUnlock), isActive: $showUnlockBook) {EmptyView()}
+                    }
+
+
+
                     VStack {
                         Spacer()
                         Button(action: {
                             if savedValue.recipeSaved {
                                 self.showRecipeListView = true
+                                showingAddScreen = false
+                                showingMealTypes = false
+                                showUnlockBook = false
                             }else{
                                 showAlertRecipeNotSaved = true
                                 pageRecipelistWasChosen = true
@@ -73,7 +85,11 @@ struct ContentView: View {
                         Spacer()
                         Button(action: {
                             if recipes.count < 7 || isUnlock {
+                               // showingAddScreen = true
+                                self.showRecipeListView = false
                                 showingAddScreen = true
+                                showingMealTypes = false
+                                showUnlockBook = false
                             }else{
                                 bookNotUnlocked = true
                             }
@@ -95,7 +111,11 @@ struct ContentView: View {
                         Spacer()
                         Button(action: {
                             if savedValue.recipeSaved {
+                               // showingMealTypes = true
+                                self.showRecipeListView = false
+                                showingAddScreen = false
                                 showingMealTypes = true
+                                showUnlockBook = false
                             }else{
                                 showAlertRecipeNotSaved = true
                             }
@@ -120,6 +140,10 @@ struct ContentView: View {
                         }
                         Spacer()
                         Button(action: {
+                           // showUnlockBook = true
+                            self.showRecipeListView = false
+                            showingAddScreen = false
+                            showingMealTypes = false
                             showUnlockBook = true
                         }){
                             Text(NSLocalizedStringFunc(key:"Unlock Book"))
@@ -231,6 +255,18 @@ struct ContentView: View {
             .phoneOnlyStackNavigationView()
         }
     }
+//    func chooseNavigationView() -> (RecipePageView, AddARecipe, MealTypeList, UnlockBookView, Binding<Bool>){
+//        let destination1 = RecipePageView(mealTypes: mealTypes)
+//        let destination2 = AddARecipe(filter: "", isNewRecipe: true, typeNumber: 0)
+//        let destination3 = MealTypeList( mealTypes: mealTypes, recipes: recipes)
+//        let destination4 = UnlockBookView(isUnlock: $isUnlock)
+//        var bindingVar: Binding<Bool> = $showRecipeListView
+//        if showRecipeListView {navigationViewIndex = 1; bindingVar = $showRecipeListView}
+//        if showingAddScreen {navigationViewIndex = 2; bindingVar = $showingAddScreen}
+//        if showingMealTypes {navigationViewIndex = 3; bindingVar = $showingMealTypes}
+//        if showUnlockBook {navigationViewIndex = 4; bindingVar = $showRecipeListView}
+//        return(destination1, destination2, destination3, destination4, bindingVar, n)
+//    }
 }
 
 struct ContentView_Previews: PreviewProvider {

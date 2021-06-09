@@ -22,7 +22,7 @@ struct RatingView: View {
             if label.isEmpty == false {
                 Text(label)
             }
-            ForEach(1..<maximumRating + 1){ number in
+            ForEach(1..<maximumRating + 1, id: \.self){ number in
                 self.image(for: number)
                     .foregroundColor(number > self.rating ? self.offColor : self.onColor)
                     .onTapGesture {

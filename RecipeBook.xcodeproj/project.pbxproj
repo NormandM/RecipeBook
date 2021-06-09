@@ -35,6 +35,8 @@
 		8E83E2C025A9010B003AB35F /* Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E83E2BF25A9010B003AB35F /* Duplicates.swift */; };
 		8E8626EB25F54DB000F1ADB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8E8626ED25F54DB000F1ADB8 /* InfoPlist.strings */; };
 		8E9CD8C325895AAA0096EB68 /* SavedPdfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CD8C225895AAA0096EB68 /* SavedPdfView.swift */; };
+		8EA128CB266FFB0D00A4E810 /* CKContainer+CloudKitShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA128CA266FFB0D00A4E810 /* CKContainer+CloudKitShare.swift */; };
+		8EA128D0266FFB5500A4E810 /* HandleCloudKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA128CF266FFB5500A4E810 /* HandleCloudKitError.swift */; };
 		8EB0CE9024F9A3EA002100BE /* AddARecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB0CE8F24F9A3EA002100BE /* AddARecipe.swift */; };
 		8EB0CEDE24FEDDBC002100BE /* NutritionalFactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB0CEDD24FEDDBC002100BE /* NutritionalFactsView.swift */; };
 		8EB442B524D4AA7000AE0D52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB442B424D4AA7000AE0D52 /* AppDelegate.swift */; };
@@ -130,6 +132,8 @@
 		8E8626F725F54DDB00F1ADB8 /* en-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-IN"; path = "en-IN.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		8E8626F825F54DDB00F1ADB8 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		8E9CD8C225895AAA0096EB68 /* SavedPdfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPdfView.swift; sourceTree = "<group>"; };
+		8EA128CA266FFB0D00A4E810 /* CKContainer+CloudKitShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CKContainer+CloudKitShare.swift"; sourceTree = "<group>"; };
+		8EA128CF266FFB5500A4E810 /* HandleCloudKitError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandleCloudKitError.swift; sourceTree = "<group>"; };
 		8EB0CE8F24F9A3EA002100BE /* AddARecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARecipe.swift; sourceTree = "<group>"; };
 		8EB0CEDD24FEDDBC002100BE /* NutritionalFactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionalFactsView.swift; sourceTree = "<group>"; };
 		8EB1A9BF2597BF9A00717EC4 /* en-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-IN"; path = "en-IN.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -309,6 +313,8 @@
 				8EB442B424D4AA7000AE0D52 /* AppDelegate.swift */,
 				8EE219E025BDD11200075986 /* NMLogo.swift */,
 				8EB442B624D4AA7000AE0D52 /* SceneDelegate.swift */,
+				8EA128CA266FFB0D00A4E810 /* CKContainer+CloudKitShare.swift */,
+				8EA128CF266FFB5500A4E810 /* HandleCloudKitError.swift */,
 				8E89C8F125A63FE9005045CF /* IntroductionPage */,
 				8E2A4CE624F5B2E300950FB0 /* MealCatergoriesList */,
 				8EE1C43224F1A1E000E9E9FA /* RecipeList */,
@@ -604,12 +610,14 @@
 				8E9CD8C325895AAA0096EB68 /* SavedPdfView.swift in Sources */,
 				8E2802E124EC7B70008B6057 /* MealTypeList.swift in Sources */,
 				8EB5F75C25E58C5400366737 /* iPhonePresent.swift in Sources */,
+				8EA128D0266FFB5500A4E810 /* HandleCloudKitError.swift in Sources */,
 				8EBAEC8E25797AAD0088EE6C /* DrawFromUrl.swift in Sources */,
 				8EB442EE24D4AAF300AE0D52 /* PhotoView.swift in Sources */,
 				8E8010BA25C9E64300F9F232 /* InternetMonitor.swift in Sources */,
 				8EC53B39258BB41A00247B3E /* SectionHeader.swift in Sources */,
 				8E83E2C025A9010B003AB35F /* Duplicates.swift in Sources */,
 				8E4F1E132506D0980027E67A /* RecipePreparationView.swift in Sources */,
+				8EA128CB266FFB0D00A4E810 /* CKContainer+CloudKitShare.swift in Sources */,
 				8EB0CE9024F9A3EA002100BE /* AddARecipe.swift in Sources */,
 				8EC53BB6258E61B100247B3E /* Printing.swift in Sources */,
 				8EB442F524D4AB0400AE0D52 /* CaptureImageView.swift in Sources */,
