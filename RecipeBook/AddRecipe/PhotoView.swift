@@ -32,11 +32,37 @@ struct PhotoView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     
                     if image == nil && !showCaptureImageView{
-                        Text(NSLocalizedStringFunc(key:"Use the Camera\n\n\nOr\n\n\nChoose an existing Photo"))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .font(.title)
-                            .foregroundColor(colorScheme == .light ? .black : .black)
+                        VStack {
+                            Button(action: {
+                                self.showCaptureImageView.toggle()
+                                self.cameraChosen = true
+                            }, label: {
+                                HStack {
+                                    Text("Use the Camera")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
+                                    
+                                }
+                            })
+                                .padding()
+                            Text("or")
+                                .foregroundColor(colorScheme == .light ? .black : .black)
+                            Button(action: {
+                                self.showCaptureImageView.toggle()
+                                self.cameraChosen = false
+                                
+                            }, label: {
+                                HStack {
+                                    Text("Choose an existing Photo")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
+                                }
+                                
+                                
+                            })
+                                .padding()
+                        }
+                        
                     }
                     if (showCaptureImageView) {
                         CaptureImageView(isShown: $showCaptureImageView, image: $image, imageUI: $imageUI, cameraChosen: cameraChosen)
@@ -50,8 +76,10 @@ struct PhotoView: View {
                         }, label: {
                             HStack {
                                 Text("Camera")
+                                Image(systemName: "camera.fill")
                             }
-                            Image(systemName: "camera.fill")
+                            .padding()
+                            
                             
                         })
                     }
@@ -67,6 +95,7 @@ struct PhotoView: View {
                                 Text("Photo")
                                 Image(systemName: "photo")
                             }
+                            .padding()
                             
                         })
                     }

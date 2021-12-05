@@ -10,6 +10,7 @@ import SwiftUI
 struct NutritionalFactsView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var savedValue: SavedValue
     @Binding var calcium: String
     @Binding var calories: String
@@ -56,6 +57,7 @@ struct NutritionalFactsView: View {
         VStack {
         Text("Amount per Serving")
                 .font(.title)
+                .foregroundColor(colorScheme == .light ? .black : .black)
             .padding(.top)
         Form{
             Section {

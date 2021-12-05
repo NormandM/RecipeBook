@@ -47,43 +47,69 @@ struct IngredientView: View {
                         }
                     }
                     if keyboardHandler.keyboardHeight == 0 && recipeIngredient == "" && recognizedText == "" && !scaningIngredient && !writingIngredient && existingIngredientPdf == Data(){
-                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Ingredients directly"))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .font(.title)
-                            .foregroundColor(colorScheme == .light ? .black : .black)
-                    }
-                }
-                .toolbar {
-                        ToolbarItem(placement: .bottomBar) {
+                        VStack {
                             Button(action: {
                                 self.showingScanningView = true
                                 scaningIngredient = true
                             }, label: {
-
                                 HStack {
-                                    Text("Scan")
-                                    Image(systemName: "camera.fill")
-                                }
+                                    Text("Scan with Camera")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
                                     
-                                })
-                        }
-                    
-                        ToolbarItem(placement: .bottomBar) {
-                            Spacer()
-                        }
-                        ToolbarItem(placement: .bottomBar) {
+                                }
+                            })
+                                .padding()
+                            Text("or")
+                                .foregroundColor(colorScheme == .light ? .black : .black)
                             Button(action: {
                                 recipeIngredient = ""
                                 writingIngredient = true
                             }, label: {
                                 HStack {
-                                    Text("Write")
-                                    Image(systemName: "square.and.pencil")
+                                    Text("Write Ingredients directly")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
                                 }
-                                    
-                                })
+                                
+                                
+                            })
+                                .padding()
                         }
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            self.showingScanningView = true
+                            scaningIngredient = true
+                        }, label: {
+                            
+                            HStack {
+                                Text("Scan")
+                                Image(systemName: "camera.fill")
+                            }
+                            .padding()
+                            
+                        })
+                    }
+                    
+                    ToolbarItem(placement: .bottomBar) {
+                        Spacer()
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            recipeIngredient = ""
+                            writingIngredient = true
+                        }, label: {
+                            HStack {
+                                Text("Write")
+                                Image(systemName: "square.and.pencil")
+                            }
+                            .padding()
+                            
+                        })
+                    }
                   
                 }
             }

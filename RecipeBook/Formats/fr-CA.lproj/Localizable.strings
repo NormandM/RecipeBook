@@ -134,6 +134,11 @@
 "Fruit Cake" = "Gâteau aux fruits";
 "IngredientEnglish" = "IngredientFrancais";
 "PreparationEng"  = "PreparationFr";
+"Scan with Camera" = "Scanner avec la Camera";
+"or" = "ou";
+"Write Ingredients directly" = "Écriver directement";
+"Use the Camera" = "Utilisez la Camera";
+"Choose an existing Photo" = "Choisissez une photo existante";
 
 
 

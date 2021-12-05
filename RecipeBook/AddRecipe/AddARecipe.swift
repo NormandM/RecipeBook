@@ -76,6 +76,7 @@ struct AddARecipe: View {
                         savedValue.recipeSaved = true
                     }
                 })
+
                 TextField("Name of Chef", text: $chef, onCommit: {
                     UIApplication.shared.endEditing()
                 })
@@ -202,47 +203,49 @@ struct AddARecipe: View {
                     savedValue.recipeSaved = false
                 })
             }
-            
             .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
-        }
-        .background(ColorReference.specialSand)
-
-        .onAppear{
-            savedValue.recipeSaved = true
-            savedValue.noChangesMade = true
-            showAlerts = false
-            for recipe in fetchRequestRecipe.wrappedValue{
-                if recipe.wrappedName != "" {
-                    name = recipe.wrappedName
-                    chef = recipe.wrappedChef
-                    servings = recipe.wrappedServings
-                    timeToPrepare = recipe.wrappedTimeToPrepare
-                    timeToCook = recipe.wrappedTimeToPrepare
-                    rating = Int(recipe.rating)
-                    recipeUrl = recipe.wrappedrecipeURLAdress
-                    if ingredient == "" && isInitialValue {ingredient = recipe.wrappedIngredient}
-                    if preparation == "" && isInitialValue {preparation = recipe.wrappedPreparation}
-                    if preparationPdf == Data() && isInitialValue {preparationPdf = recipe.wrappedPdfPreparation}
-                    if ingredientPdf == Data() && isInitialValue {ingredientPdf = recipe.wrappedPdfIngredient}
-                    if calcium == "" && isInitialValue {calcium = recipe.wrappedCalcium}
-                    if calories == "" && isInitialValue {calories = recipe.wrappedCalories}
-                    if carbohydrate == "" && isInitialValue {carbohydrate = recipe.wrappedCarbohydrate}
-                    if cholesterol == "" && isInitialValue {cholesterol = recipe.wrappedCholesterol}
-                    if iron == "" && isInitialValue {iron = recipe.wrappedIron}
-                    if potassium == "" && isInitialValue {potassium = recipe.wrappedPotassium}
-                    if protein == "" && isInitialValue {protein = recipe.wrappedProtein}
-                    if saturatedFat == "" && isInitialValue {saturatedFat = recipe.wrappedSaturatedFat}
-                    if sodium == "" && isInitialValue {sodium = recipe.wrappedSodium}
-                    if totalFat == "" && isInitialValue {totalFat = recipe.wrappedTotalFat}
-                    if transFat == "" && isInitialValue {transFat = recipe.wrappedTransFat}
-                    if vitaminD == "" && isInitialValue {vitaminD = recipe.wrappedVitaminD}
-                    if sugar == "" && isInitialValue {sugar = recipe.wrappedSugar}
-                    if data == nil && isInitialValue {data = recipe.wrappedPhoto}
-                    id = recipe.wrappedId
+            .onAppear{
+                savedValue.noChangesMade = true
+                showAlerts = false
+                
+                for recipe in fetchRequestRecipe.wrappedValue{
                     
+                    if recipe.wrappedName != "" {
+                        name = recipe.wrappedName
+                        chef = recipe.wrappedChef
+                        servings = recipe.wrappedServings
+                        timeToPrepare = recipe.wrappedTimeToPrepare
+                        timeToCook = recipe.wrappedTimeToPrepare
+                        rating = Int(recipe.rating)
+                        recipeUrl = recipe.wrappedrecipeURLAdress
+                        if ingredient == "" && isInitialValue {ingredient = recipe.wrappedIngredient}
+                        if preparation == "" && isInitialValue {preparation = recipe.wrappedPreparation}
+                        if preparationPdf == Data() && isInitialValue {preparationPdf = recipe.wrappedPdfPreparation}
+                        if ingredientPdf == Data() && isInitialValue {ingredientPdf = recipe.wrappedPdfIngredient}
+                        if calcium == "" && isInitialValue {calcium = recipe.wrappedCalcium}
+                        if calories == "" && isInitialValue {calories = recipe.wrappedCalories}
+                        if carbohydrate == "" && isInitialValue {carbohydrate = recipe.wrappedCarbohydrate}
+                        if cholesterol == "" && isInitialValue {cholesterol = recipe.wrappedCholesterol}
+                        if iron == "" && isInitialValue {iron = recipe.wrappedIron}
+                        if potassium == "" && isInitialValue {potassium = recipe.wrappedPotassium}
+                        if protein == "" && isInitialValue {protein = recipe.wrappedProtein}
+                        if saturatedFat == "" && isInitialValue {saturatedFat = recipe.wrappedSaturatedFat}
+                        if sodium == "" && isInitialValue {sodium = recipe.wrappedSodium}
+                        if totalFat == "" && isInitialValue {totalFat = recipe.wrappedTotalFat}
+                        if transFat == "" && isInitialValue {transFat = recipe.wrappedTransFat}
+                        if vitaminD == "" && isInitialValue {vitaminD = recipe.wrappedVitaminD}
+                        if sugar == "" && isInitialValue {sugar = recipe.wrappedSugar}
+                        if data == nil && isInitialValue {data = recipe.wrappedPhoto}
+                        id = recipe.wrappedId
+                        savedValue.recipeSaved = true
+                        
+                    }
                 }
             }
         }
+        .background(ColorReference.specialSand)
+
+
         .navigationBarTitle("Add a Recipe ", displayMode: .inline)
         .navigationBarColor(UIColorReference.specialGreen)
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
@@ -260,6 +263,7 @@ struct AddARecipe: View {
                                         .font(.title)
                                 })
                                 .padding()
+    
         )
         .alert(isPresented: $showAlerts) {
             switch activeAlert {
@@ -311,7 +315,6 @@ struct AddARecipe: View {
             
         }else{
             activeAlert = sameName(recipes: recipes)
-            
             if !savedValue.recipeSaved && activeAlert != .showAlertSameName{
                 currentRecipe = Recipe(context: self.moc)
                 isNewRecipe = false

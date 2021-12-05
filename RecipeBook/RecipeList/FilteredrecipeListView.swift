@@ -18,11 +18,16 @@ struct FilteredrecipeListView: View {
             ForEach(fetchRequestRecipe.wrappedValue, id: \.self){recipe in
                 NavigationLink(destination: RecipeDetail(recipe: recipe)) {
                     Text(NSLocalizedStringFunc(key:recipe.wrappedName))
-                        .foregroundColor(colorScheme == .light ? .black : .black)
+                        .foregroundColor(colorScheme == .light ? .black : .white)
                         .padding(.leading)
                 }
             }
+            .onAppear{
+                print(colorScheme)
+            }
             Text("")
+            
+            
                 .listRowBackground(ColorReference.specialCoral)
     }
 }

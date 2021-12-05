@@ -25,43 +25,47 @@ struct RecipeIngredientsView: View {
 
     }
     var body: some View {
-        GeometryReader { geo in
-            VStack{
-                Text(title)
-                    .multilineTextAlignment(.center)
-                    .font(.title)
-                    .foregroundColor(colorScheme == .light ? .black : .black)
-                    .padding(.leading)
-                    .padding(.trailing)
-                if isPDFPresent {
-                    savedPdfView
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        if #available(iOS 14.0, *) {
+            GeometryReader { geo in
+                VStack{
+                    Text(title)
+                        .multilineTextAlignment(.center)
+                        .font(.title)
+                        .foregroundColor(colorScheme == .light ? .black : .black)
+                        .padding(.leading)
+                        .padding(.trailing)
+                    if isPDFPresent {
+                        savedPdfView
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .border(Color.black, width: 1)
+                            .padding()
+                    }
+                    if ingredientsText != "" {
+                        ScrollView {
+                            Text(ingredientsText)
+                                .foregroundColor(colorScheme == .light ? .black : .black)
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        }
                         .border(Color.black, width: 1)
                         .padding()
+                    }
+                    
                 }
-                if ingredientsText != "" {
-                ScrollView {
-                    Text(ingredientsText)
-                        .foregroundColor(colorScheme == .light ? .black : .black)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                .onAppear{
+                    for item in fetchRequest.wrappedValue {
+                        ingredientsText = item.wrappedIngredient
+                        IngredientsPdfPresent = item.wrappedPdfIngredient
+                    }
+                    if IngredientsPdfPresent == Data() {isPDFPresent = false}
                 }
-                .border(Color.black, width: 1)
-                .padding()
-                }
-                
             }
-            .onAppear{
-                for item in fetchRequest.wrappedValue {
-                    ingredientsText = item.wrappedIngredient
-                    IngredientsPdfPresent = item.wrappedPdfIngredient
-                }
-                if IngredientsPdfPresent == Data() {isPDFPresent = false}
-            }
+            .navigationBarTitle(NSLocalizedStringFunc(key:"Ingredients"), displayMode: .inline)
+            .navigationBarColor(UIColorReference.specialGreen)
+            .background(ColorReference.specialSand)
+            .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+        } else {
+            // Fallback on earlier versions
         }
-        .navigationBarTitle(NSLocalizedStringFunc(key:"Ingredients"), displayMode: .inline)
-        .navigationBarColor(UIColorReference.specialGreen)
-        .background(ColorReference.specialSand)
-        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 

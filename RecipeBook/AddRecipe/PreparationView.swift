@@ -52,11 +52,35 @@ struct PreparationView: View {
                     }
                     
                     if keyboardHandler.keyboardHeight == 0 && recipePreparation == "" && recognizedText == "" && !scaningPreparation && !writingPreparation && existingPreparationPdf == Data(){
-                        Text(NSLocalizedStringFunc(key:"Scan with Camera\n\n\nOr\n\n\nWrite Preparation directly"))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .font(.title)
-                            .foregroundColor(colorScheme == .light ? .black : .black)
+                        VStack {
+                            Button(action: {
+                                self.showingScanningView = true
+                                scaningPreparation = true
+                            }, label: {
+                                HStack {
+                                    Text("Scan with Camera")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
+                                    
+                                }
+                            })
+                                .padding()
+                            Text("or")
+                                .foregroundColor(colorScheme == .light ? .black : .black)
+                            Button(action: {
+                                recipePreparation = ""
+                                writingPreparation = true
+                            }, label: {
+                                HStack {
+                                    Text("Write Ingredients directly")
+                                        .font(.title)
+                                        .foregroundColor(.blue)
+                                }
+                                
+                                
+                            })
+                                .padding()
+                        }
                         
                     }
                 }
@@ -70,6 +94,7 @@ struct PreparationView: View {
                                 Text("Scan")
                                 Image(systemName: "camera.fill")
                             }
+                            .padding()
                             
                         })
                     }
@@ -86,6 +111,7 @@ struct PreparationView: View {
                                 Text("Write")
                                 Image(systemName: "square.and.pencil")
                             }
+                            .padding()
                             
                         })
                     }

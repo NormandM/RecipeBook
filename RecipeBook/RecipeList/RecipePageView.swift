@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipePageView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     @FetchRequest(entity: Recipe.entity(), sortDescriptors: []) var recipes: FetchedResults<Recipe>
     var mealTypes: FetchedResults<MealType>
     var body: some View {
