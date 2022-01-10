@@ -39,6 +39,7 @@ struct PhotoView: View {
                             }, label: {
                                 HStack {
                                     Text("Use the Camera")
+                                        .multilineTextAlignment(.center)
                                         .font(.title)
                                         .foregroundColor(.blue)
                                     
@@ -54,6 +55,7 @@ struct PhotoView: View {
                             }, label: {
                                 HStack {
                                     Text("Choose an existing Photo")
+                                        .multilineTextAlignment(.center)
                                         .font(.title)
                                         .foregroundColor(.blue)
                                 }

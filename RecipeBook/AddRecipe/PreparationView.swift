@@ -59,6 +59,7 @@ struct PreparationView: View {
                             }, label: {
                                 HStack {
                                     Text("Scan with Camera")
+                                        .multilineTextAlignment(.center)
                                         .font(.title)
                                         .foregroundColor(.blue)
                                     
@@ -73,6 +74,7 @@ struct PreparationView: View {
                             }, label: {
                                 HStack {
                                     Text("Write Ingredients directly")
+                                        .multilineTextAlignment(.center)
                                         .font(.title)
                                         .foregroundColor(.blue)
                                 }
